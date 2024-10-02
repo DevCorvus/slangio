@@ -6,7 +6,7 @@ import { theme } from '@/data';
 
 <template>
   <header>
-    <nav class="navbar bg-base-200 flex justify-between">
+    <nav class="navbar flex justify-between bg-base-100 sticky z-30 shadow">
       <RouterLink to="/" class="btn btn-ghost text-xl text-base-content">Vocabulary</RouterLink>
       <div>
         <ul class="menu menu-horizontal text-2xl">
