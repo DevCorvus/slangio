@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router';
+import { RouterView } from 'vue-router';
+import NavBar from './components/NavBar.vue';
+import { theme } from './data';
+import { watch } from 'vue';
+
+const html = document.querySelector('html');
+
+watch(
+  theme,
+  () => {
+    if (html instanceof HTMLHtmlElement) {
+      html.dataset.theme = theme.value;
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <template>
-  <header>
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-    </nav>
-  </header>
-
+  <NavBar />
   <RouterView />
 </template>
