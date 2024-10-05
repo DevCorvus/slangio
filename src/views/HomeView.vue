@@ -5,7 +5,7 @@ import WordEater from '@/components/WordEater.vue';
 </script>
 
 <template>
-  <main class="hero min-h-screen">
+  <main class="hero mt-4">
     <div class="hero-content flex flex-col gap-10 text-center max-w-md">
       <LanguageSelector />
       <div class="space-y-10">

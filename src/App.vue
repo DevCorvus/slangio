@@ -19,5 +19,7 @@ watch(
 
 <template>
   <NavBar />
-  <RouterView />
+  <div class="container mx-auto">
+    <RouterView />
+  </div>
 </template>
