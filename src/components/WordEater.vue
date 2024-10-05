@@ -13,8 +13,8 @@ const handleIncomingWord = (collectionId: string) => {
   const newWord: Word = {
     id: nanoid(),
     content: input.value,
-    meanings: null,
-    translations: null,
+    meanings: [],
+    translations: [],
     createdAt: new Date()
   };
 

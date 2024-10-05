@@ -19,7 +19,7 @@ export interface Collection {
 export interface Word {
   id: string;
   content: string;
-  meanings: string[] | null;
-  translations: string[] | null;
-  createdAt: Date;
+  meanings: string[];
+  translations: string[];
+  createdAt: Date | string;
 }
