@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Word } from '@/types';
 import { Icon } from '@iconify/vue';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const props = defineProps<{ words: Word[] }>();
 
@@ -69,10 +69,37 @@ const handleSortChange = () => {
     }
   }
 };
+
+const sortingTooltip = computed(() => {
+  let msg = 'Sort by ';
+
+  switch (sortingMode.value) {
+    case 'alphabetically': {
+      msg += 'alphabetic';
+      break;
+    }
+    case 'ascending': {
+      msg += 'ascending';
+      break;
+    }
+    case 'descending': {
+      msg += 'descending';
+      break;
+    }
+  }
+
+  msg += ' order';
+
+  return msg;
+});
 </script>
 
 <template>
-  <button @click="handleSortChange()" class="btn bg-base-100 text-lg">
+  <button
+    @click="handleSortChange()"
+    class="btn bg-base-100 text-lg tooltip"
+    :data-tip="sortingTooltip"
+  >
     <span v-if="sortingMode === 'alphabetically'"> A </span>
     <Icon v-else-if="sortingMode === 'ascending'" icon="heroicons:bars-arrow-up" />
     <Icon v-else-if="sortingMode === 'descending'" icon="heroicons:bars-arrow-down" />
