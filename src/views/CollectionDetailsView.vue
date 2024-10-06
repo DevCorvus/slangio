@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import AddWord from '@/components/AddWord.vue';
 import EditCollection from '@/components/EditCollection.vue';
 import WordList from '@/components/WordList.vue';
 import { profile } from '@/data';
 import { profileService } from '@/services/profile.service';
 import { Icon } from '@iconify/vue';
-import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -17,14 +17,6 @@ const collection = profile.value.collections.find(
 const handleRemoveCollection = () => {
   profileService.removeCollection(collection!.id);
   router.push('/collections');
-};
-
-const input = ref('');
-
-const handleIncomingWord = (collectionId: string) => {
-  if (!input.value) return;
-  profileService.addWord(collectionId, input.value);
-  input.value = '';
 };
 </script>
 
@@ -49,21 +41,8 @@ const handleIncomingWord = (collectionId: string) => {
         </li>
       </ul>
     </header>
-    <section>
-      <WordList :words="collection.words" />
-      <form
-        @submit.prevent="handleIncomingWord(collection.id)"
-        class="flex items-center gap-2 mt-4"
-      >
-        <input
-          type="text"
-          class="input input-bordered w-full"
-          v-model="input"
-          placeholder="Enter new word"
-        />
-        <button class="btn btn-primary">Submit</button>
-      </form>
-    </section>
+    <WordList :words="collection.words" />
+    <AddWord />
   </main>
   <div v-else class="mt-6">
     <p class="text-error text-xl">Collection not found</p>

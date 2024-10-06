@@ -3,12 +3,21 @@ import { profile } from '@/data';
 import CollectionItem from './CollectionItem.vue';
 import AddCollection from './AddCollection.vue';
 import { Icon } from '@iconify/vue';
+import SearchCollections from './SearchCollections.vue';
+import { ref } from 'vue';
+import type { Collection } from '@/types';
+
+const filteredCollections = ref<Collection[]>(profile.value.collections);
 </script>
 
 <template>
+  <SearchCollections
+    :collections="profile.collections"
+    @search="(data) => (filteredCollections = data)"
+  />
   <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     <CollectionItem
-      v-for="collection in profile.collections"
+      v-for="collection in filteredCollections"
       v-bind="collection"
       :key="collection.id"
     />
