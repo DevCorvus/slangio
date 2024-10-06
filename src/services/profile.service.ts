@@ -60,7 +60,8 @@ class ProfileService {
   removeWord(collectionId: string, wordId: string) {
     for (const collection of profile.value.collections) {
       if (collection.id === collectionId) {
-        collection.words = collection.words.filter((word) => word.id !== wordId);
+        const wordIndex = collection.words.findIndex((word) => word.id === wordId);
+        collection.words.splice(wordIndex, 1);
         break;
       }
     }
