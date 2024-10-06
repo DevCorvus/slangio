@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { profileService, type CreateUpdateCollection } from '@/services/profile.service';
+import { Icon } from '@iconify/vue';
 import { reactive, ref } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
+const props = defineProps<CreateUpdateCollection>();
 
 const modal = ref<HTMLDialogElement>();
 
@@ -11,14 +17,14 @@ const openModal = () => {
 };
 
 const formData = reactive<CreateUpdateCollection>({
-  name: '',
-  description: ''
+  name: props.name,
+  description: props.description
 });
 
-const handleNewCollection = (data: CreateUpdateCollection) => {
+const handleUpdateCollection = (data: CreateUpdateCollection) => {
   if (!data.name) return;
 
-  profileService.addCollection(data);
+  profileService.updateCollection(route.params.id as string, data);
 
   formData.name = '';
   formData.description = '';
@@ -30,12 +36,12 @@ const handleNewCollection = (data: CreateUpdateCollection) => {
 </script>
 
 <template>
-  <button @click="openModal">
-    <slot />
+  <button @click="openModal" class="btn btn-sm btn-ghost text-xl">
+    <Icon icon="heroicons:pencil-square" />
   </button>
   <dialog ref="modal" class="modal">
     <div class="modal-box">
-      <h3 class="text-lg font-bold">Add Collection</h3>
+      <h3 class="text-lg font-bold">Edit Collection</h3>
       <div class="space-y-4 mt-4">
         <input
           v-model="formData.name"
@@ -50,7 +56,7 @@ const handleNewCollection = (data: CreateUpdateCollection) => {
         />
       </div>
       <div class="modal-action">
-        <button @click="handleNewCollection(formData)" class="btn btn-primary">Create</button>
+        <button @click="handleUpdateCollection(formData)" class="btn btn-primary">Apply</button>
         <form method="dialog">
           <button class="btn">Close</button>
         </form>

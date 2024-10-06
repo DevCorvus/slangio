@@ -6,7 +6,7 @@ import { Icon } from '@iconify/vue';
 </script>
 
 <template>
-  <div class="space-y-4 mt-8">
+  <main class="space-y-4 mt-8">
     <header class="text-2xl font-bold flex items-center gap-4">
       <h1>Collections</h1>
       <AddCollection>
@@ -14,8 +14,6 @@ import { Icon } from '@iconify/vue';
       </AddCollection>
     </header>
     <CollectionStats />
-    <main>
-      <CollectionList />
-    </main>
-  </div>
+    <CollectionList />
+  </main>
 </template>

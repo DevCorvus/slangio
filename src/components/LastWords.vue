@@ -26,7 +26,7 @@ const lastWords = computed(() => {
         </ul>
       </template>
       <template v-else>
-        <p class="text-neutral/75">No recent words</p>
+        <p>No recent words</p>
       </template>
     </div>
   </section>

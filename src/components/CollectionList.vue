@@ -6,7 +6,7 @@ import { Icon } from '@iconify/vue';
 </script>
 
 <template>
-  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
     <CollectionItem
       v-for="collection in profile.collections"
       v-bind="collection"
@@ -17,5 +17,5 @@ import { Icon } from '@iconify/vue';
         <Icon icon="heroicons:plus" class="text-5xl text-neutral-400" />
       </div>
     </AddCollection>
-  </div>
+  </section>
 </template>

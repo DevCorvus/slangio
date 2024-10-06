@@ -1,29 +1,14 @@
 <script setup lang="ts">
 import { profile } from '@/data';
-import type { Word } from '@/types';
+import { profileService } from '@/services/profile.service';
 import { Icon } from '@iconify/vue';
-import { nanoid } from 'nanoid';
 import { ref, computed } from 'vue';
 
 const input = ref('');
 
 const handleIncomingWord = (collectionId: string) => {
   if (!input.value) return;
-
-  const newWord: Word = {
-    id: nanoid(),
-    content: input.value,
-    meanings: [],
-    translations: [],
-    createdAt: new Date()
-  };
-
-  for (const collection of profile.value.collections) {
-    if (collection.id === collectionId) {
-      collection.words.push(newWord);
-    }
-  }
-
+  profileService.addWord(collectionId, input.value);
   input.value = '';
 };
 
@@ -62,7 +47,7 @@ const selectedCollection = computed(() => {
         </ul>
       </div>
       <RouterLink
-        to="/collections/collection-name"
+        :to="'/collections/' + selectedCollection.id"
         class="absolute top-1 right-6 rounded-full border-2 border-primary-content text-primary-content p-0.5"
       >
         <Icon icon="heroicons:arrow-up-right-16-solid" />
