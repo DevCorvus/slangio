@@ -11,17 +11,12 @@ import { theme } from '@/data';
       <ul class="menu menu-horizontal text-xl">
         <li>
           <RouterLink to="/collections" class="tooltip tooltip-bottom" data-tip="Collections">
-            <Icon icon="heroicons:square-3-stack-3d-20-solid" />
+            <Icon icon="heroicons:book-open-solid" />
           </RouterLink>
         </li>
         <li>
           <RouterLink to="/learn" class="tooltip tooltip-bottom" data-tip="Learn">
             <Icon icon="heroicons:academic-cap-solid" />
-          </RouterLink>
-        </li>
-        <li>
-          <RouterLink to="/dictionary" class="tooltip tooltip-bottom" data-tip="Dictionary">
-            <Icon icon="heroicons:book-open-solid" />
           </RouterLink>
         </li>
         <li>

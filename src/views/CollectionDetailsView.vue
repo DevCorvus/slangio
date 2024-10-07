@@ -21,13 +21,13 @@ const handleRemoveCollection = () => {
 </script>
 
 <template>
-  <button @click="$router.back()" class="mt-6 btn btn-sm btn-ghost">
+  <button @click="$router.back()" class="my-6 btn btn-sm btn-ghost">
     <div class="flex items-center gap-2">
       <Icon icon="heroicons:arrow-uturn-left" />
       <span>Go Back</span>
     </div>
   </button>
-  <main v-if="collection" class="space-y-4 mt-6">
+  <main v-if="collection" class="space-y-6">
     <header class="text-2xl font-bold flex items-center justify-between">
       <h1>{{ collection.name }}</h1>
       <ul class="flex gap-2">

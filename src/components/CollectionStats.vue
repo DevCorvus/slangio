@@ -28,7 +28,7 @@ const totalWordsCount = computed(() => {
 <template>
   <section class="stats bg-primary-content shadow w-full">
     <div class="stat">
-      <Icon icon="heroicons:rectangle-stack-20-solid" class="stat-figure text-primary text-3xl" />
+      <Icon icon="heroicons:book-open-solid" class="stat-figure text-primary text-3xl" />
       <span class="stat-title">Recent Words</span>
       <span class="stat-value">+{{ recentWordsCount }}</span>
       <span class="stat-desc">Last 24 hours</span>
