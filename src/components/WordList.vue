@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { profileService } from '@/services/profile.service';
 import type { Word } from '@/types';
-import { Icon } from '@iconify/vue';
 import SearchWords from './SearchWords.vue';
 import { ref, watch } from 'vue';
 import SortWords from './SortWords.vue';
+import WordItem from './WordItem.vue';
 
 const props = defineProps<{ words: Word[] }>();
 
@@ -24,18 +23,7 @@ watch(props.words, () => {
       </div>
       <ul>
         <li v-for="word in words" :key="word.id">
-          <div class="flex items-center gap-2 w-full">
-            <button class="btn btn-sm btn-ghost flex-1 justify-start">
-              <span>{{ word.content }}</span>
-            </button>
-            <ul class="menu menu-horizontal p-0">
-              <li>
-                <button @click="profileService.removeWord($route.params.id as string, word.id)">
-                  <Icon icon="heroicons:trash" />
-                </button>
-              </li>
-            </ul>
-          </div>
+          <WordItem v-bind="word" />
         </li>
       </ul>
     </div>
