@@ -56,5 +56,8 @@ const handleNewCollection = (data: CreateUpdateCollection) => {
         </form>
       </div>
     </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
   </dialog>
 </template>
