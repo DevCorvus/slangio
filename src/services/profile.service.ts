@@ -1,10 +1,16 @@
 import { profile } from '@/data';
-import type { Collection, Word } from '@/types';
+import type { Collection, PartOfSpeech, Word, WordMeaning } from '@/types';
 import { nanoid } from 'nanoid';
 
 export interface CreateUpdateCollection {
   name: string;
   description: string;
+}
+
+export interface CreateUpdateWordMeaning {
+  partOfSpeech: PartOfSpeech;
+  content: string;
+  example: string;
 }
 
 class ProfileService {
@@ -45,7 +51,6 @@ class ProfileService {
       id: nanoid(),
       content,
       meanings: [],
-      translations: [],
       createdAt: new Date()
     };
 
@@ -62,6 +67,68 @@ class ProfileService {
       if (collection.id === collectionId) {
         const wordIndex = collection.words.findIndex((word) => word.id === wordId);
         collection.words.splice(wordIndex, 1);
+        break;
+      }
+    }
+  }
+
+  addWordMeaning(collectionId: string, wordId: string, data: CreateUpdateWordMeaning) {
+    const newWordMeaning: WordMeaning = {
+      id: nanoid(),
+      partOfSpeech: data.partOfSpeech,
+      content: data.content,
+      example: data.example
+    };
+
+    for (const collection of profile.value.collections) {
+      if (collection.id === collectionId) {
+        for (const word of collection.words) {
+          if (word.id === wordId) {
+            word.meanings.push(newWordMeaning);
+            break;
+          }
+        }
+        break;
+      }
+    }
+  }
+
+  updateWordMeaning(
+    collectionId: string,
+    wordId: string,
+    meaningId: string,
+    data: CreateUpdateWordMeaning
+  ) {
+    for (const collection of profile.value.collections) {
+      if (collection.id === collectionId) {
+        for (const word of collection.words) {
+          if (word.id === wordId) {
+            for (const meaning of word.meanings) {
+              if (meaning.id === meaningId) {
+                meaning.partOfSpeech = data.partOfSpeech;
+                meaning.content = data.content;
+                meaning.example = data.example;
+                break;
+              }
+            }
+            break;
+          }
+        }
+        break;
+      }
+    }
+  }
+
+  removeWordMeaning(collectionId: string, wordId: string, meaningId: string) {
+    for (const collection of profile.value.collections) {
+      if (collection.id === collectionId) {
+        for (const word of collection.words) {
+          if (word.id === wordId) {
+            const meaningIndex = word.meanings.findIndex((meaning) => meaning.id === meaningId);
+            word.meanings.splice(meaningIndex, 1);
+            break;
+          }
+        }
         break;
       }
     }

@@ -72,9 +72,9 @@ const playAudio = () => {
 </script>
 
 <template>
-  <div class="collapse collapse-arrow bg-base-200">
+  <section class="collapse collapse-arrow bg-base-200">
     <input type="checkbox" v-model="showDefinitions" />
-    <div class="collapse-title text-xl font-medium">Definitions</div>
+    <header class="collapse-title text-xl font-medium">Definitions</header>
     <div class="collapse-content space-y-4">
       <template v-if="definition !== null">
         <section v-if="definition.audio || definition.phonetic" class="space-y-2">
@@ -140,5 +140,5 @@ const playAudio = () => {
         >
       </p>
     </div>
-  </div>
+  </section>
 </template>

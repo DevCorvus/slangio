@@ -1,3 +1,5 @@
+import { EXTENDED_PARTS_OF_SPEECH } from './constants';
+
 type TargetSourceOptions = 'en' | 'es';
 
 export interface Profile {
@@ -16,10 +18,18 @@ export interface Collection {
   createdAt: Date;
 }
 
+export type PartOfSpeech = (typeof EXTENDED_PARTS_OF_SPEECH)[number];
+
+export interface WordMeaning {
+  id: string;
+  partOfSpeech: PartOfSpeech;
+  content: string;
+  example: string;
+}
+
 export interface Word {
   id: string;
   content: string;
-  meanings: string[];
-  translations: string[];
+  meanings: WordMeaning[];
   createdAt: Date | string;
 }
