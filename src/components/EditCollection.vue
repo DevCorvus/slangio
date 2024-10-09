@@ -36,7 +36,7 @@ const handleUpdateCollection = (data: CreateUpdateCollection) => {
 </script>
 
 <template>
-  <button @click="openModal" class="btn btn-sm btn-ghost text-xl">
+  <button @click="openModal" class="tooltip" data-tip="Edit">
     <Icon icon="heroicons:pencil-square" />
   </button>
   <dialog ref="modal" class="modal">

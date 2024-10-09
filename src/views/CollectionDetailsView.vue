@@ -30,16 +30,21 @@ const handleRemoveCollection = () => {
   <main v-if="collection" class="space-y-6">
     <header class="text-2xl font-bold flex items-center justify-between">
       <h1>{{ collection.name }}</h1>
-      <ul class="flex gap-2">
-        <li>
-          <EditCollection :name="collection.name" :description="collection.description" />
-        </li>
-        <li>
-          <button @click="handleRemoveCollection()" class="btn btn-sm btn-ghost text-xl">
-            <Icon icon="heroicons:trash" />
-          </button>
-        </li>
-      </ul>
+      <div class="dropdown dropdown-left">
+        <button class="btn btn-circle btn-ghost text-xl">
+          <Icon icon="heroicons:ellipsis-vertical-16-solid" />
+        </button>
+        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] shadow text-lg">
+          <li>
+            <EditCollection :name="collection.name" :description="collection.description" />
+          </li>
+          <li>
+            <button @click="handleRemoveCollection()" class="tooltip" data-tip="Delete">
+              <Icon icon="heroicons:trash" />
+            </button>
+          </li>
+        </ul>
+      </div>
     </header>
     <WordList :words="collection.words" />
     <AddWord />
