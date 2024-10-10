@@ -2,7 +2,7 @@
 import { Icon } from '@iconify/vue';
 import { ref, watch } from 'vue';
 
-const props = defineProps<{ word: string }>();
+const props = defineProps<{ term: string }>();
 
 interface WordDefinitionResponse {
   phonetic?: string;
@@ -45,7 +45,7 @@ watch(showDefinitions, async () => {
   if (showDefinitions.value && !isError.value && definition.value === null) {
     isLoading.value = true;
 
-    const res = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + props.word);
+    const res = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + props.term);
     const json = await res.json();
 
     if (Array.isArray(json)) {

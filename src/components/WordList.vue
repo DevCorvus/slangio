@@ -23,7 +23,7 @@ watch(props.words, () => {
       </div>
       <ul>
         <li v-for="word in words" :key="word.id">
-          <WordItem v-bind="word" />
+          <WordItem :word />
         </li>
       </ul>
     </div>

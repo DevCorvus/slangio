@@ -6,7 +6,7 @@ import { computed, ref } from 'vue';
 import WordMeaningItem from './WordMeaningItem.vue';
 import AddMeaning from './AddMeaning.vue';
 
-const props = defineProps<Word>();
+const props = defineProps<{ word: Word }>();
 
 const meaningsByPartOfSpeech = computed(() => {
   const out: { [Key in PartOfSpeech]?: WordMeaning[] } = {};
@@ -15,7 +15,7 @@ const meaningsByPartOfSpeech = computed(() => {
     out[partOfSpeech] = undefined;
   }
 
-  for (const meaning of props.meanings) {
+  for (const meaning of props.word.meanings) {
     if (out[meaning.partOfSpeech] !== undefined) {
       out[meaning.partOfSpeech]!.push(meaning);
     } else {
@@ -43,7 +43,7 @@ const showForm = ref(false);
               <header class="badge badge-info">{{ partOfSpeech }}</header>
               <ul class="space-y-1">
                 <li v-for="meaning in meanings" :key="meaning.id">
-                  <WordMeaningItem :wordId="props.id" :meaning="meaning" />
+                  <WordMeaningItem :wordId="word.id" :meaning="meaning" />
                 </li>
               </ul>
             </section>
@@ -58,7 +58,7 @@ const showForm = ref(false);
       >
         <Icon icon="heroicons:plus-16-solid" class="text-lg mx-auto" />
       </button>
-      <AddMeaning v-else :word-id="props.id" @close="showForm = false" />
+      <AddMeaning v-else :word-id="word.id" @close="showForm = false" />
     </div>
   </section>
 </template>
