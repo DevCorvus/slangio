@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { profile } from '@/data';
 import { computed } from 'vue';
+import LastWordItem from './LastWordItem.vue';
 
 const lastWords = computed(() => {
   return profile.value.collections
@@ -10,7 +11,7 @@ const lastWords = computed(() => {
     .sort((a, b) => {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     })
-    .slice(0, 5);
+    .slice(0, 10);
 });
 </script>
 
@@ -21,7 +22,7 @@ const lastWords = computed(() => {
         <h2 class="card-title text-lg">Last words</h2>
         <ul class="menu">
           <li v-for="word in lastWords" :key="word.id">
-            <button>{{ word.content }}</button>
+            <LastWordItem :word />
           </li>
         </ul>
       </template>

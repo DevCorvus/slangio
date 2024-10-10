@@ -27,7 +27,7 @@ const editMode = ref(false);
         <Icon icon="heroicons:pencil-16-solid" class="mx-auto" />
       </button>
       <button
-        @click="profileService.removeWordMeaning($route.params.id as string, wordId, meaning.id)"
+        @click="profileService.removeWordMeaning(wordId, meaning.id)"
         class="btn btn-circle btn-xs tooltip tooltip-bottom"
         data-tip="Delete"
       >

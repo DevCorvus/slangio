@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { profileService, type CreateUpdateCollection } from '@/services/profile.service';
 import { reactive, ref } from 'vue';
+import ModalComponent from './ModalComponent.vue';
 
-const modal = ref<HTMLDialogElement>();
-
-const openModal = () => {
-  if (modal.value) {
-    modal.value.showModal();
-  }
-};
+const showModal = ref(false);
 
 const formData = reactive<CreateUpdateCollection>({
   name: '',
@@ -23,20 +18,20 @@ const handleNewCollection = (data: CreateUpdateCollection) => {
   formData.name = '';
   formData.description = '';
 
-  if (modal.value) {
-    modal.value.close();
-  }
+  showModal.value = false;
 };
 </script>
 
 <template>
-  <button @click="openModal">
+  <button @click="showModal = true">
     <slot />
   </button>
-  <dialog ref="modal" class="modal">
-    <div class="modal-box">
-      <h3 class="text-lg font-bold">Add Collection</h3>
-      <div class="space-y-4 mt-4">
+  <ModalComponent :show="showModal" @close="showModal = false">
+    <section class="space-y-4">
+      <header>
+        <h3 class="text-lg font-bold">Add Collection</h3>
+      </header>
+      <div class="space-y-4">
         <input
           v-model="formData.name"
           type="text"
@@ -49,15 +44,10 @@ const handleNewCollection = (data: CreateUpdateCollection) => {
           placeholder="Enter collection description (optional)"
         />
       </div>
-      <div class="modal-action">
+      <div class="flex justify-end gap-2">
         <button @click="handleNewCollection(formData)" class="btn btn-primary">Create</button>
-        <form method="dialog">
-          <button class="btn">Close</button>
-        </form>
+        <button @click="showModal = false" class="btn">Close</button>
       </div>
-    </div>
-    <form method="dialog" class="modal-backdrop">
-      <button>close</button>
-    </form>
-  </dialog>
+    </section>
+  </ModalComponent>
 </template>

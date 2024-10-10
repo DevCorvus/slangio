@@ -3,18 +3,13 @@ import { profileService, type CreateUpdateCollection } from '@/services/profile.
 import { Icon } from '@iconify/vue';
 import { reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import ModalComponent from './ModalComponent.vue';
 
 const route = useRoute();
 
 const props = defineProps<CreateUpdateCollection>();
 
-const modal = ref<HTMLDialogElement>();
-
-const openModal = () => {
-  if (modal.value) {
-    modal.value.showModal();
-  }
-};
+const showModal = ref(false);
 
 const formData = reactive<CreateUpdateCollection>({
   name: props.name,
@@ -29,20 +24,20 @@ const handleUpdateCollection = (data: CreateUpdateCollection) => {
   formData.name = '';
   formData.description = '';
 
-  if (modal.value) {
-    modal.value.close();
-  }
+  showModal.value = false;
 };
 </script>
 
 <template>
-  <button @click="openModal" class="tooltip" data-tip="Edit">
+  <button @click="showModal = true" class="tooltip" data-tip="Edit">
     <Icon icon="heroicons:pencil-square" />
   </button>
-  <dialog ref="modal" class="modal">
-    <div class="modal-box">
-      <h3 class="text-lg font-bold">Edit Collection</h3>
-      <div class="space-y-4 mt-4">
+  <ModalComponent :show="showModal" @close="showModal = false">
+    <section class="space-y-4">
+      <header>
+        <h3 class="text-lg font-bold">Edit Collection</h3>
+      </header>
+      <div class="space-y-4">
         <input
           v-model="formData.name"
           type="text"
@@ -51,19 +46,14 @@ const handleUpdateCollection = (data: CreateUpdateCollection) => {
         />
         <textarea
           v-model="formData.description"
-          class="textarea textarea-bordered w-full h-28"
+          class="textarea textarea-bordered w-full h-24"
           placeholder="Enter collection description (optional)"
         />
       </div>
-      <div class="modal-action">
+      <div class="flex justify-end gap-2">
         <button @click="handleUpdateCollection(formData)" class="btn btn-primary">Apply</button>
-        <form method="dialog">
-          <button class="btn">Close</button>
-        </form>
+        <button @click="showModal = false" class="btn">Close</button>
       </div>
-    </div>
-    <form method="dialog" class="modal-backdrop">
-      <button>close</button>
-    </form>
-  </dialog>
+    </section>
+  </ModalComponent>
 </template>

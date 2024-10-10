@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { profileService, type CreateUpdateWordMeaning } from '@/services/profile.service';
 import { reactive } from 'vue';
-import { useRoute } from 'vue-router';
 import { EXTENDED_PARTS_OF_SPEECH } from '@/constants';
 import type { WordMeaning } from '@/types';
 
@@ -10,8 +9,6 @@ const props = defineProps<{ wordId: string; meaning: WordMeaning }>();
 const emit = defineEmits<{
   (e: 'close'): void;
 }>();
-
-const route = useRoute();
 
 const formData = reactive<CreateUpdateWordMeaning>({
   partOfSpeech: props.meaning.partOfSpeech,
@@ -22,7 +19,7 @@ const formData = reactive<CreateUpdateWordMeaning>({
 const handleMeaningUpdate = () => {
   if (!formData.content) return;
 
-  profileService.updateWordMeaning(route.params.id as string, props.wordId, props.meaning.id, {
+  profileService.updateWordMeaning(props.wordId, props.meaning.id, {
     partOfSpeech: formData.partOfSpeech,
     content: formData.content,
     example: formData.example

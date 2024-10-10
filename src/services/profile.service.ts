@@ -62,17 +62,18 @@ class ProfileService {
     }
   }
 
-  removeWord(collectionId: string, wordId: string) {
+  removeWord(wordId: string) {
     for (const collection of profile.value.collections) {
-      if (collection.id === collectionId) {
-        const wordIndex = collection.words.findIndex((word) => word.id === wordId);
+      const wordIndex = collection.words.findIndex((word) => word.id === wordId);
+
+      if (wordIndex !== -1) {
         collection.words.splice(wordIndex, 1);
         break;
       }
     }
   }
 
-  addWordMeaning(collectionId: string, wordId: string, data: CreateUpdateWordMeaning) {
+  addWordMeaning(wordId: string, data: CreateUpdateWordMeaning) {
     const newWordMeaning: WordMeaning = {
       id: nanoid(),
       partOfSpeech: data.partOfSpeech,
@@ -81,55 +82,41 @@ class ProfileService {
     };
 
     for (const collection of profile.value.collections) {
-      if (collection.id === collectionId) {
-        for (const word of collection.words) {
-          if (word.id === wordId) {
-            word.meanings.push(newWordMeaning);
-            break;
-          }
+      for (const word of collection.words) {
+        if (word.id === wordId) {
+          word.meanings.push(newWordMeaning);
+          break;
         }
-        break;
       }
     }
   }
 
-  updateWordMeaning(
-    collectionId: string,
-    wordId: string,
-    meaningId: string,
-    data: CreateUpdateWordMeaning
-  ) {
+  updateWordMeaning(wordId: string, meaningId: string, data: CreateUpdateWordMeaning) {
     for (const collection of profile.value.collections) {
-      if (collection.id === collectionId) {
-        for (const word of collection.words) {
-          if (word.id === wordId) {
-            for (const meaning of word.meanings) {
-              if (meaning.id === meaningId) {
-                meaning.partOfSpeech = data.partOfSpeech;
-                meaning.content = data.content;
-                meaning.example = data.example;
-                break;
-              }
+      for (const word of collection.words) {
+        if (word.id === wordId) {
+          for (const meaning of word.meanings) {
+            if (meaning.id === meaningId) {
+              meaning.partOfSpeech = data.partOfSpeech;
+              meaning.content = data.content;
+              meaning.example = data.example;
+              break;
             }
-            break;
           }
+          break;
         }
-        break;
       }
     }
   }
 
-  removeWordMeaning(collectionId: string, wordId: string, meaningId: string) {
+  removeWordMeaning(wordId: string, meaningId: string) {
     for (const collection of profile.value.collections) {
-      if (collection.id === collectionId) {
-        for (const word of collection.words) {
-          if (word.id === wordId) {
-            const meaningIndex = word.meanings.findIndex((meaning) => meaning.id === meaningId);
-            word.meanings.splice(meaningIndex, 1);
-            break;
-          }
+      for (const word of collection.words) {
+        if (word.id === wordId) {
+          const meaningIndex = word.meanings.findIndex((meaning) => meaning.id === meaningId);
+          word.meanings.splice(meaningIndex, 1);
+          break;
         }
-        break;
       }
     }
   }
