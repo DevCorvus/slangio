@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import type { Word } from '@/types';
-import WordDefinitions from './WordDefinitions.vue';
-import WordCustomMeanings from './WordCustomMeanings.vue';
-import WordReferenceList from './WordReferenceList.vue';
+import type { Term } from '@/types';
+import TermDefinitions from './TermDefinitions.vue';
+import TermMeanings from './TermMeanings.vue';
+import TermReferenceList from './TermReferenceList.vue';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
-import EditWord from './EditWord.vue';
+import EditTerm from './EditTerm.vue';
 import { profileService } from '@/services/profile.service';
 import { useRouter } from 'vue-router';
 import { useTimeAgo } from '@vueuse/core';
 
-const props = defineProps<{ word: Word; showCollectionLink?: boolean }>();
+const props = defineProps<{ term: Term; showCollectionLink?: boolean }>();
 
-const timeAgo = useTimeAgo(props.word.createdAt);
+const timeAgo = useTimeAgo(props.term.createdAt);
 
 const editMode = ref(false);
 
 const router = useRouter();
 
-const collectionId = profileService.getCollectionIdFromWord(props.word.id) || '';
+const collectionId = profileService.getCollectionIdFromTerm(props.term.id) || '';
 
 const goToCollection = () => {
   if (collectionId) {
@@ -31,7 +31,7 @@ const goToCollection = () => {
   <section class="space-y-6">
     <header v-if="!editMode" class="flex items-center justify-between">
       <div class="flex items-center gap-2">
-        <h3 class="text-xl font-bold">{{ word.content }}</h3>
+        <h3 class="text-xl font-bold">{{ term.content }}</h3>
         <button @click="editMode = true" class="btn btn-circle btn-ghost btn-sm text-lg">
           <Icon icon="heroicons:pencil-square" />
         </button>
@@ -48,13 +48,13 @@ const goToCollection = () => {
         </div>
       </button>
     </header>
-    <EditWord v-else :collection-id :word @close="editMode = false" />
-    <WordCustomMeanings :word />
-    <WordDefinitions :term="word.content" />
-    <WordReferenceList :term="word.content" />
+    <EditTerm v-else :collection-id :term @close="editMode = false" />
+    <TermMeanings :term />
+    <TermDefinitions :content="term.content" />
+    <TermReferenceList :term="term.content" />
     <div class="flex justify-between items-center">
       <p class="text-base-content/50 text-sm">Added {{ timeAgo }}</p>
-      <button @click="profileService.removeWord(word.id)" class="btn btn-sm btn-outline btn-error">
+      <button @click="profileService.removeTerm(term.id)" class="btn btn-sm btn-outline btn-error">
         <span>Delete</span>
         <Icon icon="heroicons:trash" />
       </button>

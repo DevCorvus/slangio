@@ -1,25 +1,24 @@
 <script setup lang="ts">
-import { profileService, type CreateUpdateWordMeaning } from '@/services/profile.service';
+import { profileService, type CreateUpdateTermMeaning } from '@/services/profile.service';
 import { reactive } from 'vue';
 import { EXTENDED_PARTS_OF_SPEECH } from '@/constants';
-import type { WordMeaning } from '@/types';
 
-const props = defineProps<{ wordId: string; meaning: WordMeaning }>();
+const props = defineProps<{ termId: string }>();
 
 const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const formData = reactive<CreateUpdateWordMeaning>({
-  partOfSpeech: props.meaning.partOfSpeech,
-  content: props.meaning.content,
-  example: props.meaning.example
+const formData = reactive<CreateUpdateTermMeaning>({
+  partOfSpeech: 'unknown',
+  content: '',
+  example: ''
 });
 
-const handleMeaningUpdate = () => {
+const handleNewMeaning = () => {
   if (!formData.content) return;
 
-  profileService.updateWordMeaning(props.wordId, props.meaning.id, {
+  profileService.addTermMeaning(props.termId, {
     partOfSpeech: formData.partOfSpeech,
     content: formData.content,
     example: formData.example
@@ -30,8 +29,8 @@ const handleMeaningUpdate = () => {
 </script>
 
 <template>
-  <form class="space-y-2 bg-base-300 p-3 rounded-lg" @submit.prevent="handleMeaningUpdate()">
-    <header class="text-lg">Edit {{ meaning.content }}</header>
+  <form class="space-y-2 bg-base-300 p-3 rounded-lg" @submit.prevent="handleNewMeaning()">
+    <header class="text-lg">Add Meaning</header>
     <div class="flex gap-1">
       <label class="form-control">
         <div class="label">
@@ -65,7 +64,7 @@ const handleMeaningUpdate = () => {
       placeholder="Enter example sentence (optional)"
     ></textarea>
     <div class="space-x-1">
-      <button class="btn btn-sm btn-primary">Apply</button>
+      <button class="btn btn-sm btn-primary">Add</button>
       <button type="button" @click="$emit('close')" class="btn btn-sm btn-ghost">Cancel</button>
     </div>
   </form>

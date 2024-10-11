@@ -2,13 +2,13 @@
 import type { Reference } from '@/types';
 import { Icon } from '@iconify/vue';
 
-defineProps<{ term: string; reference: Reference }>();
+defineProps<{ content: string; reference: Reference }>();
 </script>
 
 <template>
   <div class="flex justify-between">
     <a
-      :href="reference.buildUrl(term)"
+      :href="reference.buildUrl(content)"
       target="_blank"
       rel="noreferrer nofollow"
       class="link inline-flex items-center gap-1.5"

@@ -6,9 +6,9 @@ import { ref, computed } from 'vue';
 
 const input = ref('');
 
-const handleIncomingWord = (collectionId: string) => {
+const handleNewTerm = (collectionId: string) => {
   if (!input.value) return;
-  profileService.addWord(collectionId, input.value);
+  profileService.addTerm(collectionId, input.value);
   input.value = '';
 };
 
@@ -24,12 +24,12 @@ const selectedCollection = computed(() => {
 </script>
 
 <template>
-  <form @submit.prevent="handleIncomingWord(selectedCollection.id)">
+  <form @submit.prevent="handleNewTerm(selectedCollection.id)">
     <input
       v-model="input"
       type="text"
       class="input input-bordered input-primary input-lg rounded-full text-center w-full"
-      placeholder="Enter a new word"
+      placeholder="Enter new term"
     />
     <div class="relative w-3/4 mx-auto">
       <div class="dropdown dropdown-bottom w-full">

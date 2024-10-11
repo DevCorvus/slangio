@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import LanguageSelector from '@/components/LanguageSelector.vue';
-import LastWords from '@/components/LastWords.vue';
-import WordEater from '@/components/WordEater.vue';
+import LastTerms from '@/components/LastTerms.vue';
+import TermEater from '@/components/TermEater.vue';
 </script>
 
 <template>
@@ -9,9 +9,9 @@ import WordEater from '@/components/WordEater.vue';
     <div class="hero-content flex flex-col gap-10 text-center max-w-md">
       <LanguageSelector />
       <div class="space-y-10">
-        <h1 class="text-4xl text-bold">Drop your words and never forget them</h1>
-        <WordEater />
-        <LastWords />
+        <h1 class="text-4xl text-bold">Drop any term and never forget it</h1>
+        <TermEater />
+        <LastTerms />
       </div>
     </div>
   </main>

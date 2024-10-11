@@ -1,29 +1,29 @@
 <script setup lang="ts">
 import { profile } from '@/data';
-import { profileService, type UpdateWord } from '@/services/profile.service';
-import type { Word } from '@/types';
+import { profileService, type UpdateTerm } from '@/services/profile.service';
+import type { Term } from '@/types';
 import { reactive } from 'vue';
 
-const props = defineProps<{ collectionId: string; word: Word }>();
+const props = defineProps<{ collectionId: string; term: Term }>();
 
 const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const formData = reactive<UpdateWord>({
-  content: props.word.content,
+const formData = reactive<UpdateTerm>({
+  content: props.term.content,
   collectionId: props.collectionId
 });
 
-const handleWordUpdate = () => {
+const handleTermUpdate = () => {
   if (!formData.content) return;
-  profileService.updateWord(props.word.id, formData);
+  profileService.updateTerm(props.term.id, formData);
   emit('close');
 };
 </script>
 
 <template>
-  <form @submit.prevent="handleWordUpdate()" class="space-y-2">
+  <form @submit.prevent="handleTermUpdate()" class="space-y-2">
     <div class="join w-full">
       <select v-model="formData.collectionId" class="select select-bordered join-item">
         <option

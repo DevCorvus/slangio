@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { profileService } from '@/services/profile.service';
-import type { WordMeaning } from '@/types';
+import type { TermMeaning } from '@/types';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
-import EditMeaning from './EditMeaning.vue';
+import EditTermMeaning from './EditTermMeaning.vue';
 
-defineProps<{ wordId: string; meaning: WordMeaning }>();
+defineProps<{ termId: string; meaning: TermMeaning }>();
 
 const editMode = ref(false);
 </script>
@@ -27,7 +27,7 @@ const editMode = ref(false);
         <Icon icon="heroicons:pencil-16-solid" class="mx-auto" />
       </button>
       <button
-        @click="profileService.removeWordMeaning(wordId, meaning.id)"
+        @click="profileService.removeTermMeaning(termId, meaning.id)"
         class="btn btn-circle btn-xs tooltip tooltip-bottom"
         data-tip="Delete"
       >
@@ -35,5 +35,5 @@ const editMode = ref(false);
       </button>
     </div>
   </div>
-  <EditMeaning v-else :word-id="wordId" :meaning @close="editMode = false" />
+  <EditTermMeaning v-else :term-id :meaning @close="editMode = false" />
 </template>

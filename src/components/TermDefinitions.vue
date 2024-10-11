@@ -2,9 +2,9 @@
 import { Icon } from '@iconify/vue';
 import { ref, watch } from 'vue';
 
-const props = defineProps<{ term: string }>();
+const props = defineProps<{ content: string }>();
 
-interface WordDefinitionResponse {
+interface TermDefinitionResponse {
   phonetic?: string;
   phonetics: { audio?: string }[];
   origin?: string;
@@ -19,7 +19,7 @@ interface WordDefinitionResponse {
   }[];
 }
 
-interface WordDefinition {
+interface TermDefinition {
   phonetic?: string;
   origin?: string;
   audio?: string;
@@ -34,14 +34,14 @@ interface WordDefinition {
   }[];
 }
 
-const definition = ref<WordDefinition | null>(null);
+const definition = ref<TermDefinition | null>(null);
 const showDefinitions = ref(false);
 const audio = ref<HTMLAudioElement>();
 
 const isLoading = ref(false);
 const isError = ref(false);
 
-watch([() => props.term, showDefinitions], async (value, prev) => {
+watch([() => props.content, showDefinitions], async (value, prev) => {
   if (
     value[0] !== prev[0] ||
     (showDefinitions.value && !isError.value && definition.value === null)
@@ -50,11 +50,11 @@ watch([() => props.term, showDefinitions], async (value, prev) => {
     isLoading.value = true;
     isError.value = false;
 
-    const res = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + props.term);
+    const res = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + props.content);
     const json = await res.json();
 
     if (Array.isArray(json)) {
-      const data = json[0] as WordDefinitionResponse;
+      const data = json[0] as TermDefinitionResponse;
       definition.value = {
         phonetic: data.phonetic,
         audio: data.phonetics.find((p) => p.audio !== '')?.audio || undefined,
@@ -133,7 +133,7 @@ const playAudio = () => {
         </section>
       </template>
       <span v-if="isLoading" class="loading loading-dots text-info"></span>
-      <p v-if="isError" class="text-error">Could not find definitions for this word</p>
+      <p v-if="isError" class="text-error">Could not find definitions for this term</p>
       <p class="text-base-content/50">
         Powered by
         <a

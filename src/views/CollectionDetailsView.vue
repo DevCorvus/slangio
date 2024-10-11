@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import AddWord from '@/components/AddWord.vue';
+import AddTerm from '@/components/AddTerm.vue';
 import EditCollection from '@/components/EditCollection.vue';
-import WordList from '@/components/WordList.vue';
+import TermList from '@/components/TermList.vue';
 import { profile } from '@/data';
 import { profileService } from '@/services/profile.service';
 import { Icon } from '@iconify/vue';
@@ -46,8 +46,8 @@ const handleRemoveCollection = () => {
         </ul>
       </div>
     </header>
-    <WordList :words="collection.words" />
-    <AddWord />
+    <TermList :terms="collection.terms" />
+    <AddTerm />
   </main>
   <div v-else class="mt-6">
     <p class="text-error text-xl">Collection not found</p>

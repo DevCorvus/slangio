@@ -9,7 +9,7 @@ const DEFAULT_COLLECTION: Collection = {
   id: nanoid(),
   name: 'Default Collection',
   description: '',
-  words: [],
+  terms: [],
   createdAt: new Date()
 };
 

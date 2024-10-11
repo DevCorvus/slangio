@@ -2,14 +2,20 @@
 import type { Collection } from '@/types';
 import { RouterLink } from 'vue-router';
 
-const props = defineProps<Collection>();
+defineProps<{ collection: Collection }>();
 </script>
 
 <template>
-  <RouterLink :to="'/collections/' + props.id" class="btn btn-lg bg-base-100 w-full shadow-md h-32">
+  <RouterLink
+    :to="'/collections/' + collection.id"
+    class="btn btn-lg bg-base-100 w-full shadow-md h-32"
+  >
     <div class="space-y-3 text-center">
-      <h2>{{ props.name }}</h2>
-      <p class="text-base text-neutral-400">{{ props.words.length }} words</p>
+      <h2>{{ collection.name }}</h2>
+      <p class="text-base text-neutral-400">
+        <span v-if="collection.terms.length > 0"> {{ collection.terms.length }} terms </span>
+        <span v-else>Empty</span>
+      </p>
     </div>
   </RouterLink>
 </template>

@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import type { Word } from '@/types';
+import type { Term } from '@/types';
 import { Icon } from '@iconify/vue';
 import { computed, ref, watch } from 'vue';
 
-const props = defineProps<{ words: Word[] }>();
+const props = defineProps<{ terms: Term[] }>();
 
 const emit = defineEmits<{
-  (e: 'sort', data: Word[]): void;
+  (e: 'sort', data: Term[]): void;
 }>();
 
 type SortingMode = 'alphabetically' | 'ascending' | 'descending';
 const sortingMode = ref<SortingMode>('alphabetically');
 
 watch(
-  [props.words, sortingMode],
+  [props.terms, sortingMode],
   () => {
     switch (sortingMode.value) {
       case 'alphabetically': {
         emit(
           'sort',
-          [...props.words].sort((a, b) => {
+          [...props.terms].sort((a, b) => {
             const aLower = a.content.toLowerCase();
             const bLower = b.content.toLowerCase();
 
@@ -33,7 +33,7 @@ watch(
       case 'ascending': {
         emit(
           'sort',
-          [...props.words].sort(
+          [...props.terms].sort(
             (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
           )
         );
@@ -42,7 +42,7 @@ watch(
       case 'descending': {
         emit(
           'sort',
-          [...props.words].sort(
+          [...props.terms].sort(
             (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           )
         );

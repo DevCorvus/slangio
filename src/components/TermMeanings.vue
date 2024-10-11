@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { EXTENDED_PARTS_OF_SPEECH } from '@/constants';
-import type { Word, PartOfSpeech, WordMeaning } from '@/types';
+import type { Term, PartOfSpeech, TermMeaning } from '@/types';
 import { Icon } from '@iconify/vue';
 import { computed, ref } from 'vue';
-import WordMeaningItem from './WordMeaningItem.vue';
-import AddMeaning from './AddMeaning.vue';
+import TermMeaningItem from './TermMeaningItem.vue';
+import AddTermMeaning from './AddTermMeaning.vue';
 
-const props = defineProps<{ word: Word }>();
+const props = defineProps<{ term: Term }>();
 
 const meaningsByPartOfSpeech = computed(() => {
-  const out: { [Key in PartOfSpeech]?: WordMeaning[] } = {};
+  const out: { [Key in PartOfSpeech]?: TermMeaning[] } = {};
 
   for (const partOfSpeech of EXTENDED_PARTS_OF_SPEECH) {
     out[partOfSpeech] = undefined;
   }
 
-  for (const meaning of props.word.meanings) {
+  for (const meaning of props.term.meanings) {
     if (out[meaning.partOfSpeech] !== undefined) {
       out[meaning.partOfSpeech]!.push(meaning);
     } else {
@@ -43,7 +43,7 @@ const showForm = ref(false);
               <header class="badge badge-info">{{ partOfSpeech }}</header>
               <ul class="space-y-1">
                 <li v-for="meaning in meanings" :key="meaning.id">
-                  <WordMeaningItem :wordId="word.id" :meaning="meaning" />
+                  <TermMeaningItem :term-id="term.id" :meaning="meaning" />
                 </li>
               </ul>
             </section>
@@ -58,7 +58,7 @@ const showForm = ref(false);
       >
         <Icon icon="heroicons:plus-16-solid" class="text-lg mx-auto" />
       </button>
-      <AddMeaning v-else :word-id="word.id" @close="showForm = false" />
+      <AddTermMeaning v-else :term-id="term.id" @close="showForm = false" />
     </div>
   </section>
 </template>

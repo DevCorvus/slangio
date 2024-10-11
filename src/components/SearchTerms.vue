@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { Word } from '@/types';
+import type { Term } from '@/types';
 import { Icon } from '@iconify/vue';
 import { watchDebounced } from '@vueuse/core';
 import { ref } from 'vue';
 
-const props = defineProps<{ words: Word[] }>();
+const props = defineProps<{ terms: Term[] }>();
 
 const emit = defineEmits<{
-  (e: 'search', data: Word[]): void;
+  (e: 'search', data: Term[]): void;
 }>();
 
 const input = ref('');
@@ -15,10 +15,10 @@ const input = ref('');
 watchDebounced(
   input,
   () => {
-    const filteredWords = props.words.filter((word) =>
-      word.content.toLowerCase().includes(input.value.toLowerCase())
+    const filteredTerms = props.terms.filter((term) =>
+      term.content.toLowerCase().includes(input.value.toLowerCase())
     );
-    emit('search', filteredWords);
+    emit('search', filteredTerms);
   },
   { debounce: 500 }
 );
@@ -26,7 +26,7 @@ watchDebounced(
 
 <template>
   <label class="input input-bordered flex items-center gap-2 grow">
-    <input type="text" v-model="input" class="grow" placeholder="Search word" />
+    <input type="text" v-model="input" class="grow" placeholder="Search term" />
     <Icon icon="heroicons:magnifying-glass-20-solid" />
   </label>
 </template>

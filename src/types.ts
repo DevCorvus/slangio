@@ -14,20 +14,20 @@ export interface Collection {
   id: string;
   name: string;
   description: string;
-  words: Word[];
+  terms: Term[];
   createdAt: Date;
 }
 
-export interface Word {
+export interface Term {
   id: string;
   content: string;
-  meanings: WordMeaning[];
+  meanings: TermMeaning[];
   createdAt: Date | string;
 }
 
 export type PartOfSpeech = (typeof EXTENDED_PARTS_OF_SPEECH)[number];
 
-export interface WordMeaning {
+export interface TermMeaning {
   id: string;
   partOfSpeech: PartOfSpeech;
   content: string;

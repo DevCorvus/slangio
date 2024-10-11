@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import type { Word } from '@/types';
+import type { Term } from '@/types';
 import { ref } from 'vue';
-import WordDetails from './WordDetails.vue';
+import TermDetails from './TermDetails.vue';
 import ModalComponent from './ModalComponent.vue';
 
-defineProps<{ word: Word }>();
+defineProps<{ term: Term }>();
 
 const showModal = ref(false);
 </script>
 
 <template>
   <button @click="showModal = true">
-    <span>{{ word.content }}</span>
+    <span>{{ term.content }}</span>
   </button>
   <ModalComponent :show="showModal" @close="showModal = false">
-    <WordDetails :word show-collection-link />
+    <TermDetails :term show-collection-link />
   </ModalComponent>
 </template>

@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Word } from '@/types';
+import type { Term } from '@/types';
 import { Icon } from '@iconify/vue';
 import { profileService } from '@/services/profile.service';
 import { ref } from 'vue';
-import WordDetails from './WordDetails.vue';
+import TermDetails from './TermDetails.vue';
 import ModalComponent from './ModalComponent.vue';
 
-defineProps<{ word: Word }>();
+defineProps<{ term: Term }>();
 
 const showModal = ref(false);
 </script>
@@ -14,14 +14,14 @@ const showModal = ref(false);
 <template>
   <div class="flex items-center gap-2 w-full">
     <button @click="showModal = true" class="btn btn-sm btn-ghost flex-1 justify-start">
-      <span>{{ word.content }}</span>
+      <span>{{ term.content }}</span>
     </button>
     <ModalComponent :show="showModal" @close="showModal = false">
-      <WordDetails :word />
+      <TermDetails :term />
     </ModalComponent>
     <ul class="menu menu-horizontal p-0">
       <li>
-        <button @click="profileService.removeWord(word.id)">
+        <button @click="profileService.removeTerm(term.id)">
           <Icon icon="heroicons:trash" />
         </button>
       </li>

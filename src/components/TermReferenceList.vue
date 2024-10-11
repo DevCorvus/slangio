@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import WordReferenceItem from './WordReferenceItem.vue';
+import TermReferenceItem from './TermReferenceItem.vue';
 import { computed } from 'vue';
 import { LanguageConfig } from '@/config/languages';
 import { profile } from '@/data';
 import type { Reference } from '@/types';
 
-defineProps<{ term: string }>();
+defineProps<{ content: string }>();
 
 const references = computed(() => {
   const source = profile.value.source;
@@ -28,7 +28,7 @@ const references = computed(() => {
     <header class="text-lg font-medium">References</header>
     <ul class="space-y-2">
       <li v-for="reference in references" :key="reference.text">
-        <WordReferenceItem :term :reference />
+        <TermReferenceItem :content :reference />
       </li>
     </ul>
   </section>
