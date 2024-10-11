@@ -14,6 +14,6 @@ const showModal = ref(false);
     <span>{{ word.content }}</span>
   </button>
   <ModalComponent :show="showModal" @close="showModal = false">
-    <WordDetails :word />
+    <WordDetails :word show-collection-link />
   </ModalComponent>
 </template>

@@ -7,6 +7,11 @@ export interface CreateUpdateCollection {
   description: string;
 }
 
+export interface UpdateWord {
+  collectionId: string;
+  content: string;
+}
+
 export interface CreateUpdateWordMeaning {
   partOfSpeech: PartOfSpeech;
   content: string;
@@ -57,8 +62,43 @@ class ProfileService {
     for (const collection of profile.value.collections) {
       if (collection.id === collectionId) {
         collection.words.push(newWord);
-        break;
+        return;
       }
+    }
+  }
+
+  getCollectionIdFromWord(wordId: string): string | null {
+    for (const collection of profile.value.collections) {
+      for (const word of collection.words) {
+        if (word.id === wordId) {
+          return collection.id;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  updateWord(wordId: string, data: UpdateWord) {
+    for (const collection of profile.value.collections) {
+      collection.words.forEach((word, i) => {
+        if (word.id === wordId) {
+          word.content = data.content;
+
+          if (collection.id !== data.collectionId) {
+            // Move to another collection
+            const wordToMove = collection.words.splice(i, 1)[0];
+
+            for (const destinationCollection of profile.value.collections) {
+              if (destinationCollection.id === data.collectionId) {
+                destinationCollection.words.push(wordToMove);
+                return;
+              }
+            }
+          }
+          return;
+        }
+      });
     }
   }
 
@@ -68,7 +108,7 @@ class ProfileService {
 
       if (wordIndex !== -1) {
         collection.words.splice(wordIndex, 1);
-        break;
+        return;
       }
     }
   }
@@ -100,10 +140,10 @@ class ProfileService {
               meaning.partOfSpeech = data.partOfSpeech;
               meaning.content = data.content;
               meaning.example = data.example;
-              break;
+              return;
             }
           }
-          break;
+          return;
         }
       }
     }
@@ -115,7 +155,7 @@ class ProfileService {
         if (word.id === wordId) {
           const meaningIndex = word.meanings.findIndex((meaning) => meaning.id === meaningId);
           word.meanings.splice(meaningIndex, 1);
-          break;
+          return;
         }
       }
     }

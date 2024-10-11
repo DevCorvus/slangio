@@ -41,9 +41,14 @@ const audio = ref<HTMLAudioElement>();
 const isLoading = ref(false);
 const isError = ref(false);
 
-watch(showDefinitions, async () => {
-  if (showDefinitions.value && !isError.value && definition.value === null) {
+watch([() => props.term, showDefinitions], async (value, prev) => {
+  if (
+    value[0] !== prev[0] ||
+    (showDefinitions.value && !isError.value && definition.value === null)
+  ) {
+    definition.value = null;
     isLoading.value = true;
+    isError.value = false;
 
     const res = await fetch('https://api.dictionaryapi.dev/api/v2/entries/en/' + props.term);
     const json = await res.json();
@@ -136,8 +141,9 @@ const playAudio = () => {
           target="_blank"
           rel="noreferrer nofollow"
           class="link link-hover"
-          >freeDictionaryAPI</a
         >
+          freeDictionaryAPI
+        </a>
       </p>
     </div>
   </section>

@@ -33,7 +33,7 @@ onClickOutside(modal, () => emit('close'));
           class="card bg-base-100 w-full max-w-lg max-h-full overflow-y-auto shadow-xl"
           role="dialog"
         >
-          <div class="card-body">
+          <div class="card-body pt-10">
             <button
               @click="$emit('close')"
               class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
