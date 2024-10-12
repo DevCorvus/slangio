@@ -3,7 +3,7 @@ import { onClickOutside } from '@vueuse/core';
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
 import { watch, useTemplateRef, nextTick } from 'vue';
 
-const props = defineProps<{ show: boolean }>();
+const props = defineProps<{ show: boolean; compact?: boolean }>();
 
 const emit = defineEmits<{
   (e: 'close'): void;
@@ -30,11 +30,13 @@ onClickOutside(modal, () => emit('close'));
       <div v-if="show" class="fixed inset-0 flex justify-center items-center bg-black/40 z-40 p-10">
         <div
           ref="modal"
-          class="card bg-base-100 w-full max-w-lg max-h-full overflow-y-auto shadow-xl"
+          class="card bg-base-100 max-w-lg max-h-full overflow-y-auto shadow-xl"
+          :class="compact ? '' : 'w-full'"
           role="dialog"
         >
-          <div class="card-body pt-10">
+          <div class="card-body" :class="compact ? '' : 'pt-10'">
             <button
+              v-if="!compact"
               @click="$emit('close')"
               class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
             >

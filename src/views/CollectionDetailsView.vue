@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import AddTerm from '@/components/AddTerm.vue';
+import ConfirmDelete from '@/components/ConfirmDelete.vue';
 import EditCollection from '@/components/EditCollection.vue';
 import TermList from '@/components/TermList.vue';
 import { profile } from '@/data';
 import { profileService } from '@/services/profile.service';
 import { Icon } from '@iconify/vue';
+import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -18,6 +20,8 @@ const handleRemoveCollection = () => {
   profileService.removeCollection(collection!.id);
   router.push('/collections');
 };
+
+const showModal = ref(false);
 </script>
 
 <template>
@@ -39,9 +43,14 @@ const handleRemoveCollection = () => {
             <EditCollection :name="collection.name" :description="collection.description" />
           </li>
           <li>
-            <button @click="handleRemoveCollection()" class="tooltip" data-tip="Delete">
+            <button @click="showModal = true" class="tooltip" data-tip="Delete">
               <Icon icon="heroicons:trash" />
             </button>
+            <ConfirmDelete
+              :show="showModal"
+              @confirm="handleRemoveCollection()"
+              @close="showModal = false"
+            />
           </li>
         </ul>
       </div>
