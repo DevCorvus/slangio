@@ -4,6 +4,7 @@ import { Icon } from '@iconify/vue';
 import { reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import ModalComponent from './ModalComponent.vue';
+import { useToasterStore } from '@/stores/toaster';
 
 const route = useRoute();
 
@@ -16,10 +17,31 @@ const formData = reactive<CreateUpdateCollection>({
   description: props.description
 });
 
-const handleUpdateCollection = (data: CreateUpdateCollection) => {
-  if (!data.name) return;
+const toaster = useToasterStore();
 
-  profileService.updateCollection(route.params.id as string, data);
+const handleUpdateCollection = () => {
+  if (formData.name === props.name && formData.description === props.description) {
+    showModal.value = false;
+    return;
+  }
+
+  const name = formData.name.trim();
+
+  if (!name) return;
+
+  if (name !== props.name) {
+    const alreadyExists = profileService.doesCollectionAlreadyExists(name);
+
+    if (alreadyExists) {
+      toaster.error('Collection already exists');
+      return;
+    }
+  }
+
+  profileService.updateCollection(route.params.id as string, {
+    name,
+    description: formData.description
+  });
 
   formData.name = '';
   formData.description = '';
@@ -33,7 +55,7 @@ const handleUpdateCollection = (data: CreateUpdateCollection) => {
     <Icon icon="heroicons:pencil-square" />
   </button>
   <ModalComponent :show="showModal" @close="showModal = false">
-    <section class="space-y-4">
+    <form @submit.prevent="handleUpdateCollection()" class="space-y-4">
       <header>
         <h3 class="text-lg font-bold">Edit Collection</h3>
       </header>
@@ -51,9 +73,9 @@ const handleUpdateCollection = (data: CreateUpdateCollection) => {
         />
       </div>
       <div class="flex justify-end gap-2">
-        <button @click="handleUpdateCollection(formData)" class="btn btn-primary">Apply</button>
-        <button @click="showModal = false" class="btn">Close</button>
+        <button class="btn btn-primary">Apply</button>
+        <button type="button" @click="showModal = false" class="btn">Close</button>
       </div>
-    </section>
+    </form>
   </ModalComponent>
 </template>

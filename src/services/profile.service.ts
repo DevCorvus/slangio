@@ -31,6 +31,14 @@ class ProfileService {
     profile.value.collections.push(newCollection);
   }
 
+  doesCollectionAlreadyExists(name: string) {
+    const lowerName = name.toLowerCase();
+
+    return profile.value.collections.some(
+      (collection) => collection.name.toLowerCase() === lowerName
+    );
+  }
+
   updateCollection(collectionId: string, data: CreateUpdateCollection) {
     profile.value.collections = profile.value.collections.map((collection) => {
       if (collection.id === collectionId) {
@@ -65,6 +73,14 @@ class ProfileService {
         return;
       }
     }
+  }
+
+  doesTermAlreadyExists(content: string) {
+    const lowerContent = content.toLowerCase();
+
+    return profile.value.collections.some((collection) =>
+      collection.terms.some((term) => term.content.toLowerCase() === lowerContent)
+    );
   }
 
   getCollectionIdFromTerm(termId: string): string | null {

@@ -16,12 +16,14 @@ const formData = reactive<CreateUpdateTermMeaning>({
 });
 
 const handleNewMeaning = () => {
-  if (!formData.content) return;
+  const content = formData.content.trim();
+
+  if (!content) return;
 
   profileService.addTermMeaning(props.termId, {
     partOfSpeech: formData.partOfSpeech,
-    content: formData.content,
-    example: formData.example
+    content,
+    example: formData.example.trim()
   });
 
   emit('close');

@@ -5,8 +5,17 @@ import { ref } from 'vue';
 const input = ref('');
 
 const handleNewTerm = (collectionId: string) => {
-  if (!input.value) return;
-  profileService.addTerm(collectionId, input.value);
+  const content = input.value.trim();
+
+  if (content) return;
+
+  const alreadyExists = profileService.doesTermAlreadyExists(content);
+
+  if (alreadyExists) {
+    return;
+  }
+
+  profileService.addTerm(collectionId, content);
   input.value = '';
 };
 </script>

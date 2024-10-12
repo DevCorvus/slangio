@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { profile } from '@/data';
 import { profileService, type UpdateTerm } from '@/services/profile.service';
+import { useToasterStore } from '@/stores/toaster';
 import type { Term } from '@/types';
 import { reactive } from 'vue';
 
@@ -15,9 +16,30 @@ const formData = reactive<UpdateTerm>({
   collectionId: props.collectionId
 });
 
+const toaster = useToasterStore();
+
 const handleTermUpdate = () => {
-  if (!formData.content) return;
-  profileService.updateTerm(props.term.id, formData);
+  if (formData.content == props.term.content && formData.collectionId === props.collectionId) {
+    emit('close');
+    return;
+  }
+
+  const content = formData.content.trim();
+
+  if (!content) return;
+
+  if (content !== props.term.content) {
+    const alreadyExists = profileService.doesTermAlreadyExists(content);
+
+    if (alreadyExists) {
+      if (alreadyExists) {
+        toaster.error('Term already exists');
+        return;
+      }
+    }
+  }
+
+  profileService.updateTerm(props.term.id, { content, collectionId: formData.collectionId });
   emit('close');
 };
 </script>

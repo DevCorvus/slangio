@@ -2,6 +2,7 @@
 import { profileService, type CreateUpdateCollection } from '@/services/profile.service';
 import { reactive, ref } from 'vue';
 import ModalComponent from './ModalComponent.vue';
+import { useToasterStore } from '@/stores/toaster';
 
 const showModal = ref(false);
 
@@ -10,10 +11,21 @@ const formData = reactive<CreateUpdateCollection>({
   description: ''
 });
 
-const handleNewCollection = (data: CreateUpdateCollection) => {
-  if (!data.name) return;
+const toaster = useToasterStore();
 
-  profileService.addCollection(data);
+const handleNewCollection = () => {
+  const name = formData.name.trim();
+
+  if (!name) return;
+
+  const alreadyExists = profileService.doesCollectionAlreadyExists(name);
+
+  if (alreadyExists) {
+    toaster.error('Collection already exists');
+    return;
+  }
+
+  profileService.addCollection({ name, description: formData.description });
 
   formData.name = '';
   formData.description = '';
@@ -27,7 +39,7 @@ const handleNewCollection = (data: CreateUpdateCollection) => {
     <slot />
   </button>
   <ModalComponent :show="showModal" @close="showModal = false">
-    <section class="space-y-4">
+    <form @submit.prevent="handleNewCollection()" class="space-y-4">
       <header>
         <h3 class="text-lg font-bold">Add Collection</h3>
       </header>
@@ -45,9 +57,9 @@ const handleNewCollection = (data: CreateUpdateCollection) => {
         />
       </div>
       <div class="flex justify-end gap-2">
-        <button @click="handleNewCollection(formData)" class="btn btn-primary">Create</button>
-        <button @click="showModal = false" class="btn">Close</button>
+        <button class="btn btn-primary">Create</button>
+        <button type="button" @click="showModal = false" class="btn">Close</button>
       </div>
-    </section>
+    </form>
   </ModalComponent>
 </template>

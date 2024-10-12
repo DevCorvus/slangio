@@ -17,12 +17,23 @@ const formData = reactive<CreateUpdateTermMeaning>({
 });
 
 const handleMeaningUpdate = () => {
-  if (!formData.content) return;
+  if (
+    formData.partOfSpeech === props.meaning.partOfSpeech &&
+    formData.content === props.meaning.content &&
+    formData.example === props.meaning.example
+  ) {
+    emit('close');
+    return;
+  }
+
+  const content = formData.content.trim();
+
+  if (!content) return;
 
   profileService.updateTermMeaning(props.termId, props.meaning.id, {
     partOfSpeech: formData.partOfSpeech,
-    content: formData.content,
-    example: formData.example
+    content,
+    example: formData.example.trim()
   });
 
   emit('close');

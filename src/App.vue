@@ -3,6 +3,7 @@ import { RouterView } from 'vue-router';
 import NavBar from './components/NavBar.vue';
 import { theme } from './data';
 import { watch } from 'vue';
+import ToasterComponent from './components/ToasterComponent.vue';
 
 const html = document.querySelector('html');
 
@@ -22,4 +23,5 @@ watch(
   <div class="container mx-auto">
     <RouterView />
   </div>
+  <ToasterComponent />
 </template>
