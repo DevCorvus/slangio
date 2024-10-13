@@ -51,7 +51,7 @@ const goToCollection = () => {
     <EditTerm v-else :collection-id :term @close="editMode = false" />
     <TermMeanings :term />
     <TermDefinitions :content="term.content" />
-    <TermReferenceList :term="term.content" />
+    <TermReferenceList :content="term.content" />
     <div class="flex justify-between items-center">
       <p class="text-base-content/50 text-sm">Added {{ timeAgo }}</p>
       <button @click="profileService.removeTerm(term.id)" class="btn btn-sm btn-outline btn-error">
