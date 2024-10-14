@@ -4,6 +4,7 @@ import NavBar from './components/NavBar.vue';
 import { theme } from './data';
 import { watch } from 'vue';
 import ToasterComponent from './components/ToasterComponent.vue';
+import TextSelectionEater from './components/TextSelectionEater.vue';
 
 const html = document.querySelector('html');
 
@@ -23,5 +24,6 @@ watch(
   <div class="container mx-auto">
     <RouterView />
   </div>
+  <TextSelectionEater />
   <ToasterComponent />
 </template>
