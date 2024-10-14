@@ -14,7 +14,7 @@ const filteredTerms = ref<Term[]>(sortedTerms.value);
 
 const selectedTermIds = ref<string[]>([]);
 
-const allSelected = computed(() => selectedTermIds.value.length === props.terms.length);
+const allSelected = computed(() => selectedTermIds.value.length === filteredTerms.value.length);
 
 const handleSelectionChange = (id: string, state: boolean) => {
   if (state) {
@@ -37,10 +37,14 @@ const handleSelectAll = () => {
   <section class="card card-compact bg-base-200 shadow">
     <div v-if="props.terms.length > 0" class="card-body">
       <div class="flex items-center gap-2">
-        <SearchTerms :terms="sortedTerms" @search="(data) => (filteredTerms = data)" />
+        <SearchTerms
+          :terms="sortedTerms"
+          :to-bypass="selectedTermIds"
+          @search="(data) => (filteredTerms = data)"
+        />
         <SortTerms :terms @sort="(data) => (sortedTerms = data)" />
       </div>
-      <div class="flex items-center justify-between">
+      <div v-if="filteredTerms.length > 0" class="flex items-center justify-between">
         <div class="form-control">
           <label for="selectAll" class="p-0 label cursor-pointer space-x-2">
             <input
@@ -58,6 +62,7 @@ const handleSelectAll = () => {
           <DeleteTerms :term-ids="selectedTermIds" @success="selectedTermIds = []" />
         </ul>
       </div>
+      <p v-else class="mt-4">No results</p>
       <ul>
         <li v-for="term in filteredTerms" :key="term.id">
           <TermItem

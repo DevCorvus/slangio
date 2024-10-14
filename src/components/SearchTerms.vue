@@ -4,7 +4,7 @@ import { Icon } from '@iconify/vue';
 import { watchDebounced } from '@vueuse/core';
 import { ref, watch } from 'vue';
 
-const props = defineProps<{ terms: Term[]; noInputNoResults?: boolean }>();
+const props = defineProps<{ terms: Term[]; toBypass?: string[]; noInputNoResults?: boolean }>();
 
 const emit = defineEmits<{
   (e: 'search', data: Term[]): void;
@@ -20,14 +20,18 @@ const searchTerms = () => {
 
   const inputLower = input.value.toLowerCase();
 
-  const filteredTerms = props.terms.filter((term) =>
-    term.content.toLowerCase().includes(inputLower)
-  );
+  const filteredTerms = props.terms.filter((term) => {
+    if (props.toBypass?.includes(term.id)) {
+      return true;
+    }
+
+    return term.content.toLowerCase().includes(inputLower);
+  });
 
   emit('search', filteredTerms);
 };
 
-watch(() => props.terms, searchTerms);
+watch([() => props.terms, () => props.toBypass], searchTerms);
 watchDebounced(input, searchTerms, { debounce: 500 });
 </script>
 
