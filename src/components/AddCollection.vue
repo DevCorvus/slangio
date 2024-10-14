@@ -58,7 +58,7 @@ const handleNewCollection = () => {
       </div>
       <div class="flex justify-end gap-2">
         <button class="btn btn-primary">Create</button>
-        <button type="button" @click="showModal = false" class="btn">Close</button>
+        <button type="button" @click="showModal = false" class="btn">Cancel</button>
       </div>
     </form>
   </ModalComponent>

@@ -10,7 +10,7 @@ const showModal = ref(false);
 </script>
 
 <template>
-  <button @click="showModal = true">
+  <button @click="showModal = true" class="text-lg">
     <span>{{ term.content }}</span>
   </button>
   <ModalComponent :show="showModal" @close="showModal = false">

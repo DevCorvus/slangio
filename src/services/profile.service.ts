@@ -129,6 +129,43 @@ class ProfileService {
     }
   }
 
+  removeManyTerms(collectionId: string, termIds: string[]) {
+    const collection = profile.value.collections.find(
+      (collection) => collection.id === collectionId
+    );
+
+    if (collection) {
+      for (const termId of termIds) {
+        const termIndex = collection.terms.findIndex((term) => term.id === termId);
+
+        if (termIndex !== -1) {
+          collection.terms.splice(termIndex, 1);
+        }
+      }
+    }
+  }
+
+  moveManyTerms(sourceCollectionId: string, targetCollectionId: string, termIds: string[]) {
+    const sourceCollection = profile.value.collections.find(
+      (collection) => collection.id === sourceCollectionId
+    );
+
+    const targetCollection = profile.value.collections.find(
+      (collection) => collection.id === targetCollectionId
+    );
+
+    if (sourceCollection && targetCollection) {
+      for (const termId of termIds) {
+        const termIndex = sourceCollection.terms.findIndex((term) => term.id === termId);
+
+        if (termIndex !== -1) {
+          const termToMove = sourceCollection.terms.splice(termIndex, 1)[0];
+          targetCollection.terms.push(termToMove);
+        }
+      }
+    }
+  }
+
   addTermMeaning(termId: string, data: CreateUpdateTermMeaning) {
     const newTermMeaning: TermMeaning = {
       id: nanoid(),
