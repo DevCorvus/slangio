@@ -4,7 +4,7 @@ import { Icon } from '@iconify/vue';
 import { watchDebounced } from '@vueuse/core';
 import { ref } from 'vue';
 
-const props = defineProps<{ terms: Term[] }>();
+const props = defineProps<{ terms: Term[]; noInputNoResults?: boolean }>();
 
 const emit = defineEmits<{
   (e: 'search', data: Term[]): void;
@@ -15,6 +15,11 @@ const input = ref('');
 watchDebounced(
   input,
   () => {
+    if (props.noInputNoResults && !input.value) {
+      emit('search', []);
+      return;
+    }
+
     const filteredTerms = props.terms.filter((term) =>
       term.content.toLowerCase().includes(input.value.toLowerCase())
     );
