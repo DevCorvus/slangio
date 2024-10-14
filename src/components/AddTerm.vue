@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import { profileService } from '@/services/profile.service';
+import { useToasterStore } from '@/stores/toaster';
 import { ref } from 'vue';
 
 const input = ref('');
 
+const toaster = useToasterStore();
+
 const handleNewTerm = (collectionId: string) => {
   const content = input.value.trim();
 
-  if (content) return;
+  if (!content) return;
 
   const alreadyExists = profileService.doesTermAlreadyExists(content);
 
   if (alreadyExists) {
+    toaster.error('Term already exists');
     return;
   }
 
