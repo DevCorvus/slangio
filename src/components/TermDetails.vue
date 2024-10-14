@@ -7,7 +7,7 @@ import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
 import EditTerm from './EditTerm.vue';
 import { profileService } from '@/services/profile.service';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useTimeAgo } from '@vueuse/core';
 
 const props = defineProps<{ term: Term; showCollectionLink?: boolean }>();
@@ -17,8 +17,10 @@ const timeAgo = useTimeAgo(props.term.createdAt);
 const editMode = ref(false);
 
 const router = useRouter();
+const route = useRoute();
 
-const collectionId = profileService.getCollectionIdFromTerm(props.term.id) || '';
+const collectionId =
+  (route.params.id as string) || profileService.getCollectionIdFromTerm(props.term.id) || '';
 
 const goToCollection = () => {
   if (collectionId) {
