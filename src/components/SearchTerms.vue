@@ -2,7 +2,7 @@
 import type { Term } from '@/types';
 import { Icon } from '@iconify/vue';
 import { watchDebounced } from '@vueuse/core';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps<{ terms: Term[]; noInputNoResults?: boolean }>();
 
@@ -12,21 +12,23 @@ const emit = defineEmits<{
 
 const input = ref('');
 
-watchDebounced(
-  input,
-  () => {
-    if (props.noInputNoResults && !input.value) {
-      emit('search', []);
-      return;
-    }
+const searchTerms = () => {
+  if (props.noInputNoResults && !input.value) {
+    emit('search', []);
+    return;
+  }
 
-    const filteredTerms = props.terms.filter((term) =>
-      term.content.toLowerCase().includes(input.value.toLowerCase())
-    );
-    emit('search', filteredTerms);
-  },
-  { debounce: 500 }
-);
+  const inputLower = input.value.toLowerCase();
+
+  const filteredTerms = props.terms.filter((term) =>
+    term.content.toLowerCase().includes(inputLower)
+  );
+
+  emit('search', filteredTerms);
+};
+
+watch(() => props.terms, searchTerms);
+watchDebounced(input, searchTerms, { debounce: 500 });
 </script>
 
 <template>

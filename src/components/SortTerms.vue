@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { sorting } from '@/data';
 import type { Term } from '@/types';
 import { Icon } from '@iconify/vue';
-import { computed, ref, watch } from 'vue';
+import { computed, watch } from 'vue';
 
 const props = defineProps<{ terms: Term[] }>();
 
@@ -9,13 +10,10 @@ const emit = defineEmits<{
   (e: 'sort', data: Term[]): void;
 }>();
 
-type SortingMode = 'alphabetically' | 'ascending' | 'descending';
-const sortingMode = ref<SortingMode>('alphabetically');
-
 watch(
-  [props.terms, sortingMode],
+  [props.terms, sorting],
   () => {
-    switch (sortingMode.value) {
+    switch (sorting.value) {
       case 'alphabetically': {
         emit(
           'sort',
@@ -54,17 +52,17 @@ watch(
 );
 
 const handleSortChange = () => {
-  switch (sortingMode.value) {
+  switch (sorting.value) {
     case 'alphabetically': {
-      sortingMode.value = 'ascending';
+      sorting.value = 'ascending';
       break;
     }
     case 'ascending': {
-      sortingMode.value = 'descending';
+      sorting.value = 'descending';
       break;
     }
     case 'descending': {
-      sortingMode.value = 'alphabetically';
+      sorting.value = 'alphabetically';
       break;
     }
   }
@@ -73,7 +71,7 @@ const handleSortChange = () => {
 const sortingTooltip = computed(() => {
   let msg = 'Sort by ';
 
-  switch (sortingMode.value) {
+  switch (sorting.value) {
     case 'alphabetically': {
       msg += 'alphabetic';
       break;
@@ -100,8 +98,8 @@ const sortingTooltip = computed(() => {
     class="btn bg-base-100 text-lg tooltip"
     :data-tip="sortingTooltip"
   >
-    <span v-if="sortingMode === 'alphabetically'"> A </span>
-    <Icon v-else-if="sortingMode === 'ascending'" icon="heroicons:bars-arrow-up" />
-    <Icon v-else-if="sortingMode === 'descending'" icon="heroicons:bars-arrow-down" />
+    <span v-if="sorting === 'alphabetically'"> A </span>
+    <Icon v-else-if="sorting === 'ascending'" icon="heroicons:bars-arrow-up" />
+    <Icon v-else-if="sorting === 'descending'" icon="heroicons:bars-arrow-down" />
   </button>
 </template>

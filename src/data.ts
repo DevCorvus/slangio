@@ -5,6 +5,9 @@ import { nanoid } from 'nanoid';
 const isDark = usePreferredDark();
 export const theme = useLocalStorage('theme', isDark ? 'dark' : 'light');
 
+type Sorting = 'alphabetically' | 'ascending' | 'descending';
+export const sorting = useLocalStorage<Sorting>('sorting', 'alphabetically');
+
 const DEFAULT_COLLECTION: Collection = {
   id: nanoid(),
   name: 'Default Collection',

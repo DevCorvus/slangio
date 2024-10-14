@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Term } from '@/types';
 import SearchTerms from './SearchTerms.vue';
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import SortTerms from './SortTerms.vue';
 import TermItem from './TermItem.vue';
 import MoveTerms from './MoveTerms.vue';
@@ -9,11 +9,8 @@ import DeleteTerms from './DeleteTerms.vue';
 
 const props = defineProps<{ terms: Term[] }>();
 
-const terms = ref<Term[]>(props.terms);
-
-watch(props.terms, () => {
-  terms.value = props.terms;
-});
+const sortedTerms = ref<Term[]>(props.terms);
+const filteredTerms = ref<Term[]>(sortedTerms.value);
 
 const selectedTermIds = ref<string[]>([]);
 
@@ -31,7 +28,7 @@ const handleSelectAll = () => {
   if (allSelected.value) {
     selectedTermIds.value = [];
   } else {
-    selectedTermIds.value = terms.value.map((term) => term.id);
+    selectedTermIds.value = filteredTerms.value.map((term) => term.id);
   }
 };
 </script>
@@ -40,8 +37,8 @@ const handleSelectAll = () => {
   <section class="card card-compact bg-base-200 shadow">
     <div v-if="props.terms.length > 0" class="card-body">
       <div class="flex items-center gap-2">
-        <SearchTerms :terms @search="(data) => (terms = data)" />
-        <SortTerms :terms @sort="(data) => (terms = data)" />
+        <SearchTerms :terms="sortedTerms" @search="(data) => (filteredTerms = data)" />
+        <SortTerms :terms @sort="(data) => (sortedTerms = data)" />
       </div>
       <div class="flex items-center justify-between">
         <div class="form-control">
@@ -62,7 +59,7 @@ const handleSelectAll = () => {
         </ul>
       </div>
       <ul>
-        <li v-for="term in terms" :key="term.id">
+        <li v-for="term in filteredTerms" :key="term.id">
           <TermItem
             :term
             :selected="selectedTermIds.includes(term.id)"
