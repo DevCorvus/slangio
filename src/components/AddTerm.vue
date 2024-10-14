@@ -31,7 +31,7 @@ const handleNewTerm = (collectionId: string) => {
   >
     <input
       type="text"
-      class="input input-bordered w-full"
+      class="input input-bordered input-primary w-full"
       v-model="input"
       placeholder="Enter new term"
     />
