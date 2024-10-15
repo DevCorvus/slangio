@@ -3,9 +3,14 @@ import { profile } from '@/data';
 import { profileService } from '@/services/profile.service';
 import { useToasterStore } from '@/stores/toaster';
 import { Icon } from '@iconify/vue';
-import { ref, computed } from 'vue';
+import { ref, computed, useTemplateRef, onMounted } from 'vue';
 
 const input = ref('');
+const inputRef = useTemplateRef('inputRef');
+
+onMounted(() => {
+  inputRef.value?.focus();
+});
 
 const toaster = useToasterStore();
 
@@ -39,6 +44,7 @@ const selectedCollection = computed(() => {
 <template>
   <form @submit.prevent="handleNewTerm(selectedCollection.id)">
     <input
+      ref="inputRef"
       v-model="input"
       type="text"
       class="input input-bordered input-primary input-lg rounded-full text-center w-full"

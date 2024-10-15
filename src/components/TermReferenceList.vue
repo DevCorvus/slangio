@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import TermReferenceItem from './TermReferenceItem.vue';
 import { computed } from 'vue';
-import { LanguageConfig } from '@/config/languages';
+import { LANGUAGE_CONFIG } from '@/config/languages';
 import { profile } from '@/data';
 import type { Reference } from '@/types';
 
@@ -11,11 +11,11 @@ const references = computed(() => {
   const source = profile.value.source;
   const target = profile.value.target;
 
-  if (LanguageConfig[source] !== undefined) {
+  if (LANGUAGE_CONFIG[source] !== undefined) {
     // @ts-ignore
-    if (LanguageConfig[source][target] !== undefined) {
+    if (LANGUAGE_CONFIG[source][target] !== undefined) {
       // @ts-ignore
-      return LanguageConfig[source][target].references as Reference[];
+      return LANGUAGE_CONFIG[source][target].references as Reference[];
     }
   }
 

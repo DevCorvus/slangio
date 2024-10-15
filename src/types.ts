@@ -1,10 +1,13 @@
+import type { SUPPORTED_LANGUAGES } from './config/languages';
 import { EXTENDED_PARTS_OF_SPEECH } from './constants';
 
-export type SourceTargetOptions = 'en' | 'es';
+export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
 
 export interface Profile {
-  source: SourceTargetOptions;
-  target: SourceTargetOptions;
+  id: string;
+  name?: string;
+  source: SupportedLanguage;
+  target: SupportedLanguage;
   collections: Collection[];
   defaultCollection: string;
   createdAt: Date;

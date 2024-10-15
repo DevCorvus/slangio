@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import NavBar from './components/NavBar.vue';
-import { theme } from './data';
+import { firstTime, theme } from './data';
 import { watch } from 'vue';
 import ToasterComponent from './components/ToasterComponent.vue';
 import TextSelectionEater from './components/TextSelectionEater.vue';
@@ -20,10 +20,15 @@ watch(
 </script>
 
 <template>
-  <NavBar />
-  <div class="container mx-auto">
+  <template v-if="!firstTime">
+    <NavBar />
+    <div class="container mx-auto">
+      <RouterView />
+    </div>
+    <TextSelectionEater />
+    <ToasterComponent />
+  </template>
+  <template v-else>
     <RouterView />
-  </div>
-  <TextSelectionEater />
-  <ToasterComponent />
+  </template>
 </template>

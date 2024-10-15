@@ -1,14 +1,34 @@
-import type { Reference, SourceTargetOptions } from '@/types';
+import type { Reference, SupportedLanguage } from '@/types';
+
+export const SUPPORTED_LANGUAGES = ['en', 'es'] as const;
+
+type LanguageMetadata = {
+  [Language in SupportedLanguage]: {
+    name: string;
+    flagIso: string;
+  };
+};
+
+export const LANGUAGE_METADATA: LanguageMetadata = {
+  en: {
+    name: 'English',
+    flagIso: 'gb'
+  },
+  es: {
+    name: 'Spanish',
+    flagIso: 'es'
+  }
+};
 
 type LanguageConfiguration = {
-  [Source in SourceTargetOptions]?: {
-    [Target in Exclude<SourceTargetOptions, Source>]?: {
+  [Source in SupportedLanguage]?: {
+    [Target in Exclude<SupportedLanguage, Source>]?: {
       references: Reference[];
     };
   };
 };
 
-export const LanguageConfig: LanguageConfiguration = {
+export const LANGUAGE_CONFIG: LanguageConfiguration = {
   es: {
     en: {
       references: [

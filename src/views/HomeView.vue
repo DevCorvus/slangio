@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import LanguageSelector from '@/components/LanguageSelector.vue';
+import ProfileManager from '@/components/ProfileManager.vue';
 import LastTerms from '@/components/LastTerms.vue';
 import TermEater from '@/components/TermEater.vue';
 </script>
@@ -7,9 +7,9 @@ import TermEater from '@/components/TermEater.vue';
 <template>
   <main class="hero mt-4">
     <div class="hero-content flex flex-col gap-10 text-center max-w-md">
-      <LanguageSelector />
+      <ProfileManager />
       <div class="space-y-10">
-        <h1 class="text-4xl text-bold">Drop any term and never forget it</h1>
+        <h1 class="text-4xl font-semibold">Drop any term and never forget it</h1>
         <TermEater />
         <LastTerms />
       </div>
