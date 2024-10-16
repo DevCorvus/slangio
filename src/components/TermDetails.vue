@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Term } from '@/types';
-import TermDefinitions from './TermDefinitions.vue';
+import EnglishTermDefinitions from './EnglishTermDefinitions.vue';
 import TermMeanings from './TermMeanings.vue';
 import TermReferenceList from './TermReferenceList.vue';
 import { Icon } from '@iconify/vue';
@@ -9,6 +9,8 @@ import EditTerm from './EditTerm.vue';
 import { profileService } from '@/services/profile.service';
 import { useRoute, useRouter } from 'vue-router';
 import { useTimeAgo } from '@vueuse/core';
+import { profile } from '@/data';
+import SpanishTermDefinitions from './SpanishTermDefinitions.vue';
 
 const props = defineProps<{ term: Term; showCollectionLink?: boolean }>();
 
@@ -52,7 +54,8 @@ const goToCollection = () => {
     </header>
     <EditTerm v-else :collection-id :term @close="editMode = false" />
     <TermMeanings :term />
-    <TermDefinitions :content="term.content" />
+    <EnglishTermDefinitions v-if="profile.target === 'en'" :content="term.content" />
+    <SpanishTermDefinitions v-else-if="profile.target === 'es'" :content="term.content" />
     <TermReferenceList :content="term.content" />
     <div class="flex justify-between items-center">
       <p class="text-base-content/50 text-sm">Added {{ timeAgo }}</p>

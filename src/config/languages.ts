@@ -48,5 +48,25 @@ export const LANGUAGE_CONFIG: LanguageConfiguration = {
         }
       ]
     }
+  },
+  en: {
+    es: {
+      references: [
+        {
+          text: 'Linguee',
+          about: 'Translations',
+          buildUrl(term) {
+            return 'https://www.linguee.com/spanish-english/search?source=auto&query=' + term;
+          }
+        },
+        {
+          text: 'AsiHablamos',
+          about: 'Slangs',
+          buildUrl(term) {
+            return 'https://www.asihablamos.com/www/significado/palabra/' + term;
+          }
+        }
+      ]
+    }
   }
 };

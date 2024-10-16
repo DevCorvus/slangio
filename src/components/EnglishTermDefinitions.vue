@@ -108,21 +108,21 @@ const playAudio = () => {
                 <strong>{{ j + 1 }}.</strong> {{ def.definition }}
               </p>
               <p v-if="def.example"><strong>Example:</strong> {{ def.example }}</p>
-              <section v-if="def.synonyms.length > 0" class="space-y-1">
+              <section v-if="def.synonyms.length > 0" class="space-y-1 text-sm">
                 <header>
                   <strong>Synonyms</strong>
                 </header>
-                <ul class="flex items-center gap-1">
+                <ul class="flex items-center gap-1 flex-wrap">
                   <li v-for="(synonym, k) in def.synonyms" :key="k + 'synonym'">
                     <span class="badge badge-outline">{{ synonym }}</span>
                   </li>
                 </ul>
               </section>
-              <section v-if="def.antonyms.length > 0" class="space-y-1">
+              <section v-if="def.antonyms.length > 0" class="space-y-1 text-sm">
                 <header>
                   <strong>Antonyms</strong>
                 </header>
-                <ul class="flex items-center gap-1">
+                <ul class="flex items-center gap-1 flex-wrap">
                   <li v-for="(antonym, k) in def.antonyms" :key="k + 'antonym'">
                     <span class="badge badge-outline">{{ antonym }}</span>
                   </li>
