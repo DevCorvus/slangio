@@ -55,6 +55,7 @@ const showModal = ref(false);
         </ul>
       </div>
     </header>
+    <p v-if="collection.description">{{ collection.description }}</p>
     <TermList :terms="collection.terms" />
     <AddTerm />
   </main>
