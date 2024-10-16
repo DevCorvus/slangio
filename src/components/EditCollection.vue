@@ -38,13 +38,15 @@ const handleUpdateCollection = () => {
     }
   }
 
+  const description = formData.description.trim();
+
   profileService.updateCollection(route.params.id as string, {
     name,
-    description: formData.description
+    description
   });
 
-  formData.name = '';
-  formData.description = '';
+  formData.name = name;
+  formData.description = description;
 
   showModal.value = false;
 };
@@ -68,7 +70,7 @@ const handleUpdateCollection = () => {
         />
         <textarea
           v-model="formData.description"
-          class="textarea textarea-bordered w-full h-24"
+          class="textarea textarea-bordered w-full h-28"
           placeholder="Enter collection description (optional)"
         />
       </div>
