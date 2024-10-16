@@ -4,6 +4,7 @@ import CollectionsView from '@/views/CollectionsView.vue';
 import CollectionDetailsView from '@/views/CollectionDetailsView.vue';
 import { firstTime } from '@/data';
 import NewProfileView from '@/views/NewProfileView.vue';
+import NotFoundView from '@/views/NotFoundView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/collections/:id',
       name: 'collection-details',
       component: CollectionDetailsView
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: NotFoundView
     }
   ]
 });
