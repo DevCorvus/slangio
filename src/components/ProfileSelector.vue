@@ -29,5 +29,25 @@ defineEmits<{
         </li>
       </template>
     </template>
+    <li>
+      <button
+        @click="$emit('select', { source: 'en', target: 'en' })"
+        class="group bg-base-100 text-base-content/35 mx-auto flex items-center justify-center gap-2 border-2 border-base-content/25 shadow-sm rounded-full py-2 px-3 hover:scale-105 hover:border-primary focus:border-primary focus:scale-105 transition tooltip tooltip-right"
+        data-tip="Unknown to Unknown"
+      >
+        <Icon
+          icon="heroicons:question-mark-circle-16-solid"
+          class="size-12 rounded-full border-4 border-dashed border-base-content/15"
+        />
+        <Icon
+          icon="heroicons:arrow-long-right-16-solid"
+          class="text-5xl text-base-content/35 group-hover:text-primary group-focus:text-primary"
+        />
+        <Icon
+          icon="heroicons:question-mark-circle-16-solid"
+          class="size-12 rounded-full border-4 border-dashed border-base-content/15"
+        />
+      </button>
+    </li>
   </ul>
 </template>

@@ -57,10 +57,32 @@ const handleEdit = () => {
           class="radio absolute left-4"
           :checked="selected"
         />
-        <button class="flex items-center gap-1 outline-none" @click="$emit('select', profile.id)">
-          <CountryCircleFlag :width="40" :iso="LANGUAGE_METADATA[profile.source].flagIso" />
-          <Icon icon="heroicons:arrow-long-right-16-solid" class="text-4xl text-base-content/35" />
-          <CountryCircleFlag :width="40" :iso="LANGUAGE_METADATA[profile.target].flagIso" />
+        <button
+          class="flex items-center gap-1 outline-none text-base-content/35"
+          @click="$emit('select', profile.id)"
+        >
+          <template v-if="profile.source === profile.target">
+            <Icon
+              icon="heroicons:question-mark-circle-16-solid"
+              class="size-10 rounded-full border-4 border-dashed border-base-content/15"
+            />
+            <Icon
+              icon="heroicons:arrow-long-right-16-solid"
+              class="text-4xl text-base-content/35"
+            />
+            <Icon
+              icon="heroicons:question-mark-circle-16-solid"
+              class="size-10 rounded-full border-4 border-dashed border-base-content/15"
+            />
+          </template>
+          <template v-else>
+            <CountryCircleFlag :width="40" :iso="LANGUAGE_METADATA[profile.source].flagIso" />
+            <Icon
+              icon="heroicons:arrow-long-right-16-solid"
+              class="text-4xl text-base-content/35"
+            />
+            <CountryCircleFlag :width="40" :iso="LANGUAGE_METADATA[profile.target].flagIso" />
+          </template>
         </button>
         <div class="absolute right-4 flex items-center justify-center text-lg">
           <button

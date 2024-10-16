@@ -47,11 +47,24 @@ const handleDelete = (profileId: string) => {
 <template>
   <button
     @click="openModal()"
-    class="flex items-center gap-1 border border-base-content/25 shadow-sm rounded-full py-1 px-3 hover:scale-110 focus:scale-110 transition"
+    class="flex text-base-content/35 items-center gap-1 border border-base-content/25 shadow-sm rounded-full py-1 px-3 hover:scale-110 focus:scale-110 transition"
   >
-    <CountryCircleFlag :width="32" :iso="LANGUAGE_METADATA[profile.source].flagIso" />
-    <Icon icon="heroicons:arrow-long-right-16-solid" class="text-4xl text-base-content/35" />
-    <CountryCircleFlag :width="32" :iso="LANGUAGE_METADATA[profile.target].flagIso" />
+    <template v-if="profile.source === profile.target">
+      <Icon
+        icon="heroicons:question-mark-circle-16-solid"
+        class="size-8 rounded-full border-4 border-dashed border-base-content/15"
+      />
+      <Icon icon="heroicons:arrow-long-right-16-solid" class="text-4xl text-base-content/35" />
+      <Icon
+        icon="heroicons:question-mark-circle-16-solid"
+        class="size-8 rounded-full border-4 border-dashed border-base-content/15"
+      />
+    </template>
+    <template v-else>
+      <CountryCircleFlag :width="32" :iso="LANGUAGE_METADATA[profile.source].flagIso" />
+      <Icon icon="heroicons:arrow-long-right-16-solid" class="text-4xl text-base-content/35" />
+      <CountryCircleFlag :width="32" :iso="LANGUAGE_METADATA[profile.target].flagIso" />
+    </template>
   </button>
   <ModalComponent :show="showModal" compact @close="showModal = false">
     <section class="space-y-4">

@@ -54,9 +54,11 @@ const goToCollection = () => {
     </header>
     <EditTerm v-else :collection-id :term @close="editMode = false" />
     <TermMeanings :term />
-    <EnglishTermDefinitions v-if="profile.target === 'en'" :content="term.content" />
-    <SpanishTermDefinitions v-else-if="profile.target === 'es'" :content="term.content" />
-    <TermReferenceList :content="term.content" />
+    <template v-if="profile.source !== profile.target">
+      <EnglishTermDefinitions v-if="profile.target === 'en'" :content="term.content" />
+      <SpanishTermDefinitions v-else-if="profile.target === 'es'" :content="term.content" />
+      <TermReferenceList :content="term.content" />
+    </template>
     <div class="flex justify-between items-center">
       <p class="text-base-content/50 text-sm">Added {{ timeAgo }}</p>
       <button @click="profileService.removeTerm(term.id)" class="btn btn-sm btn-outline btn-error">

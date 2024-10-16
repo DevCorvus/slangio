@@ -37,7 +37,7 @@ export function createProfile({ source, target }: CreateProfile) {
   return newProfile;
 }
 
-const defaultProfile = createProfile({ source: 'es', target: 'en' });
+const defaultProfile = createProfile({ source: 'en', target: 'en' });
 
 export const profile = useLocalStorage<Profile>('profile', defaultProfile);
 export const profiles = useLocalStorage<Profile[]>('profiles', []);
