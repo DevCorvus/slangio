@@ -18,9 +18,10 @@ export interface CreateProfile {
 export function createProfile({ source, target }: CreateProfile) {
   const defaultCollection: Collection = {
     id: nanoid(),
-    name: 'Default Collection',
+    name: 'Default',
     description: '',
     terms: [],
+    permanent: true,
     createdAt: new Date()
   };
 

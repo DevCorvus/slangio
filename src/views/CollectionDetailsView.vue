@@ -34,7 +34,7 @@ const showModal = ref(false);
   <main v-if="collection" class="space-y-6">
     <header class="text-2xl font-bold flex items-center justify-between">
       <h1>{{ collection.name }}</h1>
-      <div class="dropdown dropdown-left">
+      <div v-if="!collection.permanent" class="dropdown dropdown-left">
         <button class="btn btn-circle btn-ghost text-xl">
           <Icon icon="heroicons:ellipsis-vertical-16-solid" />
         </button>

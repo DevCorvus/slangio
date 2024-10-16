@@ -55,7 +55,13 @@ class ProfileService {
     );
 
     if (collectionId === profile.value.defaultCollection) {
-      profile.value.defaultCollection = profile.value.collections[0].id;
+      const permanentCollection = profile.value.collections.find(
+        (collection) => collection.permanent
+      );
+
+      if (permanentCollection) {
+        profile.value.defaultCollection = permanentCollection.id;
+      }
     }
   }
 

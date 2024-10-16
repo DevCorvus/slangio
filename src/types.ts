@@ -18,6 +18,7 @@ export interface Collection {
   name: string;
   description: string;
   terms: Term[];
+  permanent?: boolean;
   createdAt: Date;
 }
 
