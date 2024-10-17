@@ -2,7 +2,7 @@
 import type { Term } from '@/types';
 import EnglishTermDefinitions from './EnglishTermDefinitions.vue';
 import TermMeanings from './TermMeanings.vue';
-import TermReferenceList from './TermReferenceList.vue';
+import TermLanguageReferenceList from './TermLanguageReferenceList.vue';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
 import EditTerm from './EditTerm.vue';
@@ -57,7 +57,7 @@ const goToCollection = () => {
     <template v-if="profile.source !== profile.target">
       <EnglishTermDefinitions v-if="profile.target === 'en'" :content="term.content" />
       <SpanishTermDefinitions v-else-if="profile.target === 'es'" :content="term.content" />
-      <TermReferenceList :content="term.content" />
+      <TermLanguageReferenceList :content="term.content" />
     </template>
     <div class="flex justify-between items-center">
       <p class="text-base-content/50 text-sm">Added {{ timeAgo }}</p>

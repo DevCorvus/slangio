@@ -1,21 +1,41 @@
 <script setup lang="ts">
-import type { Reference } from '@/types';
+import { profileService } from '@/services/profile.service';
+import type { TermReference } from '@/types';
+import { ref } from 'vue';
+import EditTermReference from './EditTermReference.vue';
 import { Icon } from '@iconify/vue';
 
-defineProps<{ content: string; reference: Reference }>();
+defineProps<{ termId: string; reference: TermReference }>();
+
+const editMode = ref(false);
 </script>
 
 <template>
-  <div class="flex justify-between">
+  <div v-if="!editMode" class="flex justify-between items-center gap-2">
     <a
-      :href="reference.buildUrl(content)"
+      :href="reference.url"
       target="_blank"
       rel="noreferrer nofollow"
-      class="link inline-flex items-center gap-1.5"
+      class="link line-clamp-1 w-80"
     >
-      <Icon icon="heroicons:link-20-solid" class="text-lg" />
-      {{ reference.text }}
+      {{ reference.name || reference.url }}
     </a>
-    <span>{{ reference.about }}</span>
+    <div class="flex items-center gap-1">
+      <button
+        @click="editMode = true"
+        class="btn btn-circle btn-xs tooltip tooltip-bottom"
+        data-tip="Edit"
+      >
+        <Icon icon="heroicons:pencil-16-solid" class="mx-auto" />
+      </button>
+      <button
+        @click="profileService.removeTermReference(termId, reference.id)"
+        class="btn btn-circle btn-xs tooltip tooltip-bottom"
+        data-tip="Delete"
+      >
+        <Icon icon="heroicons:trash-16-solid" class="mx-auto" />
+      </button>
+    </div>
   </div>
+  <EditTermReference v-else :term-id :reference @close="editMode = false" />
 </template>

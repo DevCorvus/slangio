@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import TermReferenceItem from './TermReferenceItem.vue';
+import TermLanguageReferenceItem from './TermLanguageReferenceItem.vue';
 import { computed } from 'vue';
 import { LANGUAGE_CONFIG } from '@/config/languages';
 import { profile } from '@/data';
-import type { Reference } from '@/types';
+import type { LanguageReference } from '@/types';
 
 defineProps<{ content: string }>();
 
@@ -15,7 +15,7 @@ const references = computed(() => {
     // @ts-ignore
     if (LANGUAGE_CONFIG[source][target] !== undefined) {
       // @ts-ignore
-      return LANGUAGE_CONFIG[source][target].references as Reference[];
+      return LANGUAGE_CONFIG[source][target].references as LanguageReference[];
     }
   }
 
@@ -28,7 +28,7 @@ const references = computed(() => {
     <header class="text-lg font-medium">References</header>
     <ul class="space-y-2">
       <li v-for="reference in references" :key="reference.text">
-        <TermReferenceItem :content :reference />
+        <TermLanguageReferenceItem :content :reference />
       </li>
     </ul>
   </section>

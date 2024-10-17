@@ -1,4 +1,4 @@
-import type { Reference, SupportedLanguage } from '@/types';
+import type { LanguageReference, SupportedLanguage } from '@/types';
 
 export const SUPPORTED_LANGUAGES = ['en', 'es'] as const;
 
@@ -23,7 +23,7 @@ export const LANGUAGE_METADATA: LanguageMetadata = {
 type LanguageConfiguration = {
   [Source in SupportedLanguage]?: {
     [Target in Exclude<SupportedLanguage, Source>]?: {
-      references: Reference[];
+      references: LanguageReference[];
     };
   };
 };

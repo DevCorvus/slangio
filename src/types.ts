@@ -26,6 +26,7 @@ export interface Term {
   id: string;
   content: string;
   meanings: TermMeaning[];
+  references: TermReference[];
   createdAt: Date | string;
 }
 
@@ -38,7 +39,13 @@ export interface TermMeaning {
   example: string;
 }
 
-export interface Reference {
+export interface TermReference {
+  id: string;
+  url: string;
+  name: string;
+}
+
+export interface LanguageReference {
   text: string;
   about: string;
   buildUrl(term: string): string;

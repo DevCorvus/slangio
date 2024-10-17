@@ -5,6 +5,8 @@ import { Icon } from '@iconify/vue';
 import { computed, ref } from 'vue';
 import TermMeaningItem from './TermMeaningItem.vue';
 import AddTermMeaning from './AddTermMeaning.vue';
+import AddTermReference from './AddTermReference.vue';
+import TermReferenceItem from './TermReferenceItem.vue';
 
 const props = defineProps<{ term: Term }>();
 
@@ -26,7 +28,8 @@ const meaningsByPartOfSpeech = computed(() => {
   return out;
 });
 
-const showForm = ref(false);
+const showAddMeaningForm = ref(false);
+const showAddReferenceForm = ref(false);
 </script>
 
 <template>
@@ -35,30 +38,49 @@ const showForm = ref(false);
     <header class="collapse-title text-xl font-medium">
       <span>Your Meanings</span>
     </header>
-    <div class="collapse-content space-y-2">
-      <ul class="space-y-3">
-        <template v-for="(meanings, partOfSpeech) in meaningsByPartOfSpeech" :key="partOfSpeech">
-          <li v-if="meanings !== undefined">
-            <section class="space-y-1">
-              <header class="badge badge-info">{{ partOfSpeech }}</header>
-              <ul class="space-y-1">
-                <li v-for="meaning in meanings" :key="meaning.id">
-                  <TermMeaningItem :term-id="term.id" :meaning="meaning" />
-                </li>
-              </ul>
-            </section>
+    <div class="collapse-content space-y-4">
+      <section class="space-y-2">
+        <ul class="space-y-3">
+          <template v-for="(meanings, partOfSpeech) in meaningsByPartOfSpeech" :key="partOfSpeech">
+            <li v-if="meanings !== undefined">
+              <section class="space-y-1">
+                <header class="badge badge-info">{{ partOfSpeech }}</header>
+                <ul class="space-y-1">
+                  <li v-for="meaning in meanings" :key="meaning.id">
+                    <TermMeaningItem :term-id="term.id" :meaning="meaning" />
+                  </li>
+                </ul>
+              </section>
+            </li>
+          </template>
+        </ul>
+        <button
+          v-if="!showAddMeaningForm"
+          @click="showAddMeaningForm = true"
+          class="btn btn-sm btn-block bg-base-100"
+        >
+          <Icon icon="heroicons:plus-16-solid" class="text-lg" />
+          Add Meaning
+        </button>
+        <AddTermMeaning v-else :term-id="term.id" @close="showAddMeaningForm = false" />
+      </section>
+      <section class="space-y-2">
+        <header class="text-lg font-medium">References</header>
+        <ul class="space-y-3">
+          <li v-for="reference in term.references" :key="reference.id">
+            <TermReferenceItem :term-id="term.id" :reference />
           </li>
-        </template>
-      </ul>
-      <button
-        v-if="!showForm"
-        @click="showForm = true"
-        class="btn btn-sm btn-block bg-base-100 tooltip"
-        data-tip="Add"
-      >
-        <Icon icon="heroicons:plus-16-solid" class="text-lg mx-auto" />
-      </button>
-      <AddTermMeaning v-else :term-id="term.id" @close="showForm = false" />
+        </ul>
+        <button
+          v-if="!showAddReferenceForm"
+          @click="showAddReferenceForm = true"
+          class="btn btn-sm btn-block bg-base-100"
+        >
+          <Icon icon="heroicons:plus-16-solid" class="text-lg" />
+          Add Reference
+        </button>
+        <AddTermReference v-else :term-id="term.id" @close="showAddReferenceForm = false" />
+      </section>
     </div>
   </section>
 </template>

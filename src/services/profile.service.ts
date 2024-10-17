@@ -1,5 +1,5 @@
 import { profile } from '@/data';
-import type { Collection, PartOfSpeech, Term, TermMeaning } from '@/types';
+import type { Collection, PartOfSpeech, Term, TermMeaning, TermReference } from '@/types';
 import { nanoid } from 'nanoid';
 
 export interface CreateUpdateCollection {
@@ -16,6 +16,11 @@ export interface CreateUpdateTermMeaning {
   partOfSpeech: PartOfSpeech;
   content: string;
   example: string;
+}
+
+export interface CreateUpdateTermReference {
+  url: string;
+  name: string;
 }
 
 class ProfileService {
@@ -70,6 +75,7 @@ class ProfileService {
       id: nanoid(),
       content,
       meanings: [],
+      references: [],
       createdAt: new Date()
     };
 
@@ -184,7 +190,7 @@ class ProfileService {
       for (const term of collection.terms) {
         if (term.id === termId) {
           term.meanings.push(newTermMeaning);
-          break;
+          return;
         }
       }
     }
@@ -214,6 +220,54 @@ class ProfileService {
         if (term.id === termId) {
           const meaningIndex = term.meanings.findIndex((meaning) => meaning.id === meaningId);
           term.meanings.splice(meaningIndex, 1);
+          return;
+        }
+      }
+    }
+  }
+
+  addTermReference(termId: string, data: CreateUpdateTermReference) {
+    const newReference: TermReference = {
+      id: nanoid(),
+      url: data.url,
+      name: data.name
+    };
+
+    for (const collection of profile.value.collections) {
+      for (const term of collection.terms) {
+        if (term.id === termId) {
+          term.references.push(newReference);
+          return;
+        }
+      }
+    }
+  }
+
+  updateTermReference(termId: string, referenceId: string, data: CreateUpdateTermReference) {
+    for (const collection of profile.value.collections) {
+      for (const term of collection.terms) {
+        if (term.id === termId) {
+          for (const reference of term.references) {
+            if (reference.id === referenceId) {
+              reference.url = data.url;
+              reference.name = data.name;
+              return;
+            }
+          }
+          return;
+        }
+      }
+    }
+  }
+
+  removeTermReference(termId: string, referenceId: string) {
+    for (const collection of profile.value.collections) {
+      for (const term of collection.terms) {
+        if (term.id === termId) {
+          const referenceIndex = term.references.findIndex(
+            (reference) => reference.id === referenceId
+          );
+          term.references.splice(referenceIndex, 1);
           return;
         }
       }
