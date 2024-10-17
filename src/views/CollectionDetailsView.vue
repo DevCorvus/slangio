@@ -25,41 +25,47 @@ const showModal = ref(false);
 </script>
 
 <template>
-  <button @click="$router.back()" class="my-6 btn btn-sm btn-ghost">
-    <div class="flex items-center gap-2">
-      <Icon icon="heroicons:arrow-uturn-left" />
-      <span>Go Back</span>
-    </div>
-  </button>
-  <main v-if="collection" class="space-y-6">
-    <header class="text-2xl font-bold flex items-center justify-between">
-      <h1>{{ collection.name }}</h1>
-      <div v-if="!collection.permanent" class="dropdown dropdown-left">
-        <button class="btn btn-circle btn-ghost text-xl">
-          <Icon icon="heroicons:ellipsis-vertical-16-solid" />
-        </button>
-        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] shadow text-lg">
-          <li>
-            <EditCollection :name="collection.name" :description="collection.description" />
-          </li>
-          <li>
-            <button @click="showModal = true" class="tooltip" data-tip="Delete">
-              <Icon icon="heroicons:trash" />
-            </button>
-            <ConfirmDelete
-              :show="showModal"
-              @confirm="handleRemoveCollection()"
-              @close="showModal = false"
-            />
-          </li>
-        </ul>
+  <template v-if="collection">
+    <button @click="$router.back()" class="my-6 btn btn-sm btn-ghost">
+      <div class="flex items-center gap-2">
+        <Icon icon="heroicons:arrow-uturn-left" />
+        <span>Go Back</span>
       </div>
-    </header>
-    <p v-if="collection.description">{{ collection.description }}</p>
-    <TermList :terms="collection.terms" />
-    <AddTerm />
-  </main>
-  <div v-else class="mt-6">
-    <p class="text-error text-xl">Collection not found</p>
+    </button>
+    <main class="space-y-6">
+      <header class="text-2xl font-bold flex items-center justify-between">
+        <h1>{{ collection.name }}</h1>
+        <div v-if="!collection.permanent" class="dropdown dropdown-left">
+          <button class="btn btn-circle btn-ghost text-xl">
+            <Icon icon="heroicons:ellipsis-vertical-16-solid" />
+          </button>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu bg-base-100 rounded-box z-[1] shadow text-lg"
+          >
+            <li>
+              <EditCollection :name="collection.name" :description="collection.description" />
+            </li>
+            <li>
+              <button @click="showModal = true" class="tooltip" data-tip="Delete">
+                <Icon icon="heroicons:trash" />
+              </button>
+              <ConfirmDelete
+                :show="showModal"
+                @confirm="handleRemoveCollection()"
+                @close="showModal = false"
+              />
+            </li>
+          </ul>
+        </div>
+      </header>
+      <p v-if="collection.description">{{ collection.description }}</p>
+      <TermList :terms="collection.terms" />
+      <AddTerm />
+    </main>
+  </template>
+  <div v-else class="absolute inset-0 flex flex-col items-center gap-4 justify-center min-h-screen">
+    <span class="font-semibold text-3xl">Collection Not Found</span>
+    <RouterLink to="/collections" class="link"> Go to Collections </RouterLink>
   </div>
 </template>
