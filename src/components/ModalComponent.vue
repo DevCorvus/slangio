@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onClickOutside } from '@vueuse/core';
+import { onClickOutside, useEventListener } from '@vueuse/core';
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
 import { watch, useTemplateRef, nextTick } from 'vue';
 
@@ -12,6 +12,12 @@ const emit = defineEmits<{
 const modal = useTemplateRef('modal');
 
 const { activate, deactivate } = useFocusTrap(modal);
+
+useEventListener('keyup', (e) => {
+  if (e.key === 'Escape') {
+    emit('close');
+  }
+});
 
 watch(
   () => props.show,
