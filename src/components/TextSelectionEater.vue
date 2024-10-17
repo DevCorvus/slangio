@@ -5,14 +5,18 @@ import { profile } from '@/data';
 import { profileService } from '@/services/profile.service';
 import { useToasterStore } from '@/stores/toaster';
 
-const { text } = useTextSelection();
+const { text, selection } = useTextSelection();
 
 const show = ref(false);
 
 watchDebounced(
   text,
   () => {
-    show.value = Boolean(text.value.trim());
+    if (selection.value?.anchorNode instanceof Text) {
+      show.value = Boolean(text.value.trim());
+    } else {
+      show.value = false;
+    }
   },
   { debounce: 1000 }
 );
