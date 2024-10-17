@@ -6,6 +6,7 @@ import { LANGUAGE_METADATA } from '@/config/languages';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { nextTick, ref, useTemplateRef, watch } from 'vue';
 import { profile as profileLocalStorage, profiles } from '@/data';
+import { RouterLink } from 'vue-router';
 
 const props = defineProps<{ profile: Profile; selected?: boolean; current?: boolean }>();
 
@@ -84,36 +85,41 @@ const handleEdit = () => {
             <CountryCircleFlag :width="40" :iso="LANGUAGE_METADATA[profile.target].flagIso" />
           </template>
         </button>
-        <div class="absolute right-4 flex items-center justify-center text-lg">
-          <button
-            v-if="!showConfirmDelete"
-            @click="showConfirmDelete = true"
-            :class="
-              current
-                ? 'text-base-content/25'
-                : 'hover:text-error focus:text-error transition tooltip'
-            "
-            :disabled="current"
-            data-tip="Delete Profile"
+        <div class="absolute right-4 flex items-center justify-center gap-1 text-lg">
+          <RouterLink
+            v-if="current"
+            to="/edit-profile"
+            class="hover:text-success focus:text-success transition tooltip"
+            data-tip="Edit Profile"
           >
-            <Icon icon="heroicons:trash" />
-          </button>
-          <div v-else class="flex items-center gap-1">
+            <Icon icon="heroicons:pencil-square" />
+          </RouterLink>
+          <template v-else>
             <button
-              @click="$emit('delete', profile.id)"
-              class="tooltip hover:text-success focus:text-success transition"
-              data-tip="Confirm"
+              v-if="!showConfirmDelete"
+              @click="showConfirmDelete = true"
+              class="hover:text-error focus:text-error transition tooltip"
+              data-tip="Delete Profile"
             >
-              <Icon icon="heroicons:check-16-solid" />
+              <Icon icon="heroicons:trash" />
             </button>
-            <button
-              @click="showConfirmDelete = false"
-              class="tooltip hover:text-error focus:text-error transition"
-              data-tip="Cancel"
-            >
-              <Icon icon="heroicons:x-mark-16-solid" />
-            </button>
-          </div>
+            <div v-else class="flex items-center gap-1">
+              <button
+                @click="$emit('delete', profile.id)"
+                class="tooltip hover:text-success focus:text-success transition"
+                data-tip="Confirm"
+              >
+                <Icon icon="heroicons:check-16-solid" />
+              </button>
+              <button
+                @click="showConfirmDelete = false"
+                class="tooltip hover:text-error focus:text-error transition"
+                data-tip="Cancel"
+              >
+                <Icon icon="heroicons:x-mark-16-solid" />
+              </button>
+            </div>
+          </template>
         </div>
       </div>
     </div>

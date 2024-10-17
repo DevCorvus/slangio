@@ -10,12 +10,12 @@ export const sorting = useLocalStorage<Sorting>('sorting', 'alphabetically');
 
 export const firstTime = useLocalStorage<boolean>('firstTime', true);
 
-export interface CreateProfile {
+export interface CreateUpdateProfile {
   source: SupportedLanguage;
   target: SupportedLanguage;
 }
 
-export function createProfile({ source, target }: CreateProfile) {
+export function createProfile({ source, target }: CreateUpdateProfile) {
   const defaultCollection: Collection = {
     id: nanoid(),
     name: 'Default',

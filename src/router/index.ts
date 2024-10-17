@@ -5,15 +5,11 @@ import CollectionDetailsView from '@/views/CollectionDetailsView.vue';
 import { firstTime } from '@/data';
 import NewProfileView from '@/views/NewProfileView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
+import EditProfileView from '@/views/EditProfileView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: '/new-profile',
-      name: 'new-profile',
-      component: NewProfileView
-    },
     {
       path: '/',
       name: 'home',
@@ -28,6 +24,16 @@ const router = createRouter({
       path: '/collections/:id',
       name: 'collection-details',
       component: CollectionDetailsView
+    },
+    {
+      path: '/new-profile',
+      name: 'new-profile',
+      component: NewProfileView
+    },
+    {
+      path: '/edit-profile',
+      name: 'edit-profile',
+      component: EditProfileView
     },
     {
       path: '/:pathMatch(.*)*',

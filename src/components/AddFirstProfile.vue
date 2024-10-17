@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { firstTime, profile, type CreateProfile } from '@/data';
+import { firstTime, profile, type CreateUpdateProfile } from '@/data';
 import { Icon } from '@iconify/vue';
 import { useRouter } from 'vue-router';
 import ProfileSelector from './ProfileSelector.vue';
 
 const router = useRouter();
 
-const handleChoice = (data: CreateProfile) => {
+const handleChoice = (data: CreateUpdateProfile) => {
   profile.value.source = data.source;
   profile.value.target = data.target;
   firstTime.value = false;

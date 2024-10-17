@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { createProfile, profile, profiles, type CreateUpdateProfile } from '@/data';
+import { profile, type CreateUpdateProfile } from '@/data';
 import { useRouter } from 'vue-router';
-import ProfileSelector from './ProfileSelector.vue';
+import ProfileSelector from '@/components/ProfileSelector.vue';
 import { Icon } from '@iconify/vue';
 
 const router = useRouter();
 
 const handleChoice = (data: CreateUpdateProfile) => {
-  const newProfile = createProfile(data);
-
-  profiles.value.push(profile.value);
-  profile.value = newProfile;
+  profile.value.source = data.source;
+  profile.value.target = data.target;
 
   router.push('/');
 };
@@ -26,7 +24,7 @@ const handleChoice = (data: CreateUpdateProfile) => {
   <main class="hero min-h-screen absolute inset-0 -z-10">
     <div class="hero-content max-w-lg flex flex-col gap-10">
       <header>
-        <h1 class="text-4xl font-black text-center">Add Profile</h1>
+        <h1 class="text-4xl font-black text-center">Edit Profile</h1>
       </header>
       <section class="space-y-4 w-full">
         <header class="text-center font-semibold text-lg">Choose</header>
