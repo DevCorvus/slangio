@@ -12,7 +12,7 @@ import { useTimeAgo } from '@vueuse/core';
 import { profile } from '@/data';
 import SpanishTermDefinitions from './SpanishTermDefinitions.vue';
 
-const props = defineProps<{ term: Term; showCollectionLink?: boolean }>();
+const props = defineProps<{ term: Term; showCollectionLink?: boolean; hideMutations?: boolean }>();
 
 const timeAgo = useTimeAgo(props.term.createdAt);
 
@@ -36,7 +36,11 @@ const goToCollection = () => {
     <header v-if="!editMode" class="flex items-center justify-between">
       <div class="flex items-center gap-2">
         <h3 class="text-xl font-bold">{{ term.content }}</h3>
-        <button @click="editMode = true" class="btn btn-circle btn-ghost btn-sm text-lg">
+        <button
+          v-if="!hideMutations"
+          @click="editMode = true"
+          class="btn btn-circle btn-ghost btn-sm text-lg"
+        >
           <Icon icon="heroicons:pencil-square" />
         </button>
       </div>
@@ -61,7 +65,11 @@ const goToCollection = () => {
     </template>
     <div class="flex justify-between items-center">
       <p class="text-base-content/50 text-sm">Added {{ timeAgo }}</p>
-      <button @click="profileService.removeTerm(term.id)" class="btn btn-sm btn-outline btn-error">
+      <button
+        v-if="!hideMutations"
+        @click="profileService.removeTerm(term.id)"
+        class="btn btn-sm btn-outline btn-error"
+      >
         <span>Delete</span>
         <Icon icon="heroicons:trash" />
       </button>

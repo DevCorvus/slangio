@@ -10,7 +10,7 @@ export interface Profile {
   target: SupportedLanguage;
   collections: Collection[];
   defaultCollection: string;
-  createdAt: Date;
+  createdAt: Date | string;
 }
 
 export interface Collection {
@@ -19,7 +19,7 @@ export interface Collection {
   description: string;
   terms: Term[];
   permanent?: boolean;
-  createdAt: Date;
+  createdAt: Date | string;
 }
 
 export interface Term {
@@ -27,6 +27,8 @@ export interface Term {
   content: string;
   meanings: TermMeaning[];
   references: TermReference[];
+  metadata: TermMetadata;
+  learnedAt: null | Date | string;
   createdAt: Date | string;
 }
 
@@ -45,8 +47,34 @@ export interface TermReference {
   name: string;
 }
 
+export interface TermMetadata {
+  quiz: TermQuizMetadata;
+}
+
+export interface TermQuizMetadata {
+  priority: number;
+  stage: number;
+  cooldown: Date | string;
+  record: [number, number];
+}
+
 export interface LanguageReference {
   text: string;
   about: string;
   buildUrl(term: string): string;
+}
+
+export interface QuizConfig {
+  collectionName: string;
+  terms: Term[];
+  duration: number | null;
+  timer: number | null;
+}
+
+export interface QuizResult {
+  collectionName: string;
+  termsTested: {
+    yes: Term[];
+    no: Term[];
+  };
 }

@@ -6,6 +6,7 @@ import { firstTime } from '@/data';
 import NewProfileView from '@/views/NewProfileView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 import EditProfileView from '@/views/EditProfileView.vue';
+import QuizView from '@/views/QuizView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,6 +25,11 @@ const router = createRouter({
       path: '/collections/:id',
       name: 'collection-details',
       component: CollectionDetailsView
+    },
+    {
+      path: '/quiz',
+      name: 'quiz',
+      component: QuizView
     },
     {
       path: '/new-profile',

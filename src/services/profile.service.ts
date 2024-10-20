@@ -1,6 +1,14 @@
 import { profile } from '@/data';
-import type { Collection, PartOfSpeech, Term, TermMeaning, TermReference } from '@/types';
+import type {
+  Collection,
+  PartOfSpeech,
+  Term,
+  TermMeaning,
+  TermMetadata,
+  TermReference
+} from '@/types';
 import { nanoid } from 'nanoid';
+import { quizService } from './quiz.service';
 
 export interface CreateUpdateCollection {
   name: string;
@@ -76,6 +84,10 @@ class ProfileService {
       content,
       meanings: [],
       references: [],
+      metadata: {
+        quiz: quizService.getDefault()
+      },
+      learnedAt: null,
       createdAt: new Date()
     };
 
@@ -268,6 +280,28 @@ class ProfileService {
             (reference) => reference.id === referenceId
           );
           term.references.splice(referenceIndex, 1);
+          return;
+        }
+      }
+    }
+  }
+
+  setTermMetadata(termId: string, data: TermMetadata) {
+    for (const collection of profile.value.collections) {
+      for (const term of collection.terms) {
+        if (term.id === termId) {
+          term.metadata = data;
+          return;
+        }
+      }
+    }
+  }
+
+  setTermLearnedState(termId: string, newState: boolean) {
+    for (const collection of profile.value.collections) {
+      for (const term of collection.terms) {
+        if (term.id === termId) {
+          term.learnedAt = newState ? new Date() : null;
           return;
         }
       }

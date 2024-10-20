@@ -15,7 +15,7 @@ import { theme } from '@/data';
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/learn" class="tooltip tooltip-bottom" data-tip="Learn">
+          <RouterLink to="/quiz" class="tooltip tooltip-bottom" data-tip="Learn">
             <Icon icon="heroicons:academic-cap-solid" />
           </RouterLink>
         </li>

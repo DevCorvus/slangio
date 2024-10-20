@@ -5,10 +5,16 @@ import { nanoid } from 'nanoid';
 const isDark = usePreferredDark();
 export const theme = useLocalStorage('theme', isDark ? 'dark' : 'light');
 
+export const firstTime = useLocalStorage<boolean>('firstTime', true);
+
 type Sorting = 'alphabetically' | 'ascending' | 'descending';
 export const sorting = useLocalStorage<Sorting>('sorting', 'alphabetically');
 
-export const firstTime = useLocalStorage<boolean>('firstTime', true);
+export const quizConfig = useLocalStorage('quizConfig', {
+  maxTerms: 100,
+  maxDuration: 0,
+  timer: 0
+});
 
 export interface CreateUpdateProfile {
   source: SupportedLanguage;
