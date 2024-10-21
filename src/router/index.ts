@@ -7,6 +7,7 @@ import NewProfileView from '@/views/NewProfileView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 import EditProfileView from '@/views/EditProfileView.vue';
 import QuizView from '@/views/QuizView.vue';
+import TermsLearnedView from '@/views/TermsLearnedView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,6 +31,11 @@ const router = createRouter({
       path: '/quiz',
       name: 'quiz',
       component: QuizView
+    },
+    {
+      path: '/learned',
+      name: 'learned',
+      component: TermsLearnedView
     },
     {
       path: '/new-profile',

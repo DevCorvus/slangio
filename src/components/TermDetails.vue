@@ -29,15 +29,20 @@ const goToCollection = () => {
     router.push('/collections/' + collectionId);
   }
 };
+
+const isLearned = props.term.learnedAt !== null;
 </script>
 
 <template>
   <section class="space-y-6">
     <header v-if="!editMode" class="flex items-center justify-between">
       <div class="flex items-center gap-2">
+        <div v-if="isLearned" class="tooltip" data-tip="Learned">
+          <Icon icon="heroicons:check-circle" class="text-4xl text-success" />
+        </div>
         <h3 class="text-xl font-bold">{{ term.content }}</h3>
         <button
-          v-if="!hideMutations"
+          v-if="!isLearned && !hideMutations"
           @click="editMode = true"
           class="btn btn-circle btn-ghost btn-sm text-lg"
         >

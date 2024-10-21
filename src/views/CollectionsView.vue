@@ -15,7 +15,13 @@ import { Icon } from '@iconify/vue';
           <Icon icon="heroicons:plus-20-solid" class="btn btn-sm btn-circle" />
         </AddCollection>
       </div>
-      <TermFinder />
+      <div class="flex gap-2">
+        <RouterLink to="/learned" class="btn btn-sm text-success">
+          <Icon icon="heroicons:check-circle-20-solid" class="text-xl" />
+          <span>Learned</span>
+        </RouterLink>
+        <TermFinder />
+      </div>
     </header>
     <CollectionStats />
     <CollectionList />

@@ -98,7 +98,7 @@ const sortingTooltip = computed(() => {
     class="btn bg-base-100 text-lg tooltip"
     :data-tip="sortingTooltip"
   >
-    <span v-if="sorting === 'alphabetically'"> A </span>
+    <span v-if="sorting === 'alphabetically'" class="px-[3px]"> A </span>
     <Icon v-else-if="sorting === 'ascending'" icon="heroicons:bars-arrow-up" />
     <Icon v-else-if="sorting === 'descending'" icon="heroicons:bars-arrow-down" />
   </button>
