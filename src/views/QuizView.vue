@@ -2,17 +2,12 @@
 import QuizResults from '@/components/QuizResults.vue';
 import QuizSession from '@/components/QuizSession.vue';
 import QuizStarter from '@/components/QuizStarter.vue';
-import { profile } from '@/data';
+import { useTermStore } from '@/stores/term';
 import type { QuizConfig, QuizResult } from '@/types';
-import { isValidQuizTerm } from '@/utils/term';
 import { useTimeout } from '@vueuse/core';
 import { ref, watch } from 'vue';
 
-const getValidCollections = () => {
-  return profile.value.collections.filter((collection) => collection.terms.some(isValidQuizTerm));
-};
-
-const validCollections = ref(getValidCollections());
+const store = useTermStore();
 
 const config = ref<QuizConfig | null>(null);
 const result = ref<QuizResult | null>(null);
@@ -27,19 +22,14 @@ watch(config, () => {
 });
 
 const reset = () => {
-  validCollections.value = getValidCollections();
   config.value = null;
   result.value = null;
 };
 </script>
 
 <template>
-  <main v-if="validCollections.length > 0" class="max-w-md w-full p-10 mx-auto">
-    <QuizStarter
-      v-if="config === null"
-      :collections="validCollections"
-      @config="(data) => (config = data)"
-    />
+  <main v-if="store.hasToLearn" class="max-w-md w-full p-10 mx-auto">
+    <QuizStarter v-if="config === null" @config="(data) => (config = data)" />
     <template v-else-if="result === null">
       <div v-if="!ready" class="absolute inset-0 flex justify-center items-center">
         <span class="loading loading-ring loading-lg" />

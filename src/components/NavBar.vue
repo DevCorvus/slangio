@@ -2,6 +2,9 @@
 import { RouterLink } from 'vue-router';
 import { Icon } from '@iconify/vue';
 import { theme } from '@/data';
+import { useTermStore } from '@/stores/term';
+
+const store = useTermStore();
 </script>
 
 <template>
@@ -15,8 +18,11 @@ import { theme } from '@/data';
           </RouterLink>
         </li>
         <li>
-          <RouterLink to="/quiz" class="tooltip tooltip-bottom" data-tip="Learn">
-            <Icon icon="heroicons:academic-cap-solid" />
+          <RouterLink to="/quiz" class="relative tooltip tooltip-bottom" data-tip="Learn">
+            <Icon
+              icon="heroicons:academic-cap-solid"
+              :class="store.hasToLearn ? 'chameleon' : ''"
+            />
           </RouterLink>
         </li>
         <li>
@@ -33,3 +39,23 @@ import { theme } from '@/data';
     </nav>
   </header>
 </template>
+
+<style>
+.chameleon {
+  animation: chameleon 3s ease-in-out alternate infinite;
+}
+
+@keyframes chameleon {
+  0% {
+    @apply text-base-content;
+  }
+
+  50% {
+    @apply text-success;
+  }
+
+  100% {
+    @apply text-base-content;
+  }
+}
+</style>

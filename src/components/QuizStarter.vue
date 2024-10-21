@@ -1,38 +1,46 @@
 <script setup lang="ts">
-import { quizConfig } from '@/data';
+import { profile, quizConfig } from '@/data';
+import { useTermStore } from '@/stores/term';
 import type { Collection, QuizConfig } from '@/types';
 import { isValidQuizTerm } from '@/utils/term';
 import { getMinutesInMs, getSecondsInMs } from '@/utils/time';
 import { computed, reactive, type ComputedRef } from 'vue';
-
-const props = defineProps<{
-  collections: Collection[];
-}>();
+import { useRoute } from 'vue-router';
 
 const emit = defineEmits<{
   (e: 'config', data: QuizConfig): void;
 }>();
 
-const totalValidTermsCount = computed(() => {
-  const out: { [key: string]: number } = {};
+const route = useRoute();
 
-  for (const collection of props.collections) {
-    out[collection.id] = collection.terms.reduce((prev, term) => {
-      return isValidQuizTerm(term) ? prev + 1 : prev;
-    }, 0);
+const store = useTermStore();
+
+const collections = computed(() => {
+  const out = [];
+
+  for (const collectionId in store.toLearn) {
+    if (store.toLearn[collectionId] === 0) continue;
+
+    const collection = profile.value.collections.find(
+      (collection) => collection.id === collectionId
+    );
+
+    if (collection) {
+      out.push(collection);
+    }
   }
 
   return out;
 });
 
 const selectedCollection: ComputedRef<Collection> = computed(
-  () => props.collections.find((collection) => collection.id === formData.collectionId)!
+  () => collections.value.find((collection) => collection.id === formData.collectionId)!
 );
 
 const validTerms = computed(() => selectedCollection.value.terms.filter(isValidQuizTerm));
 
 const formData = reactive({
-  collectionId: props.collections[0].id,
+  collectionId: route.query.collectionId || collections.value[0].id,
   maxTerms: quizConfig.value.maxTerms,
   maxDuration: quizConfig.value.maxDuration,
   timer: quizConfig.value.timer
@@ -57,10 +65,7 @@ const handleSubmit = () => {
   quizConfig.value.maxDuration = formData.maxDuration;
   quizConfig.value.timer = formData.timer;
 
-  const numberOfTerms = Math.min(
-    totalValidTermsCount.value[selectedCollection.value.id],
-    formData.maxTerms
-  );
+  const numberOfTerms = Math.min(store.toLearn[selectedCollection.value.id], formData.maxTerms);
 
   const terms = validTerms.value.slice(0, numberOfTerms);
 
@@ -100,7 +105,7 @@ const handleSubmit = () => {
             </div>
             <select v-model="formData.collectionId" class="select select-bordered">
               <option v-for="collection in collections" :value="collection.id" :key="collection.id">
-                ({{ totalValidTermsCount[collection.id] }}) {{ collection.name }}
+                ({{ store.toLearn[collection.id] }}) {{ collection.name }}
               </option>
             </select>
           </label>
