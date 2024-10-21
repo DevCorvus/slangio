@@ -17,13 +17,13 @@ const validCollections = ref(getValidCollections());
 const config = ref<QuizConfig | null>(null);
 const result = ref<QuizResult | null>(null);
 
-const { ready, start, stop } = useTimeout(3000, {
-  immediate: Boolean(config.value?.timer),
+const { ready, start } = useTimeout(3000, {
+  immediate: false,
   controls: true
 });
 
-watch(ready, () => {
-  ready.value ? start() : stop();
+watch(config, () => {
+  if (config.value?.timer) start();
 });
 
 const reset = () => {
@@ -41,7 +41,7 @@ const reset = () => {
       @config="(data) => (config = data)"
     />
     <template v-else-if="result === null">
-      <div v-if="!ready" class="flex justify-center items-center">
+      <div v-if="!ready" class="absolute inset-0 flex justify-center items-center">
         <span class="loading loading-ring loading-lg" />
       </div>
       <QuizSession v-else :config @finish="(data) => (result = data)" />
