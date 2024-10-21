@@ -24,7 +24,7 @@ const skip = () => {
   <main class="hero min-h-screen">
     <div class="hero-content max-w-lg flex flex-col gap-10">
       <header>
-        <h1 class="text-4xl font-black text-center">Welcome to Vocabulary</h1>
+        <h1 class="text-4xl font-black text-center">Welcome to Slangio</h1>
       </header>
       <section class="space-y-4 w-full">
         <header class="text-center font-semibold text-lg">Choose to start</header>

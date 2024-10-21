@@ -10,7 +10,9 @@ const store = useTermStore();
 <template>
   <header class="navbar w-full z-30 shadow bg-base-100 sticky">
     <nav class="container mx-auto flex justify-between">
-      <RouterLink to="/" class="btn btn-ghost text-xl text-base-content">Vocabulary</RouterLink>
+      <RouterLink to="/" class="btn btn-ghost text-xl text-base-content">
+        Slangio <span class="badge badge-outline">BETA</span>
+      </RouterLink>
       <ul class="menu menu-horizontal text-xl">
         <li>
           <RouterLink to="/collections" class="tooltip tooltip-bottom" data-tip="Collections">

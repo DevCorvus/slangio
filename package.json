@@ -1,6 +1,6 @@
 {
-  "name": "vocabulary",
-  "version": "0.0.0",
+  "name": "slangio",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
