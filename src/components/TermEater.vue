@@ -15,18 +15,16 @@ onMounted(() => {
 const toaster = useToasterStore();
 
 const handleNewTerm = (collectionId: string) => {
-  const content = input.value.trim();
+  if (!input.value) return;
 
-  if (!content) return;
-
-  const alreadyExists = profileService.doesTermAlreadyExists(content);
+  const alreadyExists = profileService.doesTermAlreadyExists(input.value);
 
   if (alreadyExists) {
     toaster.error('Term already exists');
     return;
   }
 
-  profileService.addTerm(collectionId, content);
+  profileService.addTerm(collectionId, input.value);
   input.value = '';
 };
 
@@ -45,7 +43,7 @@ const selectedCollection = computed(() => {
   <form @submit.prevent="handleNewTerm(selectedCollection.id)">
     <input
       ref="inputRef"
-      v-model="input"
+      v-model.trim="input"
       type="text"
       class="input input-bordered input-primary input-lg rounded-full text-center w-full"
       placeholder="Enter new term"

@@ -25,12 +25,10 @@ const handleUpdateCollection = () => {
     return;
   }
 
-  const name = formData.name.trim();
+  if (!formData.name) return;
 
-  if (!name) return;
-
-  if (name !== props.name) {
-    const alreadyExists = profileService.doesCollectionAlreadyExists(name);
+  if (formData.name !== props.name) {
+    const alreadyExists = profileService.doesCollectionAlreadyExists(formData.name);
 
     if (alreadyExists) {
       toaster.error('Collection already exists');
@@ -38,15 +36,10 @@ const handleUpdateCollection = () => {
     }
   }
 
-  const description = formData.description.trim();
-
   profileService.updateCollection(route.params.id as string, {
-    name,
-    description
+    name: formData.name,
+    description: formData.description
   });
-
-  formData.name = name;
-  formData.description = description;
 
   showModal.value = false;
 };
@@ -63,13 +56,13 @@ const handleUpdateCollection = () => {
       </header>
       <div class="space-y-4">
         <input
-          v-model="formData.name"
+          v-model.trim="formData.name"
           type="text"
           class="input input-bordered w-full"
           placeholder="Enter collection name"
         />
         <textarea
-          v-model="formData.description"
+          v-model.trim="formData.description"
           class="textarea textarea-bordered w-full h-28"
           placeholder="Enter collection description (optional)"
         />

@@ -26,14 +26,12 @@ const handleMeaningUpdate = () => {
     return;
   }
 
-  const content = formData.content.trim();
-
-  if (!content) return;
+  if (!formData.content) return;
 
   profileService.updateTermMeaning(props.termId, props.meaning.id, {
     partOfSpeech: formData.partOfSpeech,
-    content,
-    example: formData.example.trim()
+    content: formData.content,
+    example: formData.example
   });
 
   emit('close');
@@ -64,14 +62,14 @@ const handleMeaningUpdate = () => {
         </div>
         <input
           type="text"
-          v-model="formData.content"
+          v-model.trim="formData.content"
           class="input input-sm input-bordered grow"
           placeholder="Enter custom meaning"
         />
       </label>
     </div>
     <textarea
-      v-model="formData.example"
+      v-model.trim="formData.example"
       class="textarea textarea-sm textarea-bordered w-full"
       placeholder="Enter example sentence (optional)"
     ></textarea>

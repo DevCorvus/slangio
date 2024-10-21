@@ -8,18 +8,16 @@ const input = ref('');
 const toaster = useToasterStore();
 
 const handleNewTerm = (collectionId: string) => {
-  const content = input.value.trim();
+  if (!input.value) return;
 
-  if (!content) return;
-
-  const alreadyExists = profileService.doesTermAlreadyExists(content);
+  const alreadyExists = profileService.doesTermAlreadyExists(input.value);
 
   if (alreadyExists) {
     toaster.error('Term already exists');
     return;
   }
 
-  profileService.addTerm(collectionId, content);
+  profileService.addTerm(collectionId, input.value);
   input.value = '';
 };
 </script>
@@ -32,7 +30,7 @@ const handleNewTerm = (collectionId: string) => {
     <input
       type="text"
       class="input input-bordered input-primary w-full"
-      v-model="input"
+      v-model.trim="input"
       placeholder="Enter new term"
     />
     <button class="btn btn-primary">Submit</button>

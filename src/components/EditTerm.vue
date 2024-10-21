@@ -24,12 +24,10 @@ const handleTermUpdate = () => {
     return;
   }
 
-  const content = formData.content.trim();
+  if (!formData.content) return;
 
-  if (!content) return;
-
-  if (content !== props.term.content) {
-    const alreadyExists = profileService.doesTermAlreadyExists(content);
+  if (formData.content !== props.term.content) {
+    const alreadyExists = profileService.doesTermAlreadyExists(formData.content);
 
     if (alreadyExists) {
       if (alreadyExists) {
@@ -39,7 +37,10 @@ const handleTermUpdate = () => {
     }
   }
 
-  profileService.updateTerm(props.term.id, { content, collectionId: formData.collectionId });
+  profileService.updateTerm(props.term.id, {
+    content: formData.content,
+    collectionId: formData.collectionId
+  });
   emit('close');
 };
 </script>
@@ -58,7 +59,7 @@ const handleTermUpdate = () => {
       </select>
       <input
         type="text"
-        v-model="formData.content"
+        v-model.trim="formData.content"
         class="input input-bordered w-full join-item"
         autofocus
       />

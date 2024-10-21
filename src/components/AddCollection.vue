@@ -14,18 +14,16 @@ const formData = reactive<CreateUpdateCollection>({
 const toaster = useToasterStore();
 
 const handleNewCollection = () => {
-  const name = formData.name.trim();
+  if (!formData.name) return;
 
-  if (!name) return;
-
-  const alreadyExists = profileService.doesCollectionAlreadyExists(name);
+  const alreadyExists = profileService.doesCollectionAlreadyExists(formData.name);
 
   if (alreadyExists) {
     toaster.error('Collection already exists');
     return;
   }
 
-  profileService.addCollection({ name, description: formData.description });
+  profileService.addCollection({ name: formData.name, description: formData.description });
 
   formData.name = '';
   formData.description = '';
@@ -45,13 +43,13 @@ const handleNewCollection = () => {
       </header>
       <div class="space-y-4">
         <input
-          v-model="formData.name"
+          v-model.trim="formData.name"
           type="text"
           class="input input-bordered w-full"
           placeholder="Enter collection name"
         />
         <textarea
-          v-model="formData.description"
+          v-model.trim="formData.description"
           class="textarea textarea-bordered w-full h-28"
           placeholder="Enter collection description (optional)"
         />

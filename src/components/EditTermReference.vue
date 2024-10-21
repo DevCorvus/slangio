@@ -26,7 +26,7 @@ const handleMeaningUpdate = () => {
 
   profileService.updateTermReference(props.termId, props.reference.id, {
     url: url.data,
-    name: formData.name.trim()
+    name: formData.name
   });
 
   emit('close');
@@ -39,13 +39,13 @@ const handleMeaningUpdate = () => {
     <div class="space-y-2">
       <input
         type="text"
-        v-model="formData.url"
+        v-model.trim="formData.url"
         class="input input-sm input-bordered w-full"
         placeholder="Enter reference URL"
       />
       <input
         type="text"
-        v-model="formData.name"
+        v-model.trim="formData.name"
         class="input input-sm input-bordered w-full"
         placeholder="Enter reference name (optional)"
       />
