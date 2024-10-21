@@ -18,7 +18,7 @@ const showModal = ref(false);
       {{ term.content }}
     </button>
     <ModalComponent :show="showModal" @close="showModal = false">
-      <TermDetails :term />
+      <TermDetails :term show-collection-link />
     </ModalComponent>
   </div>
 </template>
