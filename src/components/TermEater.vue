@@ -53,7 +53,7 @@ const selectedCollection = computed(() => {
       class="input input-bordered input-primary input-lg rounded-full text-center w-full"
       placeholder="Enter new term"
     />
-    <div class="relative w-3/4 mx-auto">
+    <div class="relative w-[70%] mx-auto">
       <div class="dropdown dropdown-bottom w-full">
         <button type="button" class="btn btn-primary btn-sm w-full rounded-b-full">
           <span class="line-clamp-1">
@@ -70,9 +70,9 @@ const selectedCollection = computed(() => {
       </div>
       <RouterLink
         :to="'/collections/' + selectedCollection.id"
-        class="absolute top-1 right-6 rounded-full border-2 border-primary-content text-primary-content p-0.5"
+        class="btn btn-xs btn-circle btn-outline text-neutral-content border-2 absolute top-1 right-6"
       >
-        <Icon icon="heroicons:arrow-up-right-16-solid" />
+        <Icon icon="heroicons:arrow-up-right-16-solid" class="text-lg shrink-0" />
       </RouterLink>
     </div>
   </form>

@@ -73,8 +73,8 @@ const store = useTermStore();
         </div>
       </header>
       <p v-if="collection.description">{{ collection.description }}</p>
-      <TermList :terms="collection.terms" />
       <AddTerm />
+      <TermList :terms="collection.terms" />
     </main>
   </template>
   <div v-else class="absolute inset-0 flex flex-col items-center gap-4 justify-center min-h-screen">
