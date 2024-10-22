@@ -3,14 +3,19 @@ import { createProfile, profile, profiles, type CreateUpdateProfile } from '@/da
 import { useRouter } from 'vue-router';
 import ProfileSelector from './ProfileSelector.vue';
 import { Icon } from '@iconify/vue';
+import { useTermStore } from '@/stores/term';
 
 const router = useRouter();
+
+const store = useTermStore();
 
 const handleChoice = (data: CreateUpdateProfile) => {
   const newProfile = createProfile(data);
 
   profiles.value.push(profile.value);
   profile.value = newProfile;
+
+  store.refreshToLearn();
 
   router.push('/');
 };

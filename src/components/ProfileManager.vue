@@ -7,6 +7,7 @@ import ProfileItem from './ProfileItem.vue';
 import CountryCircleFlag from './CountryCircleFlag.vue';
 import { LANGUAGE_METADATA } from '@/config/languages';
 import { RouterLink } from 'vue-router';
+import { useTermStore } from '@/stores/term';
 
 const selectedProfileId = ref(profile.value.id);
 
@@ -16,6 +17,8 @@ const openModal = () => {
   selectedProfileId.value = profile.value.id;
   showModal.value = true;
 };
+
+const store = useTermStore();
 
 const handleSelect = () => {
   if (selectedProfileId.value === profile.value.id) {
@@ -30,6 +33,8 @@ const handleSelect = () => {
 
     profiles.value.push(profile.value);
     profile.value = selectedProfile;
+
+    store.refreshToLearn();
 
     showModal.value = false;
   }
