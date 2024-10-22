@@ -4,6 +4,9 @@ import { ref } from 'vue';
 import { profile } from '@/data';
 import { profileService } from '@/services/profile.service';
 import { useToasterStore } from '@/stores/toaster';
+import soundEffect from '@/assets/sound-effect.ogg';
+
+const audio = new Audio(soundEffect);
 
 const { text, selection } = useTextSelection();
 
@@ -34,6 +37,8 @@ const handleNewTerm = (text: string) => {
       toaster.error('Term already exists');
       return;
     }
+
+    audio.play();
 
     profileService.addTerm(profile.value.defaultCollection, content);
   }
