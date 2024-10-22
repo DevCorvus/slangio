@@ -28,7 +28,7 @@ const reset = () => {
 </script>
 
 <template>
-  <main v-if="store.hasToLearn" class="max-w-md w-full p-10 mx-auto">
+  <main v-if="store.hasToLearn || result !== null" class="max-w-md w-full p-10 mx-auto">
     <QuizStarter v-if="config === null" @config="(data) => (config = data)" />
     <template v-else-if="result === null">
       <div v-if="!ready" class="absolute inset-0 flex justify-center items-center">
