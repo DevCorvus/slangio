@@ -5,9 +5,11 @@ import QuizStarter from '@/components/QuizStarter.vue';
 import { useTermStore } from '@/stores/term';
 import type { QuizConfig, QuizResult } from '@/types';
 import { useTimeout } from '@vueuse/core';
-import { ref, watch } from 'vue';
+import { onBeforeMount, ref, watch } from 'vue';
 
 const store = useTermStore();
+
+onBeforeMount(store.refreshToLearn);
 
 const config = ref<QuizConfig | null>(null);
 const result = ref<QuizResult | null>(null);
