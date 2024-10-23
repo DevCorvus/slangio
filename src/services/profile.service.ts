@@ -15,6 +15,12 @@ export interface CreateUpdateCollection {
   description: string;
 }
 
+export interface CreateTerm {
+  content: string;
+  meanings?: CreateUpdateTermMeaning[];
+  references?: CreateUpdateTermReference[];
+}
+
 export interface UpdateTerm {
   collectionId: string;
   content: string;
@@ -32,7 +38,11 @@ export interface CreateUpdateTermReference {
 }
 
 class ProfileService {
-  addCollection(data: CreateUpdateCollection) {
+  addCollection(data: CreateUpdateCollection): Collection {
+    if (this.collectionExistsByName(data.name)) {
+      throw new Error('Collection already exists');
+    }
+
     const newCollection: Collection = {
       id: nanoid(),
       name: data.name,
@@ -42,9 +52,15 @@ class ProfileService {
     };
 
     profile.value.collections.push(newCollection);
+
+    return newCollection;
   }
 
-  doesCollectionAlreadyExists(name: string) {
+  getCollectionById(collectionId: string): Collection | null {
+    return profile.value.collections.find((collection) => collection.id === collectionId) || null;
+  }
+
+  collectionExistsByName(name: string) {
     const lowerName = name.toLowerCase();
 
     return profile.value.collections.some(
@@ -53,6 +69,10 @@ class ProfileService {
   }
 
   updateCollection(collectionId: string, data: CreateUpdateCollection) {
+    if (this.collectionExistsByName(data.name)) {
+      throw new Error('Collection already exists');
+    }
+
     profile.value.collections = profile.value.collections.map((collection) => {
       if (collection.id === collectionId) {
         collection.name = data.name;
@@ -78,12 +98,36 @@ class ProfileService {
     }
   }
 
-  addTerm(collectionId: string, content: string) {
+  addTerm(collectionId: string, data: CreateTerm): Term {
+    const collection = this.getCollectionById(collectionId);
+
+    if (!collection) {
+      throw new Error('Collection not found');
+    }
+
+    if (this.termExistsByContent(data.content)) {
+      throw new Error('Term already exists');
+    }
+
+    let meanings: TermMeaning[] = [];
+    let references: TermReference[] = [];
+
+    if (data.meanings) {
+      meanings = data.meanings.map((meaning) => ({ id: nanoid(), ...meaning }));
+    }
+
+    if (data.references) {
+      references = data.references.map((reference) => ({
+        id: nanoid(),
+        ...reference
+      }));
+    }
+
     const newTerm: Term = {
       id: nanoid(),
-      content,
-      meanings: [],
-      references: [],
+      content: data.content,
+      meanings,
+      references,
       metadata: {
         quiz: quizService.getDefault()
       },
@@ -91,15 +135,12 @@ class ProfileService {
       createdAt: new Date()
     };
 
-    for (const collection of profile.value.collections) {
-      if (collection.id === collectionId) {
-        collection.terms.push(newTerm);
-        return;
-      }
-    }
+    collection.terms.push(newTerm);
+
+    return newTerm;
   }
 
-  doesTermAlreadyExists(content: string) {
+  termExistsByContent(content: string) {
     const lowerContent = content.toLowerCase();
 
     return profile.value.collections.some((collection) =>
@@ -120,6 +161,10 @@ class ProfileService {
   }
 
   updateTerm(termId: string, data: UpdateTerm) {
+    if (this.termExistsByContent(data.content)) {
+      throw new Error('Term already exists');
+    }
+
     for (const collection of profile.value.collections) {
       collection.terms.forEach((term, i) => {
         if (term.id === termId) {

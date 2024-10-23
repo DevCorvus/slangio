@@ -8,18 +8,22 @@ import { useFileDialog } from '@vueuse/core';
 import { useToasterStore } from '@/stores/toaster';
 import { profileSchema } from '@/schemas/profile';
 import { useTermStore } from '@/stores/term';
+import { localeDateNow } from '@/utils/date';
 
 const toaster = useToasterStore();
 
 const showModal = ref(false);
 
-const exportProfile = () => {
-  const date = new Date().toLocaleDateString().replace(/\//g, '-');
-  const filename = `profile.${profile.value.id}.${date}`;
+const handleExport = () => {
+  const filename = `profile.${profile.value.name || profile.value.id}.${localeDateNow()}`;
   downloadJson(filename, profile.value);
 };
 
-const { open: openFileDialog, onChange } = useFileDialog({
+const {
+  open: openFileDialog,
+  onChange,
+  reset
+} = useFileDialog({
   accept: 'application/json',
   multiple: false
 });
@@ -51,6 +55,8 @@ onChange(async (files) => {
       showModal.value = false;
     } catch {
       toaster.error('Invalid profile import');
+    } finally {
+      reset();
     }
   }
 });
@@ -70,7 +76,7 @@ onChange(async (files) => {
         <h3 class="text-lg font-bold">Profile Data</h3>
       </header>
       <div class="space-y-2">
-        <button @click="exportProfile()" class="btn btn-block">Export Profile</button>
+        <button @click="handleExport()" class="btn btn-block">Export Profile</button>
         <button @click="openFileDialog()" class="btn btn-block">Import Profile</button>
       </div>
       <p class="flex items-center gap-2 text-base-content/50">

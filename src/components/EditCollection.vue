@@ -5,6 +5,7 @@ import { reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import ModalComponent from './ModalComponent.vue';
 import { useToasterStore } from '@/stores/toaster';
+import { isErrorWithMessage } from '@/utils/error';
 
 const route = useRoute();
 
@@ -27,21 +28,23 @@ const handleUpdateCollection = () => {
 
   if (!formData.name) return;
 
-  if (formData.name !== props.name) {
-    const alreadyExists = profileService.doesCollectionAlreadyExists(formData.name);
-
-    if (alreadyExists) {
-      toaster.error('Collection already exists');
-      return;
-    }
+  if (formData.name === props.name) {
+    showModal.value = false;
+    return;
   }
 
-  profileService.updateCollection(route.params.id as string, {
-    name: formData.name,
-    description: formData.description
-  });
+  try {
+    profileService.updateCollection(route.params.id as string, {
+      name: formData.name,
+      description: formData.description
+    });
 
-  showModal.value = false;
+    showModal.value = false;
+  } catch (err) {
+    if (isErrorWithMessage(err)) {
+      toaster.error(err.message);
+    }
+  }
 };
 </script>
 

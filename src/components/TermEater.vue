@@ -4,9 +4,8 @@ import { profileService } from '@/services/profile.service';
 import { useToasterStore } from '@/stores/toaster';
 import { Icon } from '@iconify/vue';
 import { ref, computed, useTemplateRef, onMounted } from 'vue';
-import soundEffect from '@/assets/sound-effect.ogg';
-
-const audio = new Audio(soundEffect);
+import { isErrorWithMessage } from '@/utils/error';
+import { popSound } from '@/sound';
 
 const input = ref('');
 const inputRef = useTemplateRef('inputRef');
@@ -20,17 +19,15 @@ const toaster = useToasterStore();
 const handleNewTerm = (collectionId: string) => {
   if (!input.value) return;
 
-  const alreadyExists = profileService.doesTermAlreadyExists(input.value);
-
-  if (alreadyExists) {
-    toaster.error('Term already exists');
-    return;
+  try {
+    profileService.addTerm(collectionId, { content: input.value });
+    popSound.play();
+    input.value = '';
+  } catch (err) {
+    if (isErrorWithMessage(err)) {
+      toaster.error(err.message);
+    }
   }
-
-  audio.play();
-
-  profileService.addTerm(collectionId, input.value);
-  input.value = '';
 };
 
 const handleDefaultCollection = (collectionId: string) => {

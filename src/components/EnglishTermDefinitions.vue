@@ -70,9 +70,7 @@ watch([() => props.content, showDefinitions], async (value, prev) => {
 });
 
 const playAudio = () => {
-  if (audio.value) {
-    audio.value.play();
-  }
+  audio.value?.play();
 };
 </script>
 

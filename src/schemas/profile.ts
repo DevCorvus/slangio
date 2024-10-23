@@ -63,3 +63,19 @@ export const profileSchema = z
 
     return permanentCollections === 1;
   });
+
+export const exportedTermSchema = termSchema.pick({
+  content: true,
+  meanings: true,
+  references: true
+});
+
+export const exportedCollectionSchema = collectionSchema
+  .pick({
+    name: true,
+    description: true
+  })
+  .extend({ terms: z.array(exportedTermSchema) });
+
+export type ExportedTerm = z.infer<typeof exportedTermSchema>;
+export type ExportedCollection = z.infer<typeof exportedCollectionSchema>;

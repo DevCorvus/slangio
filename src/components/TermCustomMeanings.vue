@@ -36,7 +36,7 @@ const showAddReferenceForm = ref(false);
   <section class="collapse collapse-arrow bg-base-200">
     <input type="checkbox" />
     <header class="collapse-title text-xl font-medium">
-      <span>Your Meanings</span>
+      <span>Custom Meanings</span>
     </header>
     <div class="collapse-content space-y-4">
       <section class="space-y-2">

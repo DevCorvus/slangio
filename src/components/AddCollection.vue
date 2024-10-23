@@ -3,6 +3,7 @@ import { profileService, type CreateUpdateCollection } from '@/services/profile.
 import { reactive, ref } from 'vue';
 import ModalComponent from './ModalComponent.vue';
 import { useToasterStore } from '@/stores/toaster';
+import { isErrorWithMessage } from '@/utils/error';
 
 const showModal = ref(false);
 
@@ -16,19 +17,18 @@ const toaster = useToasterStore();
 const handleNewCollection = () => {
   if (!formData.name) return;
 
-  const alreadyExists = profileService.doesCollectionAlreadyExists(formData.name);
+  try {
+    profileService.addCollection({ name: formData.name, description: formData.description });
 
-  if (alreadyExists) {
-    toaster.error('Collection already exists');
-    return;
+    formData.name = '';
+    formData.description = '';
+
+    showModal.value = false;
+  } catch (err) {
+    if (isErrorWithMessage(err)) {
+      toaster.error(err.message);
+    }
   }
-
-  profileService.addCollection({ name: formData.name, description: formData.description });
-
-  formData.name = '';
-  formData.description = '';
-
-  showModal.value = false;
 };
 </script>
 

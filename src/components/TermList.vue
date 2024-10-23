@@ -6,6 +6,7 @@ import SortTerms from './SortTerms.vue';
 import TermItem from './TermItem.vue';
 import MoveTerms from './MoveTerms.vue';
 import DeleteTerms from './DeleteTerms.vue';
+import ExportTerms from './ExportTerms.vue';
 
 const props = defineProps<{ terms: Term[] }>();
 
@@ -72,6 +73,7 @@ const handleSelectAll = () => {
             </div>
             <ul class="menu menu-horizontal rounded-box">
               <MoveTerms :term-ids="selectedTermIds" @success="selectedTermIds = []" />
+              <ExportTerms :term-ids="selectedTermIds" @success="selectedTermIds = []" />
               <DeleteTerms :term-ids="selectedTermIds" @success="selectedTermIds = []" />
             </ul>
           </div>

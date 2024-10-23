@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AddCollection from '@/components/AddCollection.vue';
+import CollectionDataManager from '@/components/CollectionDataManager.vue';
 import CollectionList from '@/components/CollectionList.vue';
 import CollectionStats from '@/components/CollectionStats.vue';
 import TermFinder from '@/components/TermFinder.vue';
@@ -16,11 +17,15 @@ import { Icon } from '@iconify/vue';
         </AddCollection>
       </div>
       <div class="flex gap-2">
-        <RouterLink to="/learned" class="btn btn-sm text-success">
-          <Icon icon="heroicons:check-circle-20-solid" class="text-xl" />
-          <span>Learned</span>
+        <RouterLink
+          to="/learned"
+          class="btn btn-sm btn-success tooltip flex items-center"
+          data-tip="Learned Terms"
+        >
+          <Icon icon="heroicons:clipboard-document-check-16-solid" class="text-xl" />
         </RouterLink>
         <TermFinder />
+        <CollectionDataManager />
       </div>
     </header>
     <CollectionStats />

@@ -2,10 +2,9 @@
 import { profileService } from '@/services/profile.service';
 import { useToasterStore } from '@/stores/toaster';
 import { ref } from 'vue';
-import soundEffect from '@/assets/sound-effect.ogg';
-import BulkTermEater from './BulkTermEater.vue';
-
-const audio = new Audio(soundEffect);
+import TermDataManager from './TermDataManager.vue';
+import { isErrorWithMessage } from '@/utils/error';
+import { popSound } from '@/sound';
 
 const input = ref('');
 
@@ -14,17 +13,15 @@ const toaster = useToasterStore();
 const handleNewTerm = (collectionId: string) => {
   if (!input.value) return;
 
-  const alreadyExists = profileService.doesTermAlreadyExists(input.value);
-
-  if (alreadyExists) {
-    toaster.error('Term already exists');
-    return;
+  try {
+    profileService.addTerm(collectionId, { content: input.value });
+    popSound.play();
+    input.value = '';
+  } catch (err) {
+    if (isErrorWithMessage(err)) {
+      toaster.error(err.message);
+    }
   }
-
-  audio.play();
-
-  profileService.addTerm(collectionId, input.value);
-  input.value = '';
 };
 </script>
 
@@ -42,7 +39,6 @@ const handleNewTerm = (collectionId: string) => {
       />
       <button class="btn btn-primary join-item">Submit</button>
     </div>
-
-    <BulkTermEater :collection-id="$route.params.id as string" />
+    <TermDataManager />
   </form>
 </template>

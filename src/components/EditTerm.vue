@@ -3,6 +3,7 @@ import { profile } from '@/data';
 import { profileService, type UpdateTerm } from '@/services/profile.service';
 import { useToasterStore } from '@/stores/toaster';
 import type { Term } from '@/types';
+import { isErrorWithMessage } from '@/utils/error';
 import { reactive } from 'vue';
 
 const props = defineProps<{ collectionId: string; term: Term }>();
@@ -19,29 +20,24 @@ const formData = reactive<UpdateTerm>({
 const toaster = useToasterStore();
 
 const handleTermUpdate = () => {
+  if (!formData.content) return;
+
   if (formData.content == props.term.content && formData.collectionId === props.collectionId) {
     emit('close');
     return;
   }
 
-  if (!formData.content) return;
-
-  if (formData.content !== props.term.content) {
-    const alreadyExists = profileService.doesTermAlreadyExists(formData.content);
-
-    if (alreadyExists) {
-      if (alreadyExists) {
-        toaster.error('Term already exists');
-        return;
-      }
+  try {
+    profileService.updateTerm(props.term.id, {
+      content: formData.content,
+      collectionId: formData.collectionId
+    });
+    emit('close');
+  } catch (err) {
+    if (isErrorWithMessage(err)) {
+      toaster.error(err.message);
     }
   }
-
-  profileService.updateTerm(props.term.id, {
-    content: formData.content,
-    collectionId: formData.collectionId
-  });
-  emit('close');
 };
 </script>
 

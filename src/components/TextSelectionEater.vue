@@ -4,9 +4,8 @@ import { ref } from 'vue';
 import { profile } from '@/data';
 import { profileService } from '@/services/profile.service';
 import { useToasterStore } from '@/stores/toaster';
-import soundEffect from '@/assets/sound-effect.ogg';
-
-const audio = new Audio(soundEffect);
+import { isErrorWithMessage } from '@/utils/error';
+import { popSound } from '@/sound';
 
 const { text, selection } = useTextSelection();
 
@@ -31,16 +30,14 @@ const handleNewTerm = (text: string) => {
   show.value = false;
 
   if (content) {
-    const alreadyExists = profileService.doesTermAlreadyExists(content);
-
-    if (alreadyExists) {
-      toaster.error('Term already exists');
-      return;
+    try {
+      profileService.addTerm(profile.value.defaultCollection, { content });
+      popSound.play();
+    } catch (err) {
+      if (isErrorWithMessage(err)) {
+        toaster.error(err.message);
+      }
     }
-
-    audio.play();
-
-    profileService.addTerm(profile.value.defaultCollection, content);
   }
 };
 </script>

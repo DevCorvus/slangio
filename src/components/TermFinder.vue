@@ -29,9 +29,8 @@ const handleFind = (termId: string) => {
 </script>
 
 <template>
-  <button @click="showModal = true" class="btn btn-sm flex items-center gap-1">
+  <button @click="showModal = true" class="btn btn-sm tooltip" data-tip="Term Finder">
     <Icon icon="heroicons:document-magnifying-glass-16-solid" class="text-xl" />
-    <span>Term Finder</span>
   </button>
   <ModalComponent :show="showModal" @close="showModal = false">
     <section class="space-y-4">

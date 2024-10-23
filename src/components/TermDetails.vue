@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Term } from '@/types';
 import EnglishTermDefinitions from './EnglishTermDefinitions.vue';
-import TermMeanings from './TermMeanings.vue';
+import TermCustomMeanings from './TermCustomMeanings.vue';
 import TermLanguageReferenceList from './TermLanguageReferenceList.vue';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
@@ -62,7 +62,7 @@ const isLearned = props.term.learnedAt !== null;
       </button>
     </header>
     <EditTerm v-else :collection-id :term @close="editMode = false" />
-    <TermMeanings :term />
+    <TermCustomMeanings :term />
     <template v-if="profile.source !== profile.target">
       <EnglishTermDefinitions v-if="profile.target === 'en'" :content="term.content" />
       <SpanishTermDefinitions v-else-if="profile.target === 'es'" :content="term.content" />
