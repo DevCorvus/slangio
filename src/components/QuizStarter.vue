@@ -100,60 +100,56 @@ const handleSubmit = () => {
       <h1>Quiz</h1>
     </header>
     <form @submit.prevent="handleSubmit()" class="space-y-8">
-      <div class="space-y-2">
-        <div class="flex justify-between gap-6">
-          <label class="form-control w-full max-w-xs">
-            <div class="label">
-              <span class="label-text">Collection</span>
-            </div>
-            <select v-model="formData.collectionId" class="select select-bordered">
-              <option v-for="collection in collections" :value="collection.id" :key="collection.id">
-                ({{ store.toLearn[collection.id] }}) {{ collection.name }}
-              </option>
-            </select>
-          </label>
-          <label class="form-control w-full max-w-xs">
-            <div class="label">
-              <span class="label-text">Max terms</span>
-            </div>
-            <input
-              type="number"
-              @input="handleMaxTermsChange"
-              @blur="handleMaxTermsBlur"
-              :value="formData.maxTerms"
-              class="input input-bordered w-full max-w-xs"
-            />
-          </label>
-        </div>
-        <div class="flex justify-between gap-4">
-          <label class="form-control w-full max-w-xs">
-            <div class="label">
-              <span class="label-text">Max duration</span>
-            </div>
-            <select v-model="formData.maxDuration" class="select select-bordered">
-              <option selected :value="0">No limit</option>
-              <option :value="5">5 minutes</option>
-              <option :value="10">10 minutes</option>
-              <option :value="15">15 minutes</option>
-              <option :value="20">20 minutes</option>
-              <option :value="25">25 minutes</option>
-              <option :value="30">30 minutes</option>
-              <option :value="45">45 minutes</option>
-              <option :value="60">60 minutes</option>
-            </select>
-          </label>
-          <label class="form-control w-full max-w-xs">
-            <div class="label">
-              <span class="label-text">Timer per term</span>
-            </div>
-            <select v-model="formData.timer" class="select select-bordered">
-              <option selected :value="0">None</option>
-              <option :value="5">5 seconds</option>
-              <option :value="10">10 seconds</option>
-              <option :value="15">15 seconds</option>
-            </select>
-          </label>
-        </div>
+      <div class="grid md:grid-cols-2 gap-2 md:gap-4">
+        <label class="form-control">
+          <div class="label">
+            <span class="label-text">Collection</span>
+          </div>
+          <select v-model="formData.collectionId" class="select select-bordered">
+            <option v-for="collection in collections" :value="collection.id" :key="collection.id">
+              ({{ store.toLearn[collection.id] }}) {{ collection.name }}
+            </option>
+          </select>
+        </label>
+        <label class="form-control">
+          <div class="label">
+            <span class="label-text">Max terms</span>
+          </div>
+          <input
+            type="number"
+            @input="handleMaxTermsChange"
+            @blur="handleMaxTermsBlur"
+            :value="formData.maxTerms"
+            class="input input-bordered"
+          />
+        </label>
+        <label class="form-control">
+          <div class="label">
+            <span class="label-text">Max duration</span>
+          </div>
+          <select v-model="formData.maxDuration" class="select select-bordered">
+            <option selected :value="0">No limit</option>
+            <option :value="5">5 minutes</option>
+            <option :value="10">10 minutes</option>
+            <option :value="15">15 minutes</option>
+            <option :value="20">20 minutes</option>
+            <option :value="25">25 minutes</option>
+            <option :value="30">30 minutes</option>
+            <option :value="45">45 minutes</option>
+            <option :value="60">60 minutes</option>
+          </select>
+        </label>
+        <label class="form-control">
+          <div class="label">
+            <span class="label-text">Timer per term</span>
+          </div>
+          <select v-model="formData.timer" class="select select-bordered">
+            <option selected :value="0">None</option>
+            <option :value="5">5 seconds</option>
+            <option :value="10">10 seconds</option>
+            <option :value="15">15 seconds</option>
+          </select>
+        </label>
       </div>
       <button class="btn btn-block btn-primary">Start</button>
     </form>

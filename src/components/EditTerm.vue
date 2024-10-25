@@ -42,7 +42,8 @@ const handleTermUpdate = () => {
 </script>
 
 <template>
-  <form @submit.prevent="handleTermUpdate()" class="space-y-2">
+  <form @submit.prevent="handleTermUpdate()" class="space-y-4">
+    <header class="font-semibold text-xl">Edit Term</header>
     <div class="join w-full">
       <select v-model="formData.collectionId" class="select select-bordered join-item">
         <option
@@ -60,9 +61,9 @@ const handleTermUpdate = () => {
         autofocus
       />
     </div>
-    <div class="space-x-1">
-      <button class="btn btn-primary">Apply</button>
-      <button @click="$emit('close')" class="btn btn-ghost">Cancel</button>
+    <div class="flex gap-2">
+      <button class="btn btn-primary flex-1">Apply</button>
+      <button @click="$emit('close')" class="btn flex-1">Cancel</button>
     </div>
   </form>
 </template>

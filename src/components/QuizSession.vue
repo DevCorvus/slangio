@@ -115,78 +115,76 @@ const handleFinish = () => {
 </script>
 
 <template>
-  <section class="card bg-base-100">
-    <div class="card-body space-y-6 text-center">
-      <div class="space-y-4">
-        <header class="card-title justify-center">
-          <h1>{{ config.collectionName }}</h1>
-        </header>
-        <div>
-          <div class="relative">
-            <div class="text-lg font-bold flex items-center justify-center gap-2 select-none">
-              <span>{{ config.terms.length - terms.length }}</span>
-              <span>/</span>
-              <span>{{ config.terms.length }}</span>
-            </div>
-            <div
-              v-if="config.duration !== null"
-              class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-56 flex items-center justify-end"
-            >
-              <span
-                class="chart size-4 rounded-full tooltip"
-                :style="`--duration:${config.duration / 1000}s;`"
-                data-tip="Max Duration"
-              />
-            </div>
+  <section class="space-y-6 text-center bg-base-100">
+    <div class="space-y-2">
+      <header class="font-semibold justify-center">
+        <h1>{{ config.collectionName }}</h1>
+      </header>
+      <div>
+        <div class="relative">
+          <div class="text-lg font-bold flex items-center justify-center gap-2 select-none">
+            <span>{{ config.terms.length - terms.length }}</span>
+            <span>/</span>
+            <span>{{ config.terms.length }}</span>
           </div>
-          <progress
-            class="progress w-56"
-            :value="config.terms.length - terms.length"
-            :max="config.terms.length"
-          />
-        </div>
-      </div>
-      <div class="space-y-4">
-        <template v-if="!failureMode">
-          <p>Do you remember this term?</p>
-          <span class="inline-block text-3xl font-bold">{{ currentTerm.content }}</span>
-          <p class="text-base-content/50 text-sm">Say it out loud</p>
-        </template>
-        <form v-else @submit.prevent="goNext()">
-          <input
-            ref="repeat"
-            type="text"
-            v-model.trim="input"
-            class="input input-bordered w-full text-center text-2xl"
-            :class="wrongInput ? 'input-error' : ''"
-            placeholder="Type the term again"
-          />
-        </form>
-      </div>
-      <div class="flex gap-4">
-        <template v-if="!failureMode">
-          <button @click="handleFailure()" class="btn flex-1">No</button>
-          <button @click="handleSuccess()" class="btn flex-1">Yes</button>
-        </template>
-        <template v-else>
-          <button
-            @click="showDetails = true"
-            class="btn flex-1"
-            :class="wrongInput ? 'animate-pulse' : ''"
+          <div
+            v-if="config.duration !== null"
+            class="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 w-56 flex items-center justify-end"
           >
-            Details
-          </button>
-          <button @click="goNext()" class="btn btn-primary flex-1">Next</button>
-        </template>
+            <span
+              class="chart size-4 rounded-full tooltip"
+              :style="`--duration:${config.duration / 1000}s;`"
+              data-tip="Max Duration"
+            />
+          </div>
+        </div>
+        <progress
+          class="progress w-56"
+          :value="config.terms.length - terms.length"
+          :max="config.terms.length"
+        />
       </div>
-      <span
-        v-if="config.timer !== null && !failureMode && !finished"
-        class="inline-block bg-primary shrink h-1 rounded-full"
-        :class="finished ? 'pause' : ''"
-        :style="`--duration:${config.timer / 1000}s;`"
-        :key="currentTerm.id"
-      />
     </div>
+    <div class="space-y-6">
+      <template v-if="!failureMode">
+        <p>Do you remember this term?</p>
+        <span class="inline-block text-3xl font-bold">{{ currentTerm.content }}</span>
+        <p class="text-base-content/50 text-sm">Say it out loud</p>
+      </template>
+      <form v-else @submit.prevent="goNext()">
+        <input
+          ref="repeat"
+          type="text"
+          v-model.trim="input"
+          class="input input-bordered w-full text-center text-2xl"
+          :class="wrongInput ? 'input-error' : ''"
+          placeholder="Type the term again"
+        />
+      </form>
+    </div>
+    <div class="flex gap-4">
+      <template v-if="!failureMode">
+        <button @click="handleFailure()" class="btn flex-1">No</button>
+        <button @click="handleSuccess()" class="btn flex-1">Yes</button>
+      </template>
+      <template v-else>
+        <button
+          @click="showDetails = true"
+          class="btn flex-1"
+          :class="wrongInput ? 'animate-pulse' : ''"
+        >
+          Details
+        </button>
+        <button @click="goNext()" class="btn btn-primary flex-1">Next</button>
+      </template>
+    </div>
+    <span
+      v-if="config.timer !== null && !failureMode && !finished"
+      class="inline-block bg-primary shrink h-1 rounded-full"
+      :class="finished ? 'pause' : ''"
+      :style="`--duration:${config.timer / 1000}s;`"
+      :key="currentTerm.id"
+    />
   </section>
   <ModalComponent :show="showDetails && !finished" @close="showDetails = false">
     <TermDetails :term="currentTerm" hide-mutations />

@@ -36,8 +36,8 @@ watchDebounced(input, searchTerms, { debounce: 500 });
 </script>
 
 <template>
-  <label class="input input-bordered flex items-center gap-2 grow">
-    <input type="text" v-model="input" class="grow" placeholder="Search term" />
+  <label class="input input-bordered flex items-center gap-2 w-full">
+    <input type="text" v-model="input" class="w-full" placeholder="Search term" />
     <Icon icon="heroicons:magnifying-glass-20-solid" />
   </label>
 </template>

@@ -14,7 +14,7 @@ const terms = computed(() =>
 </script>
 
 <template>
-  <button @click="$router.back()" class="my-6 btn btn-sm btn-ghost">
+  <button @click="$router.back()" class="mb-4 md:mt-2 btn btn-sm btn-ghost">
     <div class="flex items-center gap-2">
       <Icon icon="heroicons:arrow-uturn-left" />
       <span>Go Back</span>

@@ -6,14 +6,14 @@ import ProfileDataManager from '@/components/ProfileDataManager.vue';
 </script>
 
 <template>
-  <main class="hero mt-4">
-    <div class="hero-content flex flex-col gap-10 text-center max-w-md">
+  <main class="hero">
+    <div class="hero-content p-0 flex flex-col gap-10 text-center max-w-md">
       <div class="relative">
         <ProfileManager />
         <ProfileDataManager />
       </div>
       <div class="space-y-10">
-        <h1 class="text-4xl font-semibold">Drop any term and never forget it</h1>
+        <h1 class="text-3xl md:text-4xl font-semibold">Drop any term to never forget it</h1>
         <TermEater />
         <LastTerms />
       </div>

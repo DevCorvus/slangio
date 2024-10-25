@@ -27,7 +27,7 @@ watchDebounced(
 
 <template>
   <label class="input input-bordered flex items-center gap-2">
-    <input type="text" v-model="input" class="grow" placeholder="Search by collection name" />
+    <input type="text" v-model="input" class="grow" placeholder="Search collection" />
     <Icon icon="heroicons:magnifying-glass-20-solid" />
   </label>
 </template>

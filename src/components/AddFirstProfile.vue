@@ -23,7 +23,7 @@ const skip = () => {
 <template>
   <main class="hero min-h-screen">
     <section
-      class="hero-content max-w-md text-center flex flex-col gap-6 p-10 rounded-box shadow-lg bg-base-100/60"
+      class="hero-content max-w-md text-center flex flex-col gap-6 p-4 md:p-10 rounded-box md:shadow-lg md:bg-base-100/60"
     >
       <header>
         <h1 class="text-4xl font-black text-center">Welcome to Slangio</h1>

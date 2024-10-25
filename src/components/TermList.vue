@@ -49,7 +49,7 @@ const handleSelectAll = () => {
   <section class="card card-compact bg-base-200 shadow">
     <div class="card-body space-y-2">
       <template v-if="props.terms.length > 0">
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 md:gap-4">
           <SearchTerms
             :terms="sortedTerms"
             :to-bypass="selectedTermIds"
@@ -88,7 +88,7 @@ const handleSelectAll = () => {
               </li>
             </ul>
             <template v-if="data.learnedTerms.length > 0">
-              <div class="divider text-neutral/50">Learned</div>
+              <div class="divider">Learned</div>
               <ul>
                 <li v-for="term in data.learnedTerms" :key="term.id">
                   <TermItem

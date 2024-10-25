@@ -33,10 +33,13 @@ onClickOutside(modal, () => emit('close'));
 <template>
   <Teleport to="#modals">
     <Transition name="fade">
-      <div v-if="show" class="fixed inset-0 flex justify-center items-center bg-black/40 z-40 p-10">
+      <div
+        v-if="show"
+        class="fixed inset-0 flex justify-center items-center bg-black/40 z-40 p-4 md:p-10"
+      >
         <div
           ref="modal"
-          class="card bg-base-100 max-w-lg max-h-full overflow-y-auto shadow-xl"
+          class="card card-compact md:card-normal bg-base-100 max-w-lg max-h-full overflow-y-auto shadow-xl"
           :class="compact ? '' : 'w-full'"
           role="dialog"
         >

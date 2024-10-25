@@ -8,9 +8,9 @@ import { Icon } from '@iconify/vue';
 </script>
 
 <template>
-  <main class="space-y-6 mt-8">
-    <header class="flex items-center justify-between">
-      <div class="text-2xl font-bold flex items-center gap-4">
+  <main class="space-y-6 mt-4">
+    <header class="flex items-center justify-between flex-wrap">
+      <div class="text-2xl font-bold flex items-center gap-2 md:gap-4">
         <h1>Collections</h1>
         <AddCollection>
           <Icon icon="heroicons:plus-20-solid" class="btn btn-sm btn-circle" />
@@ -24,8 +24,8 @@ import { Icon } from '@iconify/vue';
         >
           <Icon icon="heroicons:clipboard-document-check-16-solid" class="text-xl" />
         </RouterLink>
-        <TermFinder />
         <CollectionDataManager />
+        <TermFinder />
       </div>
     </header>
     <CollectionStats />

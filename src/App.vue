@@ -22,7 +22,7 @@ watch(
 <template>
   <template v-if="!firstTime">
     <NavBar />
-    <div class="container mx-auto">
+    <div class="container mx-auto p-4 overflow-hidden">
       <RouterView />
     </div>
     <TextSelectionEater />

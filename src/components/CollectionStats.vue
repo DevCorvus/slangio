@@ -26,7 +26,7 @@ const totalTermsCount = computed(() => {
 </script>
 
 <template>
-  <section class="stats bg-primary-content shadow w-full">
+  <section class="stats stats-vertical md:stats-horizontal bg-primary-content shadow w-full">
     <div class="stat">
       <Icon icon="heroicons:book-open-solid" class="stat-figure text-primary text-3xl" />
       <span class="stat-title">Recent Terms</span>
