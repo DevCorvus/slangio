@@ -40,7 +40,10 @@ const selectedCollection: ComputedRef<Collection> = computed(
 const validTerms = computed(() => selectedCollection.value.terms.filter(isValidQuizTerm));
 
 const formData = reactive({
-  collectionId: route.query.collectionId || collections.value[0].id,
+  collectionId:
+    route.query.collectionId && store.toLearn[route.query.collectionId as string] > 0
+      ? (route.query.collectionId as string)
+      : collections.value[0].id,
   maxTerms: quizConfig.value.maxTerms,
   maxDuration: quizConfig.value.maxDuration,
   timer: quizConfig.value.timer
