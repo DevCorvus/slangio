@@ -75,14 +75,14 @@ onChange(async (files) => {
       <header>
         <h3 class="text-lg font-bold">Profile Data</h3>
       </header>
-      <div class="space-y-2">
-        <button @click="handleExport()" class="btn btn-block">Export Profile</button>
-        <button @click="openFileDialog()" class="btn btn-block">Import Profile</button>
-      </div>
       <p class="flex items-center gap-2 text-base-content/50">
         <Icon icon="heroicons:exclamation-circle" class="text-xl shrink-0" />
         <span>Progress included</span>
       </p>
+      <div class="space-y-2">
+        <button @click="handleExport()" class="btn btn-block">Export Profile</button>
+        <button @click="openFileDialog()" class="btn btn-block">Import Profile</button>
+      </div>
     </section>
   </ModalComponent>
 </template>
