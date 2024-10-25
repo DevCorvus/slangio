@@ -30,7 +30,7 @@ useTimeout(props.config.duration || 0, {
 const timeoutId = ref<number>();
 
 watch(
-  [finished, currentTerm],
+  [finished, failureMode, currentTerm],
   () => {
     if (timeoutId.value) clearTimeout(timeoutId.value);
 
