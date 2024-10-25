@@ -16,7 +16,7 @@ defineEmits<{
         <li v-if="source !== target">
           <button
             @click="$emit('select', { source, target })"
-            class="group bg-base-100 mx-auto flex items-center justify-center gap-2 border-2 border-base-content/25 shadow-sm rounded-full py-2 px-3 hover:scale-105 hover:border-primary focus:border-primary focus:scale-105 transition tooltip tooltip-right"
+            class="group bg-base-100 mx-auto flex items-center justify-center gap-2 border-2 border-base-content/25 shadow-sm rounded-full py-2 px-3 hover:scale-105 hover:border-primary focus:border-primary focus:scale-105 transition tooltip md:tooltip-right"
             :data-tip="`${LANGUAGE_METADATA[source].name} to ${LANGUAGE_METADATA[target].name}`"
           >
             <CountryCircleFlag :width="48" :iso="LANGUAGE_METADATA[source].flagIso" />
@@ -32,8 +32,8 @@ defineEmits<{
     <li>
       <button
         @click="$emit('select', { source: 'en', target: 'en' })"
-        class="group bg-base-100 text-base-content/35 mx-auto flex items-center justify-center gap-2 border-2 border-base-content/25 shadow-sm rounded-full py-2 px-3 hover:scale-105 hover:border-primary focus:border-primary focus:scale-105 transition tooltip tooltip-right"
-        data-tip="Unknown to Unknown"
+        class="group bg-base-100 text-base-content/35 mx-auto flex items-center justify-center gap-2 border-2 border-base-content/25 shadow-sm rounded-full py-2 px-3 hover:scale-105 hover:border-primary focus:border-primary focus:scale-105 transition tooltip md:tooltip-right"
+        data-tip="Unsupported language"
       >
         <Icon
           icon="heroicons:question-mark-circle-16-solid"
