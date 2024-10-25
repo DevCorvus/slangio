@@ -49,7 +49,11 @@ const handleExport = () => {
         };
       });
 
-      out.push({ ...collection, terms: termsToExport });
+      out.push({
+        name: collection.name,
+        description: collection.description,
+        terms: termsToExport
+      });
     }
   }
 
