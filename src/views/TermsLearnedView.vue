@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import GoBack from '@/components/GoBack.vue';
 import LearnedTermList from '@/components/LearnedTermList.vue';
 import { currentVault } from '@/data';
 import { Icon } from '@iconify/vue';
@@ -14,12 +15,7 @@ const terms = computed(() =>
 </script>
 
 <template>
-  <button @click="$router.back()" class="mb-4 md:mt-2 btn btn-sm btn-ghost">
-    <div class="flex items-center gap-2">
-      <Icon icon="heroicons:arrow-uturn-left" />
-      <span>Go Back</span>
-    </div>
-  </button>
+  <GoBack />
   <main class="space-y-6">
     <header class="text-2xl font-bold flex items-center gap-2">
       <Icon icon="heroicons:check-circle" class="text-3xl text-success" />

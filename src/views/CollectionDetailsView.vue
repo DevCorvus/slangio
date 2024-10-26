@@ -2,6 +2,7 @@
 import AddTerm from '@/components/AddTerm.vue';
 import ConfirmDelete from '@/components/ConfirmDelete.vue';
 import EditCollection from '@/components/EditCollection.vue';
+import GoBack from '@/components/GoBack.vue';
 import TermList from '@/components/TermList.vue';
 import { currentVault } from '@/data';
 import { vaultService } from '@/services/vault.service';
@@ -29,12 +30,7 @@ const store = useTermStore();
 
 <template>
   <template v-if="collection">
-    <button @click="$router.back()" class="mb-4 md:mt-2 btn btn-sm btn-ghost">
-      <div class="flex items-center gap-2">
-        <Icon icon="heroicons:arrow-uturn-left" />
-        <span>Go Back</span>
-      </div>
-    </button>
+    <GoBack />
     <main class="space-y-6">
       <header class="text-2xl font-bold flex items-center justify-between">
         <h1>{{ collection.name }}</h1>
