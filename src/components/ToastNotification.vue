@@ -44,7 +44,7 @@ const toastStyle = getStyleFromStatus(props.toast.status);
 <template>
   <div class="card card-compact shadow" :class="toastStyle.class">
     <div class="card-body">
-      <div class="flex items-center gap-1 text-lg">
+      <div class="flex items-center gap-1 text-lg text-neutral">
         <Icon :icon="toastStyle.icon" />
         <span>
           {{ toast.text }}
