@@ -57,7 +57,10 @@ const handleExport = () => {
     }
   }
 
-  downloadJson(`collections.${profile.value.name || profile.value.id}.${localeDateNow()}`, out);
+  downloadJson(
+    `slangio_collections.${profile.value.name || profile.value.id}.${localeDateNow()}`,
+    out
+  );
 
   exportMode.value = false;
 };

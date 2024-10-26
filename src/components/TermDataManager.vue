@@ -41,7 +41,7 @@ const handleExport = () => {
       };
     });
 
-    downloadJson(`terms.${collection.name}.${localeDateNow()}`, termsToExport);
+    downloadJson(`slangio_terms.${collection.name}.${localeDateNow()}`, termsToExport);
   }
 };
 

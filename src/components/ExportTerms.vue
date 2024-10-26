@@ -46,7 +46,7 @@ const handleExport = () => {
         references: term.references
       }));
 
-    const filename = `terms.${collection.name}.${localeDateNow()}`;
+    const filename = `slangio_terms.${collection.name}.${localeDateNow()}`;
     downloadJson(filename, out);
 
     emit('success');

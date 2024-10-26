@@ -2,61 +2,57 @@
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
 import ModalComponent from './ModalComponent.vue';
-import { profile, profiles } from '@/data';
-import { downloadJson } from '@/utils/download';
+import { exportProfiles, profile, profiles } from '@/data';
 import { useFileDialog } from '@vueuse/core';
 import { useToasterStore } from '@/stores/toaster';
 import { profileSchema } from '@/schemas/profile';
-import { useTermStore } from '@/stores/term';
-import { localeDateNow } from '@/utils/date';
+import { z } from 'zod';
 
 const toaster = useToasterStore();
 
 const showModal = ref(false);
 
-const handleExport = () => {
-  const filename = `profile.${profile.value.name || profile.value.id}.${localeDateNow()}`;
-  downloadJson(filename, profile.value);
+const handleBackup = () => {
+  exportProfiles();
+  showModal.value = false;
 };
 
 const {
-  open: openFileDialog,
-  onChange,
-  reset
+  open: openProfiles,
+  onChange: onProfiles,
+  reset: resetProfiles
 } = useFileDialog({
   accept: 'application/json',
   multiple: false
 });
 
-const store = useTermStore();
-
-onChange(async (files) => {
+onProfiles(async (files) => {
   if (files) {
     const file = files[0];
     try {
       const text = await file.text();
       const data = JSON.parse(text);
 
-      const importedProfile = await profileSchema.parseAsync(data);
+      const importedProfiles = await z.array(profileSchema).parseAsync(data);
 
-      if (
-        profile.value.id === importedProfile.id ||
-        profiles.value.some((p) => p.id === importedProfile.id)
-      ) {
-        toaster.error('Profile already exists');
-        return;
+      for (const importedProfile of importedProfiles) {
+        if (
+          profile.value.id === importedProfile.id ||
+          profiles.value.some((p) => p.id === importedProfile.id)
+        ) {
+          toaster.error(`Profile ${importedProfile.name || importedProfile.id} already exists`);
+          continue;
+        }
+
+        profiles.value.push(importedProfile);
+        toaster.success(
+          `Profile ${importedProfile.name || importedProfile.id} imported successfully`
+        );
       }
-
-      profiles.value.push(profile.value);
-      profile.value = importedProfile;
-
-      store.refreshToLearn();
-
-      showModal.value = false;
     } catch {
-      toaster.error('Invalid profile import');
+      toaster.error('Invalid profiles import');
     } finally {
-      reset();
+      resetProfiles();
     }
   }
 });
@@ -75,13 +71,9 @@ onChange(async (files) => {
       <header>
         <h3 class="text-lg font-bold">Profile Data</h3>
       </header>
-      <p class="flex items-center gap-2 text-base-content/50">
-        <Icon icon="heroicons:exclamation-circle" class="text-xl shrink-0" />
-        <span>Progress included</span>
-      </p>
       <div class="space-y-2">
-        <button @click="handleExport()" class="btn btn-block">Export Profile</button>
-        <button @click="openFileDialog()" class="btn btn-block">Import Profile</button>
+        <button @click="handleBackup()" class="btn btn-block">Export Backup</button>
+        <button @click="openProfiles()" class="btn btn-block">Import Backup</button>
       </div>
     </section>
   </ModalComponent>
