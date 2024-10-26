@@ -2,37 +2,37 @@
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
 import ModalComponent from './ModalComponent.vue';
-import { profile, profiles } from '@/data';
-import ProfileItem from './ProfileItem.vue';
+import { currentVault, vaults } from '@/data';
+import VaultItem from './VaultItem.vue';
 import CountryCircleFlag from './CountryCircleFlag.vue';
 import { LANGUAGE_METADATA } from '@/config/languages';
 import { RouterLink } from 'vue-router';
 import { useTermStore } from '@/stores/term';
 
-const selectedProfileId = ref(profile.value.id);
+const selectedVaultId = ref(currentVault.value.id);
 
 const showModal = ref(false);
 
 const openModal = () => {
-  selectedProfileId.value = profile.value.id;
+  selectedVaultId.value = currentVault.value.id;
   showModal.value = true;
 };
 
 const store = useTermStore();
 
 const handleSelect = () => {
-  if (selectedProfileId.value === profile.value.id) {
+  if (selectedVaultId.value === currentVault.value.id) {
     showModal.value = false;
     return;
   }
 
-  const profileIndex = profiles.value.findIndex((p) => p.id === selectedProfileId.value);
+  const vaultIndex = vaults.value.findIndex((v) => v.id === selectedVaultId.value);
 
-  if (profileIndex !== -1) {
-    const selectedProfile = profiles.value.splice(profileIndex, 1)[0];
+  if (vaultIndex !== -1) {
+    const selectedVault = vaults.value.splice(vaultIndex, 1)[0];
 
-    profiles.value.push(profile.value);
-    profile.value = selectedProfile;
+    vaults.value.push(currentVault.value);
+    currentVault.value = selectedVault;
 
     store.refreshToLearn();
 
@@ -40,12 +40,12 @@ const handleSelect = () => {
   }
 };
 
-const handleDelete = (profileId: string) => {
-  if (profileId === selectedProfileId.value) {
-    selectedProfileId.value = profile.value.id;
+const handleDelete = (vaultId: string) => {
+  if (vaultId === selectedVaultId.value) {
+    selectedVaultId.value = currentVault.value.id;
   }
 
-  profiles.value = profiles.value.filter((p) => p.id !== profileId);
+  vaults.value = vaults.value.filter((v) => v.id !== vaultId);
 };
 </script>
 
@@ -54,7 +54,7 @@ const handleDelete = (profileId: string) => {
     @click="openModal()"
     class="flex text-base-content/35 items-center gap-1 border border-base-content/25 shadow-sm rounded-full py-1 px-3 hover:scale-110 focus:scale-110 transition"
   >
-    <template v-if="profile.source === profile.target">
+    <template v-if="currentVault.source === currentVault.target">
       <Icon
         icon="heroicons:question-mark-circle-16-solid"
         class="size-8 rounded-full border-4 border-dashed border-base-content/15"
@@ -66,37 +66,37 @@ const handleDelete = (profileId: string) => {
       />
     </template>
     <template v-else>
-      <CountryCircleFlag :width="32" :iso="LANGUAGE_METADATA[profile.source].flagIso" />
+      <CountryCircleFlag :width="32" :iso="LANGUAGE_METADATA[currentVault.source].flagIso" />
       <Icon icon="heroicons:arrow-long-right-16-solid" class="text-4xl text-base-content/35" />
-      <CountryCircleFlag :width="32" :iso="LANGUAGE_METADATA[profile.target].flagIso" />
+      <CountryCircleFlag :width="32" :iso="LANGUAGE_METADATA[currentVault.target].flagIso" />
     </template>
   </button>
   <ModalComponent :show="showModal" compact @close="showModal = false">
     <section class="space-y-4">
       <header>
-        <h3 class="text-2xl font-semibold">Profiles</h3>
+        <h3 class="text-2xl font-semibold">Vaults</h3>
       </header>
       <ul class="space-y-3 mx-auto">
         <li>
-          <ProfileItem
-            :profile
+          <VaultItem
+            :vault="currentVault"
             current
-            :selected="selectedProfileId === profile.id"
-            @select="(id) => (selectedProfileId = id)"
+            :selected="selectedVaultId === currentVault.id"
+            @select="(id) => (selectedVaultId = id)"
           />
         </li>
-        <li v-for="profile in profiles" :key="profile.id">
-          <ProfileItem
-            :profile
-            :selected="selectedProfileId === profile.id"
-            @select="(id) => (selectedProfileId = id)"
+        <li v-for="vault in vaults" :key="vault.id">
+          <VaultItem
+            :vault
+            :selected="selectedVaultId === vault.id"
+            @select="(id) => (selectedVaultId = id)"
             @delete="handleDelete"
           />
         </li>
       </ul>
-      <RouterLink to="/new-profile" class="btn flex items-center gap-1">
+      <RouterLink to="/new-vault" class="btn flex items-center gap-1">
         <Icon icon="heroicons:plus-16-solid" class="text-xl" />
-        <span>Add Profile</span>
+        <span>Add Vault</span>
       </RouterLink>
       <div class="flex justify-end gap-2">
         <button @click="handleSelect()" class="btn btn-primary grow">Select</button>

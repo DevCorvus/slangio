@@ -2,17 +2,17 @@
 import { ref } from 'vue';
 import ModalComponent from './ModalComponent.vue';
 import SearchTerms from './SearchTerms.vue';
-import { profile } from '@/data';
+import { currentVault } from '@/data';
 import type { Term } from '@/types';
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { profileService } from '@/services/profile.service';
+import { vaultService } from '@/services/vault.service';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
 const showModal = ref(false);
 
-const terms = profile.value.collections
+const terms = currentVault.value.collections
   .flat()
   .map((collection) => collection.terms)
   .flat();
@@ -20,7 +20,7 @@ const terms = profile.value.collections
 const results = ref<Term[]>([]);
 
 const handleFind = (termId: string) => {
-  const collectionId = profileService.getCollectionIdFromTerm(termId);
+  const collectionId = vaultService.getCollectionIdFromTerm(termId);
 
   if (collectionId) {
     router.push('/collections/' + collectionId);

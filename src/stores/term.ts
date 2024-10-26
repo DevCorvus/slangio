@@ -1,4 +1,4 @@
-import { profile } from '@/data';
+import { currentVault } from '@/data';
 import { isValidQuizTerm } from '@/utils/term';
 import { getMinutesInMs } from '@/utils/time';
 import { useInterval } from '@vueuse/core';
@@ -9,7 +9,7 @@ export const useTermStore = defineStore('term', () => {
   const getToLearn = () => {
     const out: { [key: string]: number } = {};
 
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       out[collection.id] = collection.terms.reduce((prev, term) => {
         if (isValidQuizTerm(term)) {
           return prev + 1;

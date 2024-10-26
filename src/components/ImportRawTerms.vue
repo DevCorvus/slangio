@@ -3,7 +3,7 @@ import { useFileDialog } from '@vueuse/core';
 import { useToasterStore } from '@/stores/toaster';
 import { z } from 'zod';
 import { ref } from 'vue';
-import { profileService } from '@/services/profile.service';
+import { vaultService } from '@/services/vault.service';
 import { isErrorWithMessage } from '@/utils/error';
 import { popSound } from '@/sound';
 
@@ -62,7 +62,7 @@ const handleSubmit = async () => {
     for (const term of terms) {
       if (term) {
         try {
-          profileService.addTerm(props.collectionId, { content: term });
+          vaultService.addTerm(props.collectionId, { content: term });
           atLeastOneAdded = true;
         } catch (err) {
           if (isErrorWithMessage(err)) {

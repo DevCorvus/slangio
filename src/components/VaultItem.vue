@@ -1,43 +1,43 @@
 <script setup lang="ts">
-import type { Profile } from '@/types';
+import type { Vault } from '@/types';
 import { useTimeAgo } from '@vueuse/core';
 import CountryCircleFlag from './CountryCircleFlag.vue';
 import { LANGUAGE_METADATA } from '@/config/languages';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { nextTick, ref, useTemplateRef, watch } from 'vue';
-import { profile as profileLocalStorage, profiles } from '@/data';
+import { currentVault, vaults } from '@/data';
 import { RouterLink } from 'vue-router';
 
-const props = defineProps<{ profile: Profile; selected?: boolean; current?: boolean }>();
+const props = defineProps<{ vault: Vault; selected?: boolean; current?: boolean }>();
 
 defineEmits<{
-  (e: 'select', profileId: string): void;
-  (e: 'delete', profileId: string): void;
+  (e: 'select', vaultId: string): void;
+  (e: 'delete', vaultId: string): void;
 }>();
 
-const timeAgo = useTimeAgo(props.profile.createdAt);
+const timeAgo = useTimeAgo(props.vault.createdAt);
 
 const showEdit = ref(false);
 const showConfirmDelete = ref(false);
 
-const profileName = ref(props.profile.name || '');
-const profileNameRef = useTemplateRef('profileNameRef');
+const vaultName = ref(props.vault.name || '');
+const vaultNameRef = useTemplateRef('vaultNameRef');
 
 watch(showEdit, async () => {
   if (showEdit.value) {
     await nextTick();
-    profileNameRef.value?.focus();
+    vaultNameRef.value?.focus();
   }
 });
 
 const handleEdit = () => {
   if (props.current) {
-    profileLocalStorage.value.name = profileName.value;
+    currentVault.value.name = vaultName.value;
   } else {
-    const profileToEdit = profiles.value.find((p) => p.id === props.profile.id);
+    const vaultToEdit = vaults.value.find((v) => v.id === props.vault.id);
 
-    if (profileToEdit) {
-      profileToEdit.name = profileName.value;
+    if (vaultToEdit) {
+      vaultToEdit.name = vaultName.value;
     }
   }
 
@@ -54,15 +54,15 @@ const handleEdit = () => {
       >
         <input
           type="radio"
-          @click="$emit('select', profile.id)"
+          @click="$emit('select', vault.id)"
           class="radio absolute left-4"
           :checked="selected"
         />
         <button
           class="flex items-center gap-1 outline-none text-base-content/35"
-          @click="$emit('select', profile.id)"
+          @click="$emit('select', vault.id)"
         >
-          <template v-if="profile.source === profile.target">
+          <template v-if="vault.source === vault.target">
             <Icon
               icon="heroicons:question-mark-circle-16-solid"
               class="size-10 rounded-full border-4 border-dashed border-base-content/15"
@@ -77,20 +77,20 @@ const handleEdit = () => {
             />
           </template>
           <template v-else>
-            <CountryCircleFlag :width="40" :iso="LANGUAGE_METADATA[profile.source].flagIso" />
+            <CountryCircleFlag :width="40" :iso="LANGUAGE_METADATA[vault.source].flagIso" />
             <Icon
               icon="heroicons:arrow-long-right-16-solid"
               class="text-4xl text-base-content/35"
             />
-            <CountryCircleFlag :width="40" :iso="LANGUAGE_METADATA[profile.target].flagIso" />
+            <CountryCircleFlag :width="40" :iso="LANGUAGE_METADATA[vault.target].flagIso" />
           </template>
         </button>
         <div class="absolute right-4 flex items-center justify-center gap-1 text-lg">
           <RouterLink
             v-if="current"
-            to="/edit-profile"
+            to="/edit-vault"
             class="hover:text-success focus:text-success transition tooltip"
-            data-tip="Edit Profile"
+            data-tip="Edit Vault"
           >
             <Icon icon="heroicons:pencil-square" />
           </RouterLink>
@@ -99,13 +99,13 @@ const handleEdit = () => {
               v-if="!showConfirmDelete"
               @click="showConfirmDelete = true"
               class="hover:text-error focus:text-error transition tooltip"
-              data-tip="Delete Profile"
+              data-tip="Delete Vault"
             >
               <Icon icon="heroicons:trash" />
             </button>
             <div v-else class="flex items-center gap-1">
               <button
-                @click="$emit('delete', profile.id)"
+                @click="$emit('delete', vault.id)"
                 class="tooltip hover:text-success focus:text-success transition"
                 data-tip="Confirm"
               >
@@ -125,16 +125,16 @@ const handleEdit = () => {
     </div>
     <div class="text-sm text-center">
       <button v-if="!showEdit" @click="showEdit = true" class="font-semibold">
-        {{ profile.name || profile.id }}
+        {{ vault.name || vault.id }}
       </button>
       <form v-else @submit.prevent="handleEdit()" class="my-1">
         <input
-          ref="profileNameRef"
+          ref="vaultNameRef"
           type="text"
-          v-model="profileName"
+          v-model="vaultName"
           @blur="showEdit = false"
           class="input input-sm input-bordered text-center"
-          placeholder="Enter profile name"
+          placeholder="Enter vault name"
         />
       </form>
       <p>Created {{ timeAgo }}</p>

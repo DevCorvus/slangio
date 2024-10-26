@@ -5,7 +5,7 @@ import { firstTime, theme } from './data';
 import { watch } from 'vue';
 import ToasterComponent from './components/ToasterComponent.vue';
 import TextSelectionEater from './components/TextSelectionEater.vue';
-import SaveProfileReminder from './components/SaveProfileReminder.vue';
+import SaveVaultReminder from './components/SaveVaultReminder.vue';
 
 const html = document.querySelector('html');
 
@@ -28,7 +28,7 @@ watch(
     </div>
     <TextSelectionEater />
     <ToasterComponent />
-    <SaveProfileReminder />
+    <SaveVaultReminder />
   </template>
   <template v-else>
     <RouterView />

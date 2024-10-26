@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { profile, quizConfig } from '@/data';
+import { currentVault, quizConfig } from '@/data';
 import { useTermStore } from '@/stores/term';
 import type { Collection, QuizConfig } from '@/types';
 import { isValidQuizTerm } from '@/utils/term';
@@ -21,7 +21,7 @@ const collections = computed(() => {
   for (const collectionId in store.toLearn) {
     if (store.toLearn[collectionId] === 0) continue;
 
-    const collection = profile.value.collections.find(
+    const collection = currentVault.value.collections.find(
       (collection) => collection.id === collectionId
     );
 

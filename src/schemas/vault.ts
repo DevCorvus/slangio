@@ -43,7 +43,7 @@ export const collectionSchema = z.object({
   createdAt: z.coerce.date()
 });
 
-export const profileSchema = z
+export const vaultSchema = z
   .object({
     id: z.string(),
     name: z.string().optional(),

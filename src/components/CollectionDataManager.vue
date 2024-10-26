@@ -5,16 +5,16 @@ import ModalComponent from './ModalComponent.vue';
 import { downloadJson } from '@/utils/download';
 import { useFileDialog } from '@vueuse/core';
 import { useToasterStore } from '@/stores/toaster';
-import { profile } from '@/data';
+import { currentVault } from '@/data';
 import type { Collection } from '@/types';
 import { localeDateNow } from '@/utils/date';
 import {
   exportedCollectionSchema,
   type ExportedCollection,
   type ExportedTerm
-} from '@/schemas/profile';
+} from '@/schemas/vault';
 import { z } from 'zod';
-import { profileService } from '@/services/profile.service';
+import { vaultService } from '@/services/vault.service';
 import { isErrorWithMessage } from '@/utils/error';
 import { popSound } from '@/sound';
 
@@ -33,7 +33,7 @@ watch(exportMode, () => {
 const handleExport = () => {
   if (collectionIdsToExport.value.length === 0) return;
 
-  const collections: Collection[] = JSON.parse(JSON.stringify(profile.value.collections));
+  const collections: Collection[] = JSON.parse(JSON.stringify(currentVault.value.collections));
 
   const out: ExportedCollection[] = [];
 
@@ -58,7 +58,7 @@ const handleExport = () => {
   }
 
   downloadJson(
-    `slangio_collections.${profile.value.name || profile.value.id}.${localeDateNow()}`,
+    `slangio_collections.${currentVault.value.name || currentVault.value.id}.${localeDateNow()}`,
     out
   );
 
@@ -118,7 +118,7 @@ const handleImport = () => {
 
   for (const collection of collections) {
     try {
-      const newCollection = profileService.addCollection({
+      const newCollection = vaultService.addCollection({
         name: collection.name,
         description: collection.description
       });
@@ -127,7 +127,7 @@ const handleImport = () => {
 
       for (const term of collection.terms) {
         try {
-          profileService.addTerm(newCollection.id, term);
+          vaultService.addTerm(newCollection.id, term);
         } catch (err) {
           if (isErrorWithMessage(err)) {
             toaster.error(err.message);
@@ -166,7 +166,7 @@ const handleImport = () => {
         <h3 class="text-lg font-bold">Export Collections</h3>
       </header>
       <div class="space-y-3">
-        <template v-for="collection in profile.collections" :key="collection.id">
+        <template v-for="collection in currentVault.collections" :key="collection.id">
           <div v-if="!collection.permanent" class="form-control">
             <label :for="collection.id" class="flex gap-2 cursor-pointer">
               <input

@@ -2,8 +2,8 @@
 import { computed, ref } from 'vue';
 import ModalComponent from './ModalComponent.vue';
 import { Icon } from '@iconify/vue';
-import { profile } from '@/data';
-import { profileService } from '@/services/profile.service';
+import { currentVault } from '@/data';
+import { vaultService } from '@/services/vault.service';
 import { useRoute } from 'vue-router';
 
 const props = defineProps<{ termIds: string[] }>();
@@ -16,12 +16,12 @@ const route = useRoute();
 
 const hasTermIds = computed(() => props.termIds.length > 0);
 
-const targetCollectionId = ref(profile.value.defaultCollection);
+const targetCollectionId = ref(currentVault.value.defaultCollection);
 
 const showModal = ref(false);
 
 const handleMove = () => {
-  profileService.moveManyTerms(route.params.id as string, targetCollectionId.value, props.termIds);
+  vaultService.moveManyTerms(route.params.id as string, targetCollectionId.value, props.termIds);
   showModal.value = false;
   emit('success');
 };
@@ -48,7 +48,7 @@ const handleMove = () => {
           </div>
           <select v-model="targetCollectionId" class="select select-bordered w-full">
             <option
-              v-for="collection in profile.collections"
+              v-for="collection in currentVault.collections"
               :value="collection.id"
               :key="collection.id"
             >

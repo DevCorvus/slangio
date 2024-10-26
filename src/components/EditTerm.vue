@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { profile } from '@/data';
-import { profileService, type UpdateTerm } from '@/services/profile.service';
+import { currentVault } from '@/data';
+import { vaultService, type UpdateTerm } from '@/services/vault.service';
 import { useToasterStore } from '@/stores/toaster';
 import type { Term } from '@/types';
 import { isErrorWithMessage } from '@/utils/error';
@@ -28,7 +28,7 @@ const handleTermUpdate = () => {
   }
 
   try {
-    profileService.updateTerm(props.term.id, {
+    vaultService.updateTerm(props.term.id, {
       content: formData.content,
       collectionId: formData.collectionId
     });
@@ -47,7 +47,7 @@ const handleTermUpdate = () => {
     <div class="join w-full">
       <select v-model="formData.collectionId" class="select select-bordered join-item">
         <option
-          v-for="collection in profile.collections"
+          v-for="collection in currentVault.collections"
           :value="collection.id"
           :key="collection.id"
         >

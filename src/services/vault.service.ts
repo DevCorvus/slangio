@@ -1,4 +1,4 @@
-import { profile } from '@/data';
+import { currentVault } from '@/data';
 import type {
   Collection,
   PartOfSpeech,
@@ -37,7 +37,7 @@ export interface CreateUpdateTermReference {
   name: string;
 }
 
-class ProfileService {
+class VaultService {
   addCollection(data: CreateUpdateCollection): Collection {
     if (this.collectionExistsByName(data.name)) {
       throw new Error('Collection already exists');
@@ -51,19 +51,21 @@ class ProfileService {
       createdAt: new Date()
     };
 
-    profile.value.collections.push(newCollection);
+    currentVault.value.collections.push(newCollection);
 
     return newCollection;
   }
 
   getCollectionById(collectionId: string): Collection | null {
-    return profile.value.collections.find((collection) => collection.id === collectionId) || null;
+    return (
+      currentVault.value.collections.find((collection) => collection.id === collectionId) || null
+    );
   }
 
   collectionExistsByName(name: string) {
     const lowerName = name.toLowerCase();
 
-    return profile.value.collections.some(
+    return currentVault.value.collections.some(
       (collection) => collection.name.toLowerCase() === lowerName
     );
   }
@@ -73,7 +75,7 @@ class ProfileService {
       throw new Error('Collection already exists');
     }
 
-    profile.value.collections = profile.value.collections.map((collection) => {
+    currentVault.value.collections = currentVault.value.collections.map((collection) => {
       if (collection.id === collectionId) {
         collection.name = data.name;
         collection.description = data.description;
@@ -83,17 +85,17 @@ class ProfileService {
   }
 
   removeCollection(collectionId: string) {
-    profile.value.collections = profile.value.collections.filter(
+    currentVault.value.collections = currentVault.value.collections.filter(
       (collection) => collection.id !== collectionId
     );
 
-    if (collectionId === profile.value.defaultCollection) {
-      const permanentCollection = profile.value.collections.find(
+    if (collectionId === currentVault.value.defaultCollection) {
+      const permanentCollection = currentVault.value.collections.find(
         (collection) => collection.permanent
       );
 
       if (permanentCollection) {
-        profile.value.defaultCollection = permanentCollection.id;
+        currentVault.value.defaultCollection = permanentCollection.id;
       }
     }
   }
@@ -143,13 +145,13 @@ class ProfileService {
   termExistsByContent(content: string) {
     const lowerContent = content.toLowerCase();
 
-    return profile.value.collections.some((collection) =>
+    return currentVault.value.collections.some((collection) =>
       collection.terms.some((term) => term.content.toLowerCase() === lowerContent)
     );
   }
 
   getCollectionIdFromTerm(termId: string): string | null {
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       for (const term of collection.terms) {
         if (term.id === termId) {
           return collection.id;
@@ -165,7 +167,7 @@ class ProfileService {
       throw new Error('Term already exists');
     }
 
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       collection.terms.forEach((term, i) => {
         if (term.id === termId) {
           term.content = data.content;
@@ -174,7 +176,7 @@ class ProfileService {
             // Move to another collection
             const termToMove = collection.terms.splice(i, 1)[0];
 
-            for (const destinationCollection of profile.value.collections) {
+            for (const destinationCollection of currentVault.value.collections) {
               if (destinationCollection.id === data.collectionId) {
                 destinationCollection.terms.push(termToMove);
                 return;
@@ -188,7 +190,7 @@ class ProfileService {
   }
 
   removeTerm(termId: string) {
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       const termIndex = collection.terms.findIndex((term) => term.id === termId);
 
       if (termIndex !== -1) {
@@ -199,7 +201,7 @@ class ProfileService {
   }
 
   removeManyTerms(collectionId: string, termIds: string[]) {
-    const collection = profile.value.collections.find(
+    const collection = currentVault.value.collections.find(
       (collection) => collection.id === collectionId
     );
 
@@ -215,11 +217,11 @@ class ProfileService {
   }
 
   moveManyTerms(sourceCollectionId: string, targetCollectionId: string, termIds: string[]) {
-    const sourceCollection = profile.value.collections.find(
+    const sourceCollection = currentVault.value.collections.find(
       (collection) => collection.id === sourceCollectionId
     );
 
-    const targetCollection = profile.value.collections.find(
+    const targetCollection = currentVault.value.collections.find(
       (collection) => collection.id === targetCollectionId
     );
 
@@ -243,7 +245,7 @@ class ProfileService {
       example: data.example
     };
 
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       for (const term of collection.terms) {
         if (term.id === termId) {
           term.meanings.push(newTermMeaning);
@@ -254,7 +256,7 @@ class ProfileService {
   }
 
   updateTermMeaning(termId: string, meaningId: string, data: CreateUpdateTermMeaning) {
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       for (const term of collection.terms) {
         if (term.id === termId) {
           for (const meaning of term.meanings) {
@@ -272,7 +274,7 @@ class ProfileService {
   }
 
   removeTermMeaning(termId: string, meaningId: string) {
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       for (const term of collection.terms) {
         if (term.id === termId) {
           const meaningIndex = term.meanings.findIndex((meaning) => meaning.id === meaningId);
@@ -290,7 +292,7 @@ class ProfileService {
       name: data.name
     };
 
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       for (const term of collection.terms) {
         if (term.id === termId) {
           term.references.push(newReference);
@@ -301,7 +303,7 @@ class ProfileService {
   }
 
   updateTermReference(termId: string, referenceId: string, data: CreateUpdateTermReference) {
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       for (const term of collection.terms) {
         if (term.id === termId) {
           for (const reference of term.references) {
@@ -318,7 +320,7 @@ class ProfileService {
   }
 
   removeTermReference(termId: string, referenceId: string) {
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       for (const term of collection.terms) {
         if (term.id === termId) {
           const referenceIndex = term.references.findIndex(
@@ -332,7 +334,7 @@ class ProfileService {
   }
 
   setTermMetadata(termId: string, data: TermMetadata) {
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       for (const term of collection.terms) {
         if (term.id === termId) {
           term.metadata = data;
@@ -343,7 +345,7 @@ class ProfileService {
   }
 
   setTermLearnedState(termId: string, newState: boolean) {
-    for (const collection of profile.value.collections) {
+    for (const collection of currentVault.value.collections) {
       for (const term of collection.terms) {
         if (term.id === termId) {
           term.learnedAt = newState ? new Date() : null;
@@ -354,4 +356,4 @@ class ProfileService {
   }
 }
 
-export const profileService = new ProfileService();
+export const vaultService = new VaultService();

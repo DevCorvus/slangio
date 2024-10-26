@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { profileService } from '@/services/profile.service';
+import { vaultService } from '@/services/vault.service';
 import { useToasterStore } from '@/stores/toaster';
 import { ref } from 'vue';
 import TermDataManager from './TermDataManager.vue';
@@ -14,7 +14,7 @@ const handleNewTerm = (collectionId: string) => {
   if (!input.value) return;
 
   try {
-    profileService.addTerm(collectionId, { content: input.value });
+    vaultService.addTerm(collectionId, { content: input.value });
     popSound.play();
     input.value = '';
   } catch (err) {

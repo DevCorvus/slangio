@@ -1,5 +1,5 @@
 import { useLocalStorage, usePreferredDark } from '@vueuse/core';
-import type { Collection, Profile, SupportedLanguage } from './types';
+import type { Collection, Vault, SupportedLanguage } from './types';
 import { nanoid } from 'nanoid';
 import { getDaysInMs, getFutureDate } from './utils/time';
 import { downloadJson } from './utils/download';
@@ -19,12 +19,12 @@ export const quizConfig = useLocalStorage('quizConfig', {
   timer: 0
 });
 
-export interface CreateUpdateProfile {
+export interface CreateUpdateVault {
   source: SupportedLanguage;
   target: SupportedLanguage;
 }
 
-export function createProfile({ source, target }: CreateUpdateProfile) {
+export function createVault({ source, target }: CreateUpdateVault) {
   const defaultCollection: Collection = {
     id: nanoid(),
     name: 'Default',
@@ -34,7 +34,7 @@ export function createProfile({ source, target }: CreateUpdateProfile) {
     createdAt: new Date()
   };
 
-  const newProfile: Profile = {
+  const newVault: Vault = {
     id: nanoid(),
     source,
     target,
@@ -43,21 +43,21 @@ export function createProfile({ source, target }: CreateUpdateProfile) {
     createdAt: new Date()
   };
 
-  return newProfile;
+  return newVault;
 }
 
-const defaultProfile = createProfile({ source: 'en', target: 'en' });
+const defaultVault = createVault({ source: 'en', target: 'en' });
 
-export const profile = useLocalStorage<Profile>('profile', defaultProfile);
-export const profiles = useLocalStorage<Profile[]>('profiles', []);
+export const currentVault = useLocalStorage<Vault>('currentVault', defaultVault);
+export const vaults = useLocalStorage<Vault[]>('vaults', []);
 
-export const nextProfileExportReminder = useLocalStorage(
-  'nextProfileExport',
+export const nextVaultBackupReminder = useLocalStorage(
+  'nextVaultBackup',
   getFutureDate(getDaysInMs(7))
 );
 
-export function exportProfiles() {
-  const allProfiles = [...profiles.value, profile.value];
-  downloadJson(`slangio_profiles.${localeDateNow()}`, allProfiles);
-  nextProfileExportReminder.value = getFutureDate(getDaysInMs(7));
+export function exportVaults() {
+  const allVaults = [...vaults.value, currentVault.value];
+  downloadJson(`slangio_vaults.${localeDateNow()}`, allVaults);
+  nextVaultBackupReminder.value = getFutureDate(getDaysInMs(7));
 }

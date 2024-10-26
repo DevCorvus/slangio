@@ -6,10 +6,10 @@ import TermLanguageReferenceList from './TermLanguageReferenceList.vue';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
 import EditTerm from './EditTerm.vue';
-import { profileService } from '@/services/profile.service';
+import { vaultService } from '@/services/vault.service';
 import { useRoute, useRouter } from 'vue-router';
 import { useTimeAgo } from '@vueuse/core';
-import { profile } from '@/data';
+import { currentVault } from '@/data';
 import SpanishTermDefinitions from './SpanishTermDefinitions.vue';
 
 const props = defineProps<{ term: Term; showCollectionLink?: boolean; hideMutations?: boolean }>();
@@ -22,7 +22,7 @@ const router = useRouter();
 const route = useRoute();
 
 const collectionId =
-  (route.params.id as string) || profileService.getCollectionIdFromTerm(props.term.id) || '';
+  (route.params.id as string) || vaultService.getCollectionIdFromTerm(props.term.id) || '';
 
 const goToCollection = () => {
   if (collectionId) {
@@ -63,16 +63,16 @@ const isLearned = props.term.learnedAt !== null;
     </header>
     <EditTerm v-else :collection-id :term @close="editMode = false" />
     <TermCustomMeanings :term />
-    <template v-if="profile.source !== profile.target">
-      <EnglishTermDefinitions v-if="profile.target === 'en'" :content="term.content" />
-      <SpanishTermDefinitions v-else-if="profile.target === 'es'" :content="term.content" />
+    <template v-if="currentVault.source !== currentVault.target">
+      <EnglishTermDefinitions v-if="currentVault.target === 'en'" :content="term.content" />
+      <SpanishTermDefinitions v-else-if="currentVault.target === 'es'" :content="term.content" />
       <TermLanguageReferenceList :content="term.content" />
     </template>
     <div class="flex justify-between items-center">
       <p class="text-base-content/50 text-sm">Added {{ timeAgo }}</p>
       <button
         v-if="!hideMutations"
-        @click="profileService.removeTerm(term.id)"
+        @click="vaultService.removeTerm(term.id)"
         class="btn btn-sm btn-outline btn-error"
       >
         <span>Delete</span>

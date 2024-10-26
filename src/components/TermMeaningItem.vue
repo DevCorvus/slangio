@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { profileService } from '@/services/profile.service';
+import { vaultService } from '@/services/vault.service';
 import type { TermMeaning } from '@/types';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
@@ -27,7 +27,7 @@ const editMode = ref(false);
         <Icon icon="heroicons:pencil-16-solid" class="mx-auto" />
       </button>
       <button
-        @click="profileService.removeTermMeaning(termId, meaning.id)"
+        @click="vaultService.removeTermMeaning(termId, meaning.id)"
         class="btn btn-circle btn-xs tooltip tooltip-bottom"
         data-tip="Delete"
       >

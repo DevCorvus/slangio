@@ -4,8 +4,8 @@ import { computed, ref } from 'vue';
 import { downloadJson } from '@/utils/download';
 import { localeDateNow } from '@/utils/date';
 import { useRoute } from 'vue-router';
-import type { ExportedTerm } from '@/schemas/profile';
-import { profileService } from '@/services/profile.service';
+import type { ExportedTerm } from '@/schemas/vault';
+import { vaultService } from '@/services/vault.service';
 import ModalComponent from './ModalComponent.vue';
 import { useClipboard } from '@vueuse/core';
 
@@ -23,7 +23,7 @@ const hasTermIds = computed(() => props.termIds.length > 0);
 const showModal = ref(false);
 
 const handleCopyRaw = async () => {
-  const collection = profileService.getCollectionById(collectionId);
+  const collection = vaultService.getCollectionById(collectionId);
 
   if (collection) {
     const out: string[] = collection.terms
@@ -35,7 +35,7 @@ const handleCopyRaw = async () => {
 };
 
 const handleExport = () => {
-  const collection = profileService.getCollectionById(collectionId);
+  const collection = vaultService.getCollectionById(collectionId);
 
   if (collection) {
     const out: ExportedTerm[] = collection.terms

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { profileService } from '@/services/profile.service';
+import { vaultService } from '@/services/vault.service';
 import { quizService } from '@/services/quiz.service';
 import type { QuizConfig, QuizResult, Term } from '@/types';
 import { onBeforeUnmount, ref, useTemplateRef, watch } from 'vue';
@@ -81,7 +81,7 @@ const goNext = () => {
 };
 
 const handleFailure = () => {
-  profileService.setTermMetadata(currentTerm.value.id, {
+  vaultService.setTermMetadata(currentTerm.value.id, {
     quiz: quizService.getStepBackward(currentTerm.value.metadata.quiz)
   });
 
@@ -96,9 +96,9 @@ const handleSuccess = () => {
 
   try {
     const forwardMetadata = quizService.getStepForward(currentTerm.value.metadata.quiz);
-    profileService.setTermMetadata(termId, { quiz: forwardMetadata });
+    vaultService.setTermMetadata(termId, { quiz: forwardMetadata });
   } catch {
-    profileService.setTermLearnedState(termId, true);
+    vaultService.setTermLearnedState(termId, true);
   }
 
   results.yes.push(currentTerm.value);

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useTextSelection, watchDebounced } from '@vueuse/core';
 import { ref } from 'vue';
-import { profile } from '@/data';
-import { profileService } from '@/services/profile.service';
+import { currentVault } from '@/data';
+import { vaultService } from '@/services/vault.service';
 import { useToasterStore } from '@/stores/toaster';
 import { isErrorWithMessage } from '@/utils/error';
 import { popSound } from '@/sound';
@@ -31,7 +31,7 @@ const handleNewTerm = (text: string) => {
 
   if (content) {
     try {
-      profileService.addTerm(profile.value.defaultCollection, { content });
+      vaultService.addTerm(currentVault.value.defaultCollection, { content });
       popSound.play();
     } catch (err) {
       if (isErrorWithMessage(err)) {

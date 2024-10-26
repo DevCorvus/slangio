@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { profile } from '@/data';
+import { currentVault } from '@/data';
 import CollectionItem from './CollectionItem.vue';
 import AddCollection from './AddCollection.vue';
 import { Icon } from '@iconify/vue';
@@ -7,12 +7,12 @@ import SearchCollections from './SearchCollections.vue';
 import { ref } from 'vue';
 import type { Collection } from '@/types';
 
-const filteredCollections = ref<Collection[]>(profile.value.collections);
+const filteredCollections = ref<Collection[]>(currentVault.value.collections);
 </script>
 
 <template>
   <SearchCollections
-    :collections="profile.collections"
+    :collections="currentVault.collections"
     @search="(data) => (filteredCollections = data)"
   />
   <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

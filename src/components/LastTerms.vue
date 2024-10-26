@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { profile } from '@/data';
+import { currentVault } from '@/data';
 import { computed } from 'vue';
 import GenericTermList from './GenericTermList.vue';
 
 const lastTerms = computed(() => {
-  return profile.value.collections
+  return currentVault.value.collections
     .flat()
     .map((collection) => collection.terms)
     .flat()

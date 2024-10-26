@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue';
 import ConfirmDelete from './ConfirmDelete.vue';
 import { Icon } from '@iconify/vue';
-import { profileService } from '@/services/profile.service';
+import { vaultService } from '@/services/vault.service';
 import { useRoute } from 'vue-router';
 
 const props = defineProps<{ termIds: string[] }>();
@@ -18,7 +18,7 @@ const hasTermIds = computed(() => props.termIds.length > 0);
 const showModal = ref(false);
 
 const handleDelete = () => {
-  profileService.removeManyTerms(route.params.id as string, props.termIds);
+  vaultService.removeManyTerms(route.params.id as string, props.termIds);
   showModal.value = false;
   emit('success');
 };

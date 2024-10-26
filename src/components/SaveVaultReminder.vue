@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { exportProfiles, nextProfileExportReminder } from '@/data';
+import { exportVaults, nextVaultBackupReminder } from '@/data';
 import { onBeforeMount, ref } from 'vue';
 import ModalComponent from './ModalComponent.vue';
 import { Icon } from '@iconify/vue';
@@ -7,7 +7,7 @@ import { Icon } from '@iconify/vue';
 const showModal = ref(false);
 
 onBeforeMount(() => {
-  const reminder = new Date(nextProfileExportReminder.value);
+  const reminder = new Date(nextVaultBackupReminder.value);
 
   if (new Date().getTime() > reminder.getTime()) {
     showModal.value = true;
@@ -15,7 +15,7 @@ onBeforeMount(() => {
 });
 
 const handleBackup = () => {
-  exportProfiles();
+  exportVaults();
   showModal.value = false;
 };
 </script>
@@ -31,7 +31,7 @@ const handleBackup = () => {
         adding accounts to sync your data but for now you should create backups regularly to keep
         your vocabulary safe!
       </p>
-      <button @click="handleBackup()" class="btn btn-block btn-primary">Backup Profiles</button>
+      <button @click="handleBackup()" class="btn btn-block btn-primary">Backup Vaults</button>
       <p class="text-base-content/50">
         This will be showing up until you create a backup, so you can't say we didn't warn you.
         <Icon icon="heroicons:face-smile-16-solid" class="inline-flex" />

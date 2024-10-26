@@ -3,9 +3,9 @@ import HomeView from '../views/HomeView.vue';
 import CollectionsView from '@/views/CollectionsView.vue';
 import CollectionDetailsView from '@/views/CollectionDetailsView.vue';
 import { firstTime } from '@/data';
-import NewProfileView from '@/views/NewProfileView.vue';
+import NewVaultView from '@/views/NewVaultView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
-import EditProfileView from '@/views/EditProfileView.vue';
+import EditVaultView from '@/views/EditVaultView.vue';
 import QuizView from '@/views/QuizView.vue';
 import TermsLearnedView from '@/views/TermsLearnedView.vue';
 
@@ -38,14 +38,14 @@ const router = createRouter({
       component: TermsLearnedView
     },
     {
-      path: '/new-profile',
-      name: 'new-profile',
-      component: NewProfileView
+      path: '/new-vault',
+      name: 'new-vault',
+      component: NewVaultView
     },
     {
-      path: '/edit-profile',
-      name: 'edit-profile',
-      component: EditProfileView
+      path: '/edit-vault',
+      name: 'edit-vault',
+      component: EditVaultView
     },
     {
       path: '/:pathMatch(.*)*',
@@ -56,8 +56,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  if (firstTime.value && to.name !== 'new-profile') {
-    return { name: 'new-profile' };
+  if (firstTime.value && to.name !== 'new-vault') {
+    return { name: 'new-vault' };
   }
 });
 

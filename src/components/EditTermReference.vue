@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { profileService, type CreateUpdateTermReference } from '@/services/profile.service';
+import { vaultService, type CreateUpdateTermReference } from '@/services/vault.service';
 import { reactive } from 'vue';
 import type { TermReference } from '@/types';
 import { urlSchema } from '@/schemas';
@@ -24,7 +24,7 @@ const handleMeaningUpdate = () => {
 
   if (!url.success) return;
 
-  profileService.updateTermReference(props.termId, props.reference.id, {
+  vaultService.updateTermReference(props.termId, props.reference.id, {
     url: url.data,
     name: formData.name
   });

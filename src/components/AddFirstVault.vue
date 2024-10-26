@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { firstTime, profile, type CreateUpdateProfile } from '@/data';
+import { firstTime, currentVault, type CreateUpdateVault } from '@/data';
 import { useRouter } from 'vue-router';
-import ProfileSelector from './ProfileSelector.vue';
+import VaultSelector from './VaultSelector.vue';
 import WorldMap from './WorldMap.vue';
 
 const router = useRouter();
 
-const handleChoice = (data: CreateUpdateProfile) => {
-  profile.value.source = data.source;
-  profile.value.target = data.target;
+const handleChoice = (data: CreateUpdateVault) => {
+  currentVault.value.source = data.source;
+  currentVault.value.target = data.target;
   firstTime.value = false;
 
   router.push('/');
@@ -33,7 +33,7 @@ const skip = () => {
       </p>
       <section class="space-y-4 w-full">
         <span class="text-center font-semibold text-lg">Choose to start</span>
-        <ProfileSelector @select="handleChoice" />
+        <VaultSelector @select="handleChoice" />
       </section>
     </section>
     <WorldMap

@@ -2,14 +2,14 @@
 import TermLanguageReferenceItem from './TermLanguageReferenceItem.vue';
 import { computed } from 'vue';
 import { LANGUAGE_CONFIG } from '@/config/languages';
-import { profile } from '@/data';
+import { currentVault } from '@/data';
 import type { LanguageReference } from '@/types';
 
 defineProps<{ content: string }>();
 
 const references = computed(() => {
-  const source = profile.value.source;
-  const target = profile.value.target;
+  const source = currentVault.value.source;
+  const target = currentVault.value.target;
 
   if (LANGUAGE_CONFIG[source] !== undefined) {
     // @ts-ignore

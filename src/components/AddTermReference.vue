@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { urlSchema } from '@/schemas';
-import { profileService, type CreateUpdateTermReference } from '@/services/profile.service';
+import { vaultService, type CreateUpdateTermReference } from '@/services/vault.service';
 import { reactive } from 'vue';
 
 const props = defineProps<{ termId: string }>();
@@ -19,7 +19,7 @@ const handleNewReference = () => {
 
   if (!url.success) return;
 
-  profileService.addTermReference(props.termId, {
+  vaultService.addTermReference(props.termId, {
     url: url.data,
     name: formData.name
   });

@@ -5,9 +5,9 @@ import ImportRawTerms from './ImportRawTerms.vue';
 import { ref } from 'vue';
 import { useClipboard, useFileDialog } from '@vueuse/core';
 import { z } from 'zod';
-import { exportedTermSchema, type ExportedTerm } from '@/schemas/profile';
+import { exportedTermSchema, type ExportedTerm } from '@/schemas/vault';
 import { useToasterStore } from '@/stores/toaster';
-import { profileService } from '@/services/profile.service';
+import { vaultService } from '@/services/vault.service';
 import { useRoute } from 'vue-router';
 import { isErrorWithMessage } from '@/utils/error';
 import { downloadJson } from '@/utils/download';
@@ -21,7 +21,7 @@ const showModal = ref(false);
 const { copy, copied } = useClipboard();
 
 const handleCopyRaw = async () => {
-  const collection = profileService.getCollectionById(route.params.id as string);
+  const collection = vaultService.getCollectionById(route.params.id as string);
 
   if (collection) {
     const out: string[] = collection.terms.map((term) => term.content);
@@ -30,7 +30,7 @@ const handleCopyRaw = async () => {
 };
 
 const handleExport = () => {
-  const collection = profileService.getCollectionById(route.params.id as string);
+  const collection = vaultService.getCollectionById(route.params.id as string);
 
   if (collection) {
     const termsToExport: ExportedTerm[] = collection.terms.map((term) => {
@@ -69,7 +69,7 @@ onChange(async (files) => {
 
       for (const term of importedTerms) {
         try {
-          profileService.addTerm(route.params.id as string, term);
+          vaultService.addTerm(route.params.id as string, term);
           atLeastOneAdded = true;
         } catch (err) {
           if (isErrorWithMessage(err)) {

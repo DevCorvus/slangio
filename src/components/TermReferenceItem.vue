@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { profileService } from '@/services/profile.service';
+import { vaultService } from '@/services/vault.service';
 import type { TermReference } from '@/types';
 import { ref } from 'vue';
 import EditTermReference from './EditTermReference.vue';
@@ -29,7 +29,7 @@ const editMode = ref(false);
         <Icon icon="heroicons:pencil-16-solid" class="mx-auto" />
       </button>
       <button
-        @click="profileService.removeTermReference(termId, reference.id)"
+        @click="vaultService.removeTermReference(termId, reference.id)"
         class="btn btn-circle btn-xs tooltip tooltip-bottom"
         data-tip="Delete"
       >

@@ -1,21 +1,14 @@
 <script setup lang="ts">
-import { createProfile, profile, profiles, type CreateUpdateProfile } from '@/data';
+import { currentVault, type CreateUpdateVault } from '@/data';
 import { useRouter } from 'vue-router';
-import ProfileSelector from './ProfileSelector.vue';
+import VaultSelector from '@/components/VaultSelector.vue';
 import { Icon } from '@iconify/vue';
-import { useTermStore } from '@/stores/term';
 
 const router = useRouter();
 
-const store = useTermStore();
-
-const handleChoice = (data: CreateUpdateProfile) => {
-  const newProfile = createProfile(data);
-
-  profiles.value.push(profile.value);
-  profile.value = newProfile;
-
-  store.refreshToLearn();
+const handleChoice = (data: CreateUpdateVault) => {
+  currentVault.value.source = data.source;
+  currentVault.value.target = data.target;
 
   router.push('/');
 };
@@ -31,11 +24,11 @@ const handleChoice = (data: CreateUpdateProfile) => {
   <main class="hero min-h-screen absolute inset-0 -z-10">
     <div class="hero-content max-w-lg flex flex-col gap-10">
       <header>
-        <h1 class="text-4xl font-black text-center">Add Profile</h1>
+        <h1 class="text-4xl font-black text-center">Edit Vault</h1>
       </header>
       <section class="space-y-4 w-full">
         <header class="text-center font-semibold text-lg">Choose</header>
-        <ProfileSelector @select="handleChoice" />
+        <VaultSelector @select="handleChoice" />
       </section>
     </div>
   </main>

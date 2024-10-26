@@ -3,7 +3,7 @@ import { EXTENDED_PARTS_OF_SPEECH } from './constants';
 
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
 
-export interface Profile {
+export interface Vault {
   id: string;
   name?: string;
   source: SupportedLanguage;

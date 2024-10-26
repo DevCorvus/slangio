@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { profileService, type CreateUpdateCollection } from '@/services/profile.service';
+import { vaultService, type CreateUpdateCollection } from '@/services/vault.service';
 import { Icon } from '@iconify/vue';
 import { reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
@@ -34,7 +34,7 @@ const handleUpdateCollection = () => {
   }
 
   try {
-    profileService.updateCollection(route.params.id as string, {
+    vaultService.updateCollection(route.params.id as string, {
       name: formData.name,
       description: formData.description
     });

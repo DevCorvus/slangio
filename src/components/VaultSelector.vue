@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { LANGUAGE_METADATA, SUPPORTED_LANGUAGES } from '@/config/languages';
-import type { CreateUpdateProfile } from '@/data';
+import type { CreateUpdateVault } from '@/data';
 import CountryCircleFlag from './CountryCircleFlag.vue';
 import { Icon } from '@iconify/vue';
 
 defineEmits<{
-  (e: 'select', data: CreateUpdateProfile): void;
+  (e: 'select', data: CreateUpdateVault): void;
 }>();
 </script>
 

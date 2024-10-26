@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { profileService, type CreateUpdateCollection } from '@/services/profile.service';
+import { vaultService, type CreateUpdateCollection } from '@/services/vault.service';
 import { reactive, ref } from 'vue';
 import ModalComponent from './ModalComponent.vue';
 import { useToasterStore } from '@/stores/toaster';
@@ -18,7 +18,7 @@ const handleNewCollection = () => {
   if (!formData.name) return;
 
   try {
-    profileService.addCollection({ name: formData.name, description: formData.description });
+    vaultService.addCollection({ name: formData.name, description: formData.description });
 
     formData.name = '';
     formData.description = '';

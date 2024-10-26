@@ -3,8 +3,8 @@ import AddTerm from '@/components/AddTerm.vue';
 import ConfirmDelete from '@/components/ConfirmDelete.vue';
 import EditCollection from '@/components/EditCollection.vue';
 import TermList from '@/components/TermList.vue';
-import { profile } from '@/data';
-import { profileService } from '@/services/profile.service';
+import { currentVault } from '@/data';
+import { vaultService } from '@/services/vault.service';
 import { useTermStore } from '@/stores/term';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
@@ -13,12 +13,12 @@ import { RouterLink, useRoute, useRouter } from 'vue-router';
 const router = useRouter();
 const route = useRoute();
 
-const collection = profile.value.collections.find(
+const collection = currentVault.value.collections.find(
   (collection) => collection.id === route.params.id
 );
 
 const handleRemoveCollection = () => {
-  profileService.removeCollection(collection!.id);
+  vaultService.removeCollection(collection!.id);
   router.push('/collections');
 };
 

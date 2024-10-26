@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { profile } from '@/data';
-import { profileService } from '@/services/profile.service';
+import { currentVault } from '@/data';
+import { vaultService } from '@/services/vault.service';
 import { useToasterStore } from '@/stores/toaster';
 import { Icon } from '@iconify/vue';
 import { ref, computed, useTemplateRef, onMounted } from 'vue';
@@ -20,7 +20,7 @@ const handleNewTerm = (collectionId: string) => {
   if (!input.value) return;
 
   try {
-    profileService.addTerm(collectionId, { content: input.value });
+    vaultService.addTerm(collectionId, { content: input.value });
     popSound.play();
     input.value = '';
   } catch (err) {
@@ -31,12 +31,12 @@ const handleNewTerm = (collectionId: string) => {
 };
 
 const handleDefaultCollection = (collectionId: string) => {
-  profile.value.defaultCollection = collectionId;
+  currentVault.value.defaultCollection = collectionId;
 };
 
 const selectedCollection = computed(() => {
-  return profile.value.collections.find(
-    (collection) => collection.id === profile.value.defaultCollection
+  return currentVault.value.collections.find(
+    (collection) => collection.id === currentVault.value.defaultCollection
   )!;
 });
 </script>
@@ -58,7 +58,7 @@ const selectedCollection = computed(() => {
           </span>
         </button>
         <ul class="mt-1 w-full menu dropdown-content shadow rounded-box bg-base-100 z-10">
-          <li v-for="collection in profile.collections" :key="collection.id">
+          <li v-for="collection in currentVault.collections" :key="collection.id">
             <button type="button" @click="handleDefaultCollection(collection.id)">
               {{ collection.name }}
             </button>

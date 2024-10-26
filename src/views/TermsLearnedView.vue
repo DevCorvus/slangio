@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import LearnedTermList from '@/components/LearnedTermList.vue';
-import { profile } from '@/data';
+import { currentVault } from '@/data';
 import { Icon } from '@iconify/vue';
 import { computed } from 'vue';
 
 const terms = computed(() =>
-  profile.value.collections
+  currentVault.value.collections
     .flat()
     .map((collection) => collection.terms)
     .flat()

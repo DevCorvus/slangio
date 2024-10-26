@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { profile } from '@/data';
+import { currentVault } from '@/data';
 import { computed } from 'vue';
 import { Icon } from '@iconify/vue';
 
@@ -8,7 +8,7 @@ const DAY_IN_MS = 24 * 60 * 60 * 1000;
 const recentTermsCount = computed(() => {
   const yesterday = Date.now() - DAY_IN_MS;
 
-  return profile.value.collections.reduce((prev, collection) => {
+  return currentVault.value.collections.reduce((prev, collection) => {
     const termsFromLastDay = collection.terms.filter((term) => {
       const createdAt = new Date(term.createdAt);
       return createdAt.getTime() > yesterday;
@@ -19,7 +19,7 @@ const recentTermsCount = computed(() => {
 });
 
 const totalTermsCount = computed(() => {
-  return profile.value.collections.reduce((prev, collection) => {
+  return currentVault.value.collections.reduce((prev, collection) => {
     return prev + collection.terms.length;
   }, 0);
 });

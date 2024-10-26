@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { profileService, type CreateUpdateTermMeaning } from '@/services/profile.service';
+import { vaultService, type CreateUpdateTermMeaning } from '@/services/vault.service';
 import { reactive } from 'vue';
 import { EXTENDED_PARTS_OF_SPEECH } from '@/constants';
 
@@ -18,7 +18,7 @@ const formData = reactive<CreateUpdateTermMeaning>({
 const handleNewMeaning = () => {
   if (!formData.content) return;
 
-  profileService.addTermMeaning(props.termId, {
+  vaultService.addTermMeaning(props.termId, {
     partOfSpeech: formData.partOfSpeech,
     content: formData.content,
     example: formData.example
