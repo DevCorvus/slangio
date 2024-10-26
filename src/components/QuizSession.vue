@@ -185,6 +185,21 @@ const handleFinish = () => {
       :style="`--duration:${config.timer / 1000}s;`"
       :key="currentTerm.id"
     />
+    <div class="alert text-left flex flex-col text-sm">
+      <div class="space-y-4">
+        <strong class="text-base">Pro tips</strong>
+        <ul class="list-disc ml-4 space-y-2">
+          <li>
+            Try to recall as many meanings, translations and example sentences as possible to answer
+            properly
+          </li>
+          <li>If you doubt, better say No</li>
+          <li>Be honest with your answers. If you lie, you're shooting yourself in the foot</li>
+          <li>Don't just read it, say it out loud and talk to yourself</li>
+          <li>If you don't remember it, focus on understanding it for next time (Take it easy)</li>
+        </ul>
+      </div>
+    </div>
   </section>
   <ModalComponent :show="showDetails && !finished" @close="showDetails = false">
     <TermDetails :term="currentTerm" hide-mutations />

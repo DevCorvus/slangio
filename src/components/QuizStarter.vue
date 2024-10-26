@@ -99,6 +99,7 @@ const handleSubmit = () => {
     <header class="text-3xl font-bold flex items-center gap-4">
       <h1>Quiz</h1>
     </header>
+    <p>A simple Yes or No type Quiz to recall terms</p>
     <form @submit.prevent="handleSubmit()" class="space-y-8">
       <div class="grid md:grid-cols-2 gap-2 md:gap-4">
         <label class="form-control">
@@ -153,5 +154,14 @@ const handleSubmit = () => {
       </div>
       <button class="btn btn-block btn-primary">Start</button>
     </form>
+    <div class="alert text-left flex flex-col text-sm">
+      <div class="space-y-4">
+        <strong class="text-base">Pro tip</strong>
+        <p>
+          Don't Quiz too much in a short period of time, know your limits. This is not a speedrun
+          but a marathon. Let your brain sink in those terms with time, rest and lots of repetition.
+        </p>
+      </div>
+    </div>
   </section>
 </template>

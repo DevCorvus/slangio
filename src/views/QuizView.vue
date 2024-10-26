@@ -2,10 +2,11 @@
 import QuizResults from '@/components/QuizResults.vue';
 import QuizSession from '@/components/QuizSession.vue';
 import QuizStarter from '@/components/QuizStarter.vue';
+import { currentVault } from '@/data';
 import { useTermStore } from '@/stores/term';
 import type { QuizConfig, QuizResult } from '@/types';
 import { useTimeout } from '@vueuse/core';
-import { onBeforeMount, ref, watch } from 'vue';
+import { computed, onBeforeMount, ref, watch } from 'vue';
 
 const store = useTermStore();
 
@@ -27,6 +28,8 @@ const reset = () => {
   config.value = null;
   result.value = null;
 };
+
+const hasTerms = computed(() => currentVault.value.collections.some((c) => c.terms.length > 0));
 </script>
 
 <template>
@@ -43,14 +46,30 @@ const reset = () => {
     </template>
     <QuizResults v-else :result @reset="reset" />
   </main>
-  <div v-else class="absolute inset-0 flex items-center justify-center min-h-screen">
-    <div class="max-w-md w-full text-center space-y-6">
+  <div v-else class="max-w-sm mx-auto w-full text-center space-y-6 p-4 mt-4">
+    <div class="space-y-4">
+      <p class="font-semibold text-2xl">Nothing to practice right now</p>
+      <p class="text-xl">Come back later!</p>
+    </div>
+    <RouterLink to="/" class="btn rounded-full"> Home </RouterLink>
+    <div v-if="hasTerms" class="alert text-left flex flex-col text-sm">
       <div class="space-y-2">
-        <p class="font-semibold text-2xl">Nothing to practice right now</p>
-        <p class="text-xl">Come back later!</p>
+        <strong class="text-base">Cooldown</strong>
+        <p>
+          Terms have a dynamic cooldown time in order to be used in a Quiz. Leaving some time
+          between them helps with memorization.
+        </p>
+        <p>
+          Newly added terms are not worth to be asked immediately, so they have a cooldown of 1
+          hour.
+        </p>
       </div>
-      <div>
-        <RouterLink to="/" class="btn">Home</RouterLink>
+      <div class="space-y-2">
+        <strong class="text-base">Pro tip</strong>
+        <p>
+          Keep adding more terms and learn about them before Quizzing. The point is they will
+          eventually come out when you don't expect them!
+        </p>
       </div>
     </div>
   </div>
