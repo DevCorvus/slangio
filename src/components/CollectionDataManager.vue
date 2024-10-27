@@ -63,6 +63,7 @@ const handleExport = () => {
   );
 
   exportMode.value = false;
+  showModal.value = false;
 };
 
 const importMode = ref(false);
@@ -144,6 +145,7 @@ const handleImport = () => {
   if (atLeastOneAdded) popSound.play();
 
   importMode.value = false;
+  showModal.value = false;
 };
 </script>
 

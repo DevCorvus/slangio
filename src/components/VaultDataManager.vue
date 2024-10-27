@@ -42,6 +42,7 @@ onChange(async (files) => {
 
         vaults.value.push(importedVault);
         toaster.success(`Vault ${importedVault.name || importedVault.id} imported successfully`);
+        showModal.value = false;
       }
     } catch {
       toaster.error('Invalid vaults import');

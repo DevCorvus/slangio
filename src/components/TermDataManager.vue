@@ -42,6 +42,7 @@ const handleExport = () => {
     });
 
     downloadJson(`slangio_terms.${collection.name}.${localeDateNow()}`, termsToExport);
+    showModal.value = false;
   }
 };
 
