@@ -37,7 +37,7 @@ onChange(async (files) => {
 
       const terms = await stringArraySchema.parseAsync(data);
 
-      input.value = terms.toString();
+      input.value = JSON.stringify(terms);
     } catch {
       toaster.error('Invalid raw terms import');
     } finally {
