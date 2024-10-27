@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { getDaysInMs, getFutureDate } from './utils/time';
 import { downloadJson } from './utils/download';
 import { localeDateNow } from './utils/date';
+import { useIDBKeyval } from '@vueuse/integrations/useIDBKeyval';
 
 const isDark = usePreferredDark();
 export const theme = useLocalStorage('theme', isDark ? 'dark' : 'light');
@@ -48,8 +49,8 @@ export function createVault({ source, target }: CreateUpdateVault) {
 
 const defaultVault = createVault({ source: 'en', target: 'en' });
 
-export const currentVault = useLocalStorage<Vault>('currentVault', defaultVault);
-export const vaults = useLocalStorage<Vault[]>('vaults', []);
+export const { data: currentVault } = useIDBKeyval<Vault>('currentVault', defaultVault);
+export const { data: vaults } = useIDBKeyval<Vault[]>('vaults', []);
 
 export const nextVaultBackupReminder = useLocalStorage(
   'nextVaultBackup',

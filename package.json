@@ -17,6 +17,7 @@
   "dependencies": {
     "@vueuse/core": "^11.1.0",
     "@vueuse/integrations": "^11.1.0",
+    "idb-keyval": "^6.2.1",
     "nanoid": "^5.0.7",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
