@@ -22,8 +22,8 @@ const handleChoice = (data: CreateUpdateVault) => {
 </script>
 
 <template>
-  <GoBack />
-  <main class="hero min-h-screen absolute inset-0 -z-10">
+  <GoBack float />
+  <main class="hero min-h-screen absolute inset-0">
     <div class="hero-content max-w-lg flex flex-col gap-10">
       <header>
         <h1 class="text-4xl font-black text-center">Add Vault</h1>
