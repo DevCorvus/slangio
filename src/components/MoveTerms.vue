@@ -13,15 +13,19 @@ const emit = defineEmits<{
 }>();
 
 const route = useRoute();
+const collectionId = route.params.id as string;
 
 const hasTermIds = computed(() => props.termIds.length > 0);
 
-const targetCollectionId = ref(currentVault.value.defaultCollection);
+const targetCollectionId = ref(collectionId);
 
 const showModal = ref(false);
 
 const handleMove = () => {
-  vaultService.moveManyTerms(route.params.id as string, targetCollectionId.value, props.termIds);
+  if (targetCollectionId.value !== collectionId) {
+    vaultService.moveManyTerms(collectionId, targetCollectionId.value, props.termIds);
+  }
+
   showModal.value = false;
   emit('success');
 };
