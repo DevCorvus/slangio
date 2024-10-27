@@ -101,17 +101,21 @@ const rawMode = ref(false);
       <header>
         <h3 class="text-lg font-bold">Terms Data</h3>
       </header>
-      <p class="flex items-center gap-2 text-base-content/50">
-        <Icon icon="heroicons:exclamation-circle" class="text-xl shrink-0" />
-        <span>Raw terms do not include custom meanings</span>
-      </p>
-      <div class="space-y-2">
-        <button @click="handleExport()" class="btn btn-block">Export Terms</button>
-        <button @click="openFileDialog()" class="btn btn-block">Import Terms</button>
-        <button @click="handleCopyRaw()" class="btn btn-block">
-          {{ copied ? 'Copied!' : 'Copy Raw Terms' }}
-        </button>
-        <button @click="rawMode = true" class="btn btn-block">Import Raw Terms</button>
+      <div class="space-y-4">
+        <div class="space-y-1">
+          <button @click="handleExport()" class="btn btn-block">Export Terms</button>
+          <button @click="openFileDialog()" class="btn btn-block">Import Terms</button>
+        </div>
+        <p class="flex items-center gap-2 text-base-content/50">
+          <Icon icon="heroicons:exclamation-circle" class="text-xl shrink-0" />
+          <span>Raw terms do not include custom meanings</span>
+        </p>
+        <div class="space-y-1">
+          <button @click="handleCopyRaw()" class="btn btn-block">
+            {{ copied ? 'Copied!' : 'Copy Raw Terms' }}
+          </button>
+          <button @click="rawMode = true" class="btn btn-block">Import Raw Terms</button>
+        </div>
       </div>
     </section>
     <ImportRawTerms v-else :collection-id="$route.params.id as string" @close="rawMode = false" />
