@@ -49,8 +49,11 @@ export function createVault({ source, target }: CreateUpdateVault) {
 
 const defaultVault = createVault({ source: 'en', target: 'en' });
 
-export const { data: currentVault } = useIDBKeyval<Vault>('currentVault', defaultVault);
-export const { data: vaults } = useIDBKeyval<Vault[]>('vaults', []);
+export const { data: currentVault, isFinished: currentVaultLoaded } = useIDBKeyval<Vault>(
+  'currentVault',
+  defaultVault
+);
+export const { data: vaults, isFinished: vaultsLoaded } = useIDBKeyval<Vault[]>('vaults', []);
 
 export const nextVaultBackupReminder = useLocalStorage(
   'nextVaultBackup',

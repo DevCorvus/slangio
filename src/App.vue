@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import NavBar from './components/NavBar.vue';
-import { firstTime, theme } from './data';
+import { currentVaultLoaded, firstTime, theme, vaultsLoaded } from './data';
 import { watch } from 'vue';
 import ToasterComponent from './components/ToasterComponent.vue';
 import TextSelectionEater from './components/TextSelectionEater.vue';
@@ -22,17 +22,22 @@ watch(
 </script>
 
 <template>
-  <template v-if="!firstTime">
-    <NavBar />
-    <div class="container mx-auto p-4 overflow-hidden min-h-screen">
+  <template v-if="currentVaultLoaded && vaultsLoaded">
+    <template v-if="!firstTime">
+      <NavBar />
+      <div class="container mx-auto p-4 overflow-hidden min-h-screen">
+        <RouterView />
+      </div>
+      <FooterSection />
+      <TextSelectionEater />
+      <ToasterComponent />
+      <SaveVaultReminder />
+    </template>
+    <template v-else>
       <RouterView />
-    </div>
-    <FooterSection />
-    <TextSelectionEater />
-    <ToasterComponent />
-    <SaveVaultReminder />
+    </template>
   </template>
-  <template v-else>
-    <RouterView />
-  </template>
+  <div v-else class="absolute inset-0 bg-base-100 flex items-center justify-center">
+    <span class="loading loading-spinner loading-lg" />
+  </div>
 </template>
