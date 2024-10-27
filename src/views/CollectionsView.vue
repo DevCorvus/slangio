@@ -8,7 +8,7 @@ import { Icon } from '@iconify/vue';
 </script>
 
 <template>
-  <main class="space-y-6 mt-4">
+  <main class="space-y-6 max-w-4xl mx-auto">
     <header class="flex items-center justify-between flex-wrap">
       <div class="text-2xl font-bold flex items-center gap-2 md:gap-4">
         <h1>Collections</h1>

@@ -25,7 +25,7 @@ watch(
   <template v-if="currentVaultLoaded && vaultsLoaded">
     <template v-if="!firstTime">
       <NavBar />
-      <div class="container mx-auto p-4 overflow-hidden min-h-screen">
+      <div class="container mx-auto px-4 py-8 overflow-hidden min-h-screen">
         <RouterView />
       </div>
       <FooterSection />

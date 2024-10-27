@@ -7,7 +7,7 @@ defineProps<{ float?: boolean }>();
 <template>
   <button
     @click="$router.back()"
-    class="mb-4 md:mt-2 btn btn-sm btn-ghost"
+    class="mb-6 btn btn-sm btn-ghost"
     :class="float ? 'absolute z-10' : ''"
   >
     <div class="flex items-center gap-2">

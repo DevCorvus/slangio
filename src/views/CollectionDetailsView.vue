@@ -30,48 +30,50 @@ const store = useTermStore();
 
 <template>
   <template v-if="collection">
-    <GoBack />
-    <main class="space-y-6">
-      <header class="text-2xl font-bold flex items-center justify-between">
-        <h1>{{ collection.name }}</h1>
-        <div class="flex items-center gap-2">
-          <RouterLink
-            v-if="store.toLearn[collection.id] > 0"
-            :to="'/quiz?collectionId=' + collection.id"
-            class="btn btn-ghost"
-          >
-            <Icon icon="heroicons:academic-cap-solid" class="text-lg" />
-            Quiz ({{ store.toLearn[collection.id] }})
-          </RouterLink>
-          <div v-if="!collection.permanent" class="dropdown dropdown-left">
-            <button class="btn btn-circle btn-ghost text-xl">
-              <Icon icon="heroicons:ellipsis-vertical-16-solid" />
-            </button>
-            <ul
-              tabindex="0"
-              class="dropdown-content menu bg-base-100 rounded-box z-[1] shadow text-lg"
+    <div class="max-w-2xl mx-auto">
+      <GoBack />
+      <main class="space-y-6">
+        <header class="text-2xl font-bold flex items-center justify-between">
+          <h1>{{ collection.name }}</h1>
+          <div class="flex items-center gap-2">
+            <RouterLink
+              v-if="store.toLearn[collection.id] > 0"
+              :to="'/quiz?collectionId=' + collection.id"
+              class="btn btn-ghost"
             >
-              <li>
-                <EditCollection :name="collection.name" :description="collection.description" />
-              </li>
-              <li>
-                <button @click="showModal = true" class="tooltip" data-tip="Delete">
-                  <Icon icon="heroicons:trash" />
-                </button>
-                <ConfirmDelete
-                  :show="showModal"
-                  @confirm="handleRemoveCollection()"
-                  @close="showModal = false"
-                />
-              </li>
-            </ul>
+              <Icon icon="heroicons:academic-cap-solid" class="text-lg" />
+              Quiz ({{ store.toLearn[collection.id] }})
+            </RouterLink>
+            <div v-if="!collection.permanent" class="dropdown dropdown-left">
+              <button class="btn btn-circle btn-ghost text-xl">
+                <Icon icon="heroicons:ellipsis-vertical-16-solid" />
+              </button>
+              <ul
+                tabindex="0"
+                class="dropdown-content menu bg-base-100 rounded-box z-[1] shadow text-lg"
+              >
+                <li>
+                  <EditCollection :name="collection.name" :description="collection.description" />
+                </li>
+                <li>
+                  <button @click="showModal = true" class="tooltip" data-tip="Delete">
+                    <Icon icon="heroicons:trash" />
+                  </button>
+                  <ConfirmDelete
+                    :show="showModal"
+                    @confirm="handleRemoveCollection()"
+                    @close="showModal = false"
+                  />
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </header>
-      <p v-if="collection.description">{{ collection.description }}</p>
-      <AddTerm />
-      <TermList :terms="collection.terms" />
-    </main>
+        </header>
+        <p v-if="collection.description">{{ collection.description }}</p>
+        <AddTerm />
+        <TermList :terms="collection.terms" />
+      </main>
+    </div>
   </template>
   <div v-else class="absolute inset-0 flex flex-col items-center gap-4 justify-center min-h-screen">
     <span class="font-semibold text-3xl">Collection Not Found</span>

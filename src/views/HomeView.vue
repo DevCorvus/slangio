@@ -7,7 +7,7 @@ import VaultDataManager from '@/components/VaultDataManager.vue';
 
 <template>
   <main class="hero">
-    <div class="hero-content p-0 flex flex-col gap-10 text-center max-w-md">
+    <div class="hero-content flex flex-col gap-10 text-center max-w-md">
       <div class="relative">
         <VaultManager />
         <VaultDataManager />

@@ -35,7 +35,7 @@ const hasTerms = computed(() => currentVault.value.collections.some((c) => c.ter
 <template>
   <main
     v-if="store.hasToLearn || config !== null || result !== null"
-    class="max-w-md w-full p-6 md:p-10 mx-auto"
+    class="max-w-md w-full p-6 mx-auto"
   >
     <QuizStarter v-if="config === null" @config="(data) => (config = data)" />
     <template v-else-if="result === null">
