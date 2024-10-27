@@ -27,7 +27,7 @@ useTimeout(props.config.duration || 0, {
   callback: () => (finished.value = true)
 });
 
-const timeoutId = ref<number>();
+const timeoutId = ref<ReturnType<typeof setTimeout>>();
 
 watch(
   [finished, failureMode, currentTerm],
