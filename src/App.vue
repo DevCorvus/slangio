@@ -30,12 +30,12 @@ watch(
       </div>
       <FooterSection />
       <TextSelectionEater />
-      <ToasterComponent />
       <SaveVaultReminder />
     </template>
     <template v-else>
       <RouterView />
     </template>
+    <ToasterComponent />
   </template>
   <div v-else class="absolute inset-0 bg-base-100 flex items-center justify-center">
     <span class="loading loading-spinner loading-lg" />
