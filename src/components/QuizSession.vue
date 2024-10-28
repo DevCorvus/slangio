@@ -6,7 +6,6 @@ import { onBeforeUnmount, ref, useTemplateRef, watch } from 'vue';
 import TermDetails from './TermDetails.vue';
 import ModalComponent from './ModalComponent.vue';
 import { useTimeout } from '@vueuse/core';
-import { useTermStore } from '@/stores/term';
 
 const props = defineProps<{ config: QuizConfig }>();
 
@@ -41,11 +40,8 @@ watch(
   { immediate: true }
 );
 
-const store = useTermStore();
-
 onBeforeUnmount(() => {
   if (timeoutId.value) clearTimeout(timeoutId.value);
-  store.refreshToLearn();
 });
 
 const showDetails = ref(false);

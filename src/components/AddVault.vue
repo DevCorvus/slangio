@@ -2,20 +2,15 @@
 import { createVault, currentVault, vaults, type CreateUpdateVault } from '@/data';
 import { useRouter } from 'vue-router';
 import VaultSelector from './VaultSelector.vue';
-import { useTermStore } from '@/stores/term';
 import GoBack from './GoBack.vue';
 
 const router = useRouter();
-
-const store = useTermStore();
 
 const handleChoice = (data: CreateUpdateVault) => {
   const newVault = createVault(data);
 
   vaults.value.push(currentVault.value);
   currentVault.value = newVault;
-
-  store.refreshToLearn();
 
   router.push('/');
 };

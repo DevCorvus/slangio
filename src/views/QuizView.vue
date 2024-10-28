@@ -6,11 +6,9 @@ import { currentVault } from '@/data';
 import { useTermStore } from '@/stores/term';
 import type { QuizConfig, QuizResult } from '@/types';
 import { useTimeout } from '@vueuse/core';
-import { computed, onBeforeMount, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const store = useTermStore();
-
-onBeforeMount(store.refreshToLearn);
 
 const config = ref<QuizConfig | null>(null);
 const result = ref<QuizResult | null>(null);

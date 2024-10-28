@@ -6,7 +6,11 @@ import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 
 export const useTermStore = defineStore('term', () => {
-  const getToLearn = () => {
+  const trigger = ref(false);
+
+  const toLearn = computed(() => {
+    trigger.value;
+
     const out: { [key: string]: number } = {};
 
     for (const collection of currentVault.value.collections) {
@@ -19,16 +23,12 @@ export const useTermStore = defineStore('term', () => {
     }
 
     return out;
-  };
-
-  const toLearn = ref(getToLearn());
-
-  const refreshToLearn = () => {
-    toLearn.value = getToLearn();
-  };
+  });
 
   useInterval(getMinutesInMs(1), {
-    callback: refreshToLearn
+    callback: () => {
+      trigger.value = !trigger.value;
+    }
   });
 
   const hasToLearn = computed(() => {
@@ -38,5 +38,5 @@ export const useTermStore = defineStore('term', () => {
     return false;
   });
 
-  return { toLearn, hasToLearn, refreshToLearn };
+  return { toLearn, hasToLearn };
 });

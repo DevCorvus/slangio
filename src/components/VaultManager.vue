@@ -7,7 +7,6 @@ import VaultItem from './VaultItem.vue';
 import CountryCircleFlag from './CountryCircleFlag.vue';
 import { LANGUAGE_METADATA } from '@/config/languages';
 import { RouterLink } from 'vue-router';
-import { useTermStore } from '@/stores/term';
 
 const selectedVaultId = ref(currentVault.value.id);
 
@@ -17,8 +16,6 @@ const openModal = () => {
   selectedVaultId.value = currentVault.value.id;
   showModal.value = true;
 };
-
-const store = useTermStore();
 
 const handleSelect = () => {
   if (selectedVaultId.value === currentVault.value.id) {
@@ -33,8 +30,6 @@ const handleSelect = () => {
 
     vaults.value.push(currentVault.value);
     currentVault.value = selectedVault;
-
-    store.refreshToLearn();
 
     showModal.value = false;
   }
