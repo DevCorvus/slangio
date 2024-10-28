@@ -7,12 +7,12 @@ const showModal = ref(false);
 </script>
 
 <template>
-  <footer class="bg-neutral text-neutral-content p-4">
+  <footer class="bg-neutral text-neutral-content px-4 py-6">
     <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
       <p><span class="font-semibold text-lg">Slangio</span> | Expand Your Vocabulary</p>
-      <ul class="menu menu-horizontal">
+      <ul class="flex items-center gap-2">
         <li>
-          <RouterLink to="/support">
+          <RouterLink to="/support" role="button" class="btn btn-sm btn-secondary">
             <img
               width="20"
               src="https://storage.ko-fi.com/cdn/brandasset/v2/kofi_symbol.png"
@@ -22,13 +22,18 @@ const showModal = ref(false);
           </RouterLink>
         </li>
         <li>
-          <a href="https://github.com/DevCorvus/slangio" target="_blank" rel="noreferrer nofollow">
+          <a
+            href="https://github.com/DevCorvus/slangio"
+            target="_blank"
+            rel="noreferrer nofollow"
+            class="btn btn-sm btn-success"
+          >
             <Icon icon="flowbite:github-solid" class="text-xl" />
             Repo
           </a>
         </li>
         <li>
-          <button @click="showModal = true">
+          <button @click="showModal = true" class="btn btn-sm btn-info">
             <Icon icon="heroicons:information-circle-16-solid" class="text-xl" />
             About
           </button>
