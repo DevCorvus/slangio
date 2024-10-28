@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import ModalComponent from './ModalComponent.vue';
+import { Icon } from '@iconify/vue/dist/iconify.js';
 
 const showModal = ref(false);
 </script>
@@ -9,17 +10,30 @@ const showModal = ref(false);
   <footer class="bg-neutral text-neutral-content p-4">
     <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
       <p><span class="font-semibold text-lg">Slangio</span> | Expand Your Vocabulary</p>
-      <div class="flex gap-3">
-        <RouterLink to="/support" class="btn btn-secondary">
-          <img
-            width="24"
-            src="https://storage.ko-fi.com/cdn/brandasset/v2/kofi_symbol.png"
-            alt="Ko-fi Logo"
-          />
-          <span>Donate</span>
-        </RouterLink>
-        <button @click="showModal = true" class="btn btn-info">About</button>
-      </div>
+      <ul class="menu menu-horizontal">
+        <li>
+          <RouterLink to="/support">
+            <img
+              width="20"
+              src="https://storage.ko-fi.com/cdn/brandasset/v2/kofi_symbol.png"
+              alt="Ko-fi Logo"
+            />
+            <span>Donate</span>
+          </RouterLink>
+        </li>
+        <li>
+          <a href="https://github.com/DevCorvus/slangio" target="_blank" rel="noreferrer nofollow">
+            <Icon icon="flowbite:github-solid" class="text-xl" />
+            Repo
+          </a>
+        </li>
+        <li>
+          <button @click="showModal = true">
+            <Icon icon="heroicons:information-circle-16-solid" class="text-xl" />
+            About
+          </button>
+        </li>
+      </ul>
     </div>
   </footer>
   <ModalComponent :show="showModal" @close="showModal = false">

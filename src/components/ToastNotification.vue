@@ -32,7 +32,7 @@ const getStyleFromStatus = (status: ToastStatus): ToastStatusStyle => {
     case 'info': {
       return {
         class: 'bg-info',
-        icon: 'heroicons:exclamation-circle-16-solid'
+        icon: 'heroicons:information-circle-16-solid'
       };
     }
   }

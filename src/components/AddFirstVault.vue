@@ -69,14 +69,14 @@ const skip = () => {
           <span class="font-semibold text-lg">Choose to start</span>
           <div class="dropdown dropdown-end">
             <button class="btn btn-xs btn-circle btn-ghost text-info mt-1">
-              <Icon icon="heroicons:exclamation-circle-16-solid" class="text-xl shrink-0" />
+              <Icon icon="heroicons:information-circle-16-solid" class="text-xl shrink-0" />
             </button>
             <div
               tabindex="0"
               class="card card-compact dropdown-content bg-base-100 rounded-box z-[1] w-60 shadow"
             >
               <div tabindex="0" class="card-body text-left">
-                <p class="text-xs">
+                <p class="text-xs text-info">
                   <strong>Your Language</strong> to <strong>Target Language</strong>
                 </p>
                 <p>
