@@ -41,8 +41,8 @@ const handleMeaningUpdate = () => {
 <template>
   <form class="space-y-2 bg-base-300 p-3 rounded-lg" @submit.prevent="handleMeaningUpdate()">
     <header class="text-lg">Edit {{ meaning.content }}</header>
-    <div class="flex gap-1">
-      <label class="form-control">
+    <div class="space-y-1">
+      <label class="form-control w-full">
         <div class="label">
           <span class="label-text">Type</span>
         </div>
@@ -56,24 +56,29 @@ const handleMeaningUpdate = () => {
           </option>
         </select>
       </label>
-      <label class="form-control grow">
+      <label class="form-control w-full">
         <div class="label">
           <span class="label-text">Content</span>
         </div>
         <input
           type="text"
           v-model.trim="formData.content"
-          class="input input-sm input-bordered grow"
+          class="input input-sm input-bordered"
           placeholder="Enter custom meaning"
         />
       </label>
+      <label class="form-control w-full">
+        <div class="label">
+          <span class="label-text">Example</span>
+        </div>
+        <input
+          v-model.trim="formData.example"
+          class="input input-sm input-bordered"
+          placeholder="Enter example sentence (optional)"
+        />
+      </label>
     </div>
-    <textarea
-      v-model.trim="formData.example"
-      class="textarea textarea-sm textarea-bordered w-full"
-      placeholder="Enter example sentence (optional)"
-    ></textarea>
-    <div class="space-x-1">
+    <div class="space-x-1 pt-3">
       <button class="btn btn-sm btn-primary">Apply</button>
       <button type="button" @click="$emit('close')" class="btn btn-sm btn-ghost">Cancel</button>
     </div>
