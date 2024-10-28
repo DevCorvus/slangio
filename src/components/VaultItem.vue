@@ -4,7 +4,7 @@ import { useTimeAgo } from '@vueuse/core';
 import CountryCircleFlag from './CountryCircleFlag.vue';
 import { LANGUAGE_METADATA } from '@/config/languages';
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { nextTick, ref, useTemplateRef, watch } from 'vue';
+import { nextTick, ref, useTemplateRef } from 'vue';
 import { currentVault, vaults } from '@/data';
 import { RouterLink } from 'vue-router';
 
@@ -23,12 +23,19 @@ const showConfirmDelete = ref(false);
 const vaultName = ref(props.vault.name || '');
 const vaultNameRef = useTemplateRef('vaultNameRef');
 
-watch(showEdit, async () => {
-  if (showEdit.value) {
-    await nextTick();
-    vaultNameRef.value?.focus();
-  }
-});
+const handleShowEdit = async () => {
+  showEdit.value = true;
+  await nextTick();
+  vaultNameRef.value?.focus();
+};
+
+const cancelDeleteRef = useTemplateRef('cancelDeleteRef');
+
+const handleShowConfirmDelete = async () => {
+  showConfirmDelete.value = true;
+  await nextTick();
+  cancelDeleteRef.value?.focus();
+};
 
 const handleEdit = () => {
   if (props.current) {
@@ -97,7 +104,7 @@ const handleEdit = () => {
           <template v-else>
             <button
               v-if="!showConfirmDelete"
-              @click="showConfirmDelete = true"
+              @click="handleShowConfirmDelete()"
               class="hover:text-error focus:text-error transition tooltip"
               data-tip="Delete Vault"
             >
@@ -112,6 +119,7 @@ const handleEdit = () => {
                 <Icon icon="heroicons:check-16-solid" />
               </button>
               <button
+                ref="cancelDeleteRef"
                 @click="showConfirmDelete = false"
                 class="tooltip hover:text-error focus:text-error transition"
                 data-tip="Cancel"
@@ -124,7 +132,7 @@ const handleEdit = () => {
       </div>
     </div>
     <div class="text-sm text-center">
-      <button v-if="!showEdit" @click="showEdit = true" class="font-semibold">
+      <button v-if="!showEdit" @click="handleShowEdit()" class="font-semibold">
         {{ vault.name || vault.id }}
       </button>
       <form v-else @submit.prevent="handleEdit()" class="my-1">
