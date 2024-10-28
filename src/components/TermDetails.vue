@@ -34,7 +34,7 @@ const isLearned = props.term.learnedAt !== null;
 </script>
 
 <template>
-  <section class="space-y-6">
+  <section class="space-y-6" :class="showCollectionLink ? 'mt-2' : ''">
     <header v-if="!editMode" class="flex items-center justify-between">
       <div class="flex items-center gap-2">
         <div v-if="isLearned" class="tooltip" data-tip="Learned">
