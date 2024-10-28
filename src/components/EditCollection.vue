@@ -21,14 +21,9 @@ const formData = reactive<CreateUpdateCollection>({
 const toaster = useToasterStore();
 
 const handleUpdateCollection = () => {
-  if (formData.name === props.name && formData.description === props.description) {
-    showModal.value = false;
-    return;
-  }
-
   if (!formData.name) return;
 
-  if (formData.name === props.name) {
+  if (formData.name === props.name && formData.description === props.description) {
     showModal.value = false;
     return;
   }
