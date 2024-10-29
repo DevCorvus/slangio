@@ -145,10 +145,13 @@ const handleSubmit = () => {
             <span class="label-text">Timer per term</span>
           </div>
           <select v-model="formData.timer" class="select select-bordered">
-            <option selected :value="0">None</option>
+            <option selected :value="0">No timer</option>
             <option :value="5">5 seconds</option>
             <option :value="10">10 seconds</option>
             <option :value="15">15 seconds</option>
+            <option :value="20">20 seconds</option>
+            <option :value="25">25 seconds</option>
+            <option :value="30">30 seconds</option>
           </select>
         </label>
       </div>
