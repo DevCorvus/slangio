@@ -7,6 +7,7 @@ import VaultItem from './VaultItem.vue';
 import CountryCircleFlag from './CountryCircleFlag.vue';
 import { LANGUAGE_METADATA } from '@/config/languages';
 import { RouterLink } from 'vue-router';
+import { cloneObject } from '@/utils/clone';
 
 const selectedVaultId = ref(currentVault.value.id);
 
@@ -40,7 +41,7 @@ const handleDelete = (vaultId: string) => {
     selectedVaultId.value = currentVault.value.id;
   }
 
-  vaults.value = vaults.value.filter((v) => v.id !== vaultId);
+  vaults.value = cloneObject(vaults.value.filter((v) => v.id !== vaultId));
 };
 </script>
 

@@ -9,6 +9,7 @@ import type {
 } from '@/types';
 import { nanoid } from 'nanoid';
 import { quizService } from './quiz.service';
+import { cloneObject } from '@/utils/clone';
 
 export interface CreateUpdateCollection {
   name: string;
@@ -75,18 +76,20 @@ class VaultService {
       throw new Error('Collection already exists');
     }
 
-    currentVault.value.collections = currentVault.value.collections.map((collection) => {
-      if (collection.id === collectionId) {
-        collection.name = data.name;
-        collection.description = data.description;
-      }
-      return collection;
-    });
+    currentVault.value.collections = cloneObject(
+      currentVault.value.collections.map((collection) => {
+        if (collection.id === collectionId) {
+          collection.name = data.name;
+          collection.description = data.description;
+        }
+        return collection;
+      })
+    );
   }
 
   removeCollection(collectionId: string) {
-    currentVault.value.collections = currentVault.value.collections.filter(
-      (collection) => collection.id !== collectionId
+    currentVault.value.collections = cloneObject(
+      currentVault.value.collections.filter((collection) => collection.id !== collectionId)
     );
 
     if (collectionId === currentVault.value.defaultCollection) {
