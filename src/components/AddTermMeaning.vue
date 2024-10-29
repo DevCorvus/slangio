@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import { vaultService, type CreateUpdateTermMeaning } from '@/services/vault.service';
-import { reactive } from 'vue';
+import { inject, onMounted, reactive, useTemplateRef } from 'vue';
 import { EXTENDED_PARTS_OF_SPEECH } from '@/constants';
-
-const props = defineProps<{ termId: string }>();
 
 const emit = defineEmits<{
   (e: 'close'): void;
 }>();
+
+const termId = inject<string>('termId')!;
+
+const contentRef = useTemplateRef('contentRef');
+
+onMounted(() => {
+  contentRef.value?.focus();
+});
 
 const formData = reactive<CreateUpdateTermMeaning>({
   partOfSpeech: 'unknown',
@@ -18,7 +24,7 @@ const formData = reactive<CreateUpdateTermMeaning>({
 const handleNewMeaning = () => {
   if (!formData.content) return;
 
-  vaultService.addTermMeaning(props.termId, {
+  vaultService.addTermMeaning(termId, {
     partOfSpeech: formData.partOfSpeech,
     content: formData.content,
     example: formData.example
@@ -52,6 +58,7 @@ const handleNewMeaning = () => {
         </div>
         <input
           type="text"
+          ref="contentRef"
           v-model.trim="formData.content"
           class="input input-sm input-bordered"
           placeholder="Enter custom meaning"

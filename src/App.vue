@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import NavBar from './components/NavBar.vue';
-import { currentVaultLoaded, firstTime, theme, vaultsLoaded } from './data';
+import { firstTime, theme } from './data';
 import { watch } from 'vue';
 import ToasterComponent from './components/ToasterComponent.vue';
 import TextSelectionEater from './components/TextSelectionEater.vue';
 import SaveVaultReminder from './components/SaveVaultReminder.vue';
 import FooterSection from './components/FooterSection.vue';
+import CosmicMicrowaveBackground from './components/CosmicMicrowaveBackground.vue';
 
 const html = document.querySelector('html');
 
@@ -22,7 +23,7 @@ watch(
 </script>
 
 <template>
-  <template v-if="currentVaultLoaded && vaultsLoaded">
+  <CosmicMicrowaveBackground>
     <template v-if="!firstTime">
       <NavBar />
       <div class="container mx-auto px-4 py-8 overflow-hidden min-h-screen">
@@ -36,8 +37,5 @@ watch(
       <RouterView />
     </template>
     <ToasterComponent />
-  </template>
-  <div v-else class="absolute inset-0 bg-base-100 flex items-center justify-center">
-    <span class="loading loading-spinner loading-lg" />
-  </div>
+  </CosmicMicrowaveBackground>
 </template>

@@ -27,6 +27,7 @@ export const termMeaningSchema = z.object({
 export const termSchema = z.object({
   id: z.string(),
   content: z.string(),
+  sentences: z.array(z.string()),
   meanings: z.array(termMeaningSchema),
   references: z.array(termReferenceSchema),
   metadata: termMetadataSchema,
@@ -66,6 +67,7 @@ export const vaultSchema = z
 
 export const exportedTermSchema = termSchema.pick({
   content: true,
+  sentences: true,
   meanings: true,
   references: true
 });

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { Term } from '@/types';
 import EnglishTermDefinitions from './EnglishTermDefinitions.vue';
-import TermCustomMeanings from './TermCustomMeanings.vue';
 import TermLanguageReferenceList from './TermLanguageReferenceList.vue';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
@@ -11,6 +10,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useTimeAgo } from '@vueuse/core';
 import { currentVault } from '@/data';
 import SpanishTermDefinitions from './SpanishTermDefinitions.vue';
+import TermContext from './TermContext.vue';
 
 const props = defineProps<{ term: Term; showCollectionLink?: boolean; hideMutations?: boolean }>();
 
@@ -30,6 +30,7 @@ const goToCollection = () => {
   }
 };
 
+const isSupportedLanguage = currentVault.value.source !== currentVault.value.target;
 const isLearned = props.term.learnedAt !== null;
 </script>
 
@@ -62,8 +63,8 @@ const isLearned = props.term.learnedAt !== null;
       </button>
     </header>
     <EditTerm v-else :collection-id :term @close="editMode = false" />
-    <TermCustomMeanings :term />
-    <template v-if="currentVault.source !== currentVault.target">
+    <TermContext :term />
+    <template v-if="isSupportedLanguage">
       <EnglishTermDefinitions v-if="currentVault.target === 'en'" :content="term.content" />
       <SpanishTermDefinitions v-else-if="currentVault.target === 'es'" :content="term.content" />
       <TermLanguageReferenceList :content="term.content" />

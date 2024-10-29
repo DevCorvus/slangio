@@ -1,14 +1,22 @@
 <script setup lang="ts">
 import { vaultService, type CreateUpdateTermReference } from '@/services/vault.service';
-import { reactive } from 'vue';
+import { inject, onMounted, reactive, useTemplateRef } from 'vue';
 import type { TermReference } from '@/types';
 import { urlSchema } from '@/schemas';
 
-const props = defineProps<{ termId: string; reference: TermReference }>();
+const props = defineProps<{ reference: TermReference }>();
 
 const emit = defineEmits<{
   (e: 'close'): void;
 }>();
+
+const termId = inject<string>('termId')!;
+
+const urlRef = useTemplateRef('urlRef');
+
+onMounted(() => {
+  urlRef.value?.focus();
+});
 
 const formData = reactive<CreateUpdateTermReference>({
   url: props.reference.url,
@@ -24,7 +32,7 @@ const handleMeaningUpdate = () => {
 
   if (!url.success) return;
 
-  vaultService.updateTermReference(props.termId, props.reference.id, {
+  vaultService.updateTermReference(termId, props.reference.id, {
     url: url.data,
     name: formData.name
   });
@@ -43,6 +51,7 @@ const handleMeaningUpdate = () => {
         </div>
         <input
           type="text"
+          ref="urlRef"
           v-model.trim="formData.url"
           class="input input-sm input-bordered w-full"
           placeholder="Enter reference URL"

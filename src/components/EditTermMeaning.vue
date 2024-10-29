@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { vaultService, type CreateUpdateTermMeaning } from '@/services/vault.service';
-import { reactive } from 'vue';
+import { onMounted, reactive, useTemplateRef } from 'vue';
 import { EXTENDED_PARTS_OF_SPEECH } from '@/constants';
 import type { TermMeaning } from '@/types';
 
@@ -9,6 +9,12 @@ const props = defineProps<{ termId: string; meaning: TermMeaning }>();
 const emit = defineEmits<{
   (e: 'close'): void;
 }>();
+
+const contentRef = useTemplateRef('contentRef');
+
+onMounted(() => {
+  contentRef.value?.focus();
+});
 
 const formData = reactive<CreateUpdateTermMeaning>({
   partOfSpeech: props.meaning.partOfSpeech,
@@ -62,6 +68,7 @@ const handleMeaningUpdate = () => {
         </div>
         <input
           type="text"
+          ref="contentRef"
           v-model.trim="formData.content"
           class="input input-sm input-bordered"
           placeholder="Enter custom meaning"

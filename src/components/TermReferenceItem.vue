@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { vaultService } from '@/services/vault.service';
 import type { TermReference } from '@/types';
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
 import EditTermReference from './EditTermReference.vue';
 import { Icon } from '@iconify/vue';
 
-defineProps<{ termId: string; reference: TermReference }>();
+defineProps<{ reference: TermReference }>();
+
+const termId = inject<string>('termId')!;
 
 const editMode = ref(false);
 </script>
@@ -37,5 +39,5 @@ const editMode = ref(false);
       </button>
     </div>
   </div>
-  <EditTermReference v-else :term-id :reference @close="editMode = false" />
+  <EditTermReference v-else :reference @close="editMode = false" />
 </template>

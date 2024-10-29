@@ -25,6 +25,7 @@ export interface Collection {
 export interface Term {
   id: string;
   content: string;
+  sentences: string[];
   meanings: TermMeaning[];
   references: TermReference[];
   metadata: TermMetadata;

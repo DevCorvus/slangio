@@ -4,13 +4,19 @@ import { vaultService, type UpdateTerm } from '@/services/vault.service';
 import { useToasterStore } from '@/stores/toaster';
 import type { Term } from '@/types';
 import { isErrorWithMessage } from '@/utils/error';
-import { reactive } from 'vue';
+import { onMounted, reactive, useTemplateRef } from 'vue';
 
 const props = defineProps<{ collectionId: string; term: Term }>();
 
 const emit = defineEmits<{
   (e: 'close'): void;
 }>();
+
+const contentRef = useTemplateRef('contentRef');
+
+onMounted(() => {
+  contentRef.value?.focus();
+});
 
 const formData = reactive<UpdateTerm>({
   content: props.term.content,
@@ -56,9 +62,9 @@ const handleTermUpdate = () => {
       </select>
       <input
         type="text"
+        ref="contentRef"
         v-model.trim="formData.content"
         class="input input-bordered w-full join-item"
-        autofocus
       />
     </div>
     <div class="flex gap-2">

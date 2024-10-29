@@ -36,6 +36,7 @@ const handleExport = () => {
     const termsToExport: ExportedTerm[] = collection.terms.map((term) => {
       return {
         content: term.content,
+        sentences: term.sentences,
         meanings: term.meanings,
         references: term.references
       };

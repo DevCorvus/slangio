@@ -2,16 +2,21 @@
 import { vaultService } from '@/services/vault.service';
 import type { TermMeaning } from '@/types';
 import { Icon } from '@iconify/vue';
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
 import EditTermMeaning from './EditTermMeaning.vue';
 
-defineProps<{ termId: string; meaning: TermMeaning }>();
+defineProps<{ meaning: TermMeaning }>();
+
+const termId = inject<string>('termId')!;
 
 const editMode = ref(false);
 </script>
 
 <template>
-  <div v-if="!editMode" class="flex justify-between items-center gap-2">
+  <div
+    v-if="!editMode"
+    class="flex justify-between items-center gap-2 py-1 px-2 bg-base-100 rounded-box"
+  >
     <div>
       <p class="space-x-1">
         <strong>{{ meaning.content }}</strong>

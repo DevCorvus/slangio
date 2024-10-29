@@ -42,6 +42,7 @@ const handleExport = () => {
       .filter((term) => props.termIds.includes(term.id))
       .map((term) => ({
         content: term.content,
+        sentences: term.sentences,
         meanings: term.meanings,
         references: term.references
       }));

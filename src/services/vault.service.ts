@@ -18,6 +18,7 @@ export interface CreateUpdateCollection {
 
 export interface CreateTerm {
   content: string;
+  sentences?: string[];
   meanings?: CreateUpdateTermMeaning[];
   references?: CreateUpdateTermReference[];
 }
@@ -131,6 +132,7 @@ class VaultService {
     const newTerm: Term = {
       id: nanoid(),
       content: data.content,
+      sentences: data.sentences || [],
       meanings,
       references,
       metadata: {
@@ -143,6 +145,18 @@ class VaultService {
     collection.terms.push(newTerm);
 
     return newTerm;
+  }
+
+  getTermById(termId: string): Term | null {
+    for (const collection of currentVault.value.collections) {
+      for (const term of collection.terms) {
+        if (term.id === termId) {
+          return term;
+        }
+      }
+    }
+
+    return null;
   }
 
   termExistsByContent(content: string) {
@@ -237,6 +251,30 @@ class VaultService {
           targetCollection.terms.push(termToMove);
         }
       }
+    }
+  }
+
+  addTermSentence(termId: string, content: string) {
+    const term = this.getTermById(termId);
+
+    if (term) {
+      term.sentences.push(content);
+    }
+  }
+
+  updateTermSentence(termId: string, sentenceIndex: number, newContent: string) {
+    const term = this.getTermById(termId);
+
+    if (term) {
+      term.sentences[sentenceIndex] = newContent;
+    }
+  }
+
+  removeTermSentence(termId: string, sentenceIndex: number) {
+    const term = this.getTermById(termId);
+
+    if (term) {
+      term.sentences.splice(sentenceIndex, 1);
     }
   }
 
