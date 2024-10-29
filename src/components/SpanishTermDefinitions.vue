@@ -114,15 +114,17 @@ watch([() => props.content, showDefinitions], async (value, prev) => {
           class="space-y-4"
         >
           <header class="badge badge-lg badge-info">{{ meaning.partOfSpeech }}</header>
-          <ul class="space-y-3">
-            <li v-for="(def, j) in meaning.definitions" :key="j + '-definition'" class="space-y-1">
-              <p>
-                <strong>{{ j + 1 }}.</strong> {{ def.definition }}
+          <ul class="space-y-2">
+            <li
+              v-for="(def, j) in meaning.definitions"
+              :key="j + '-definition'"
+              class="space-y-2 p-2 bg-base-100 rounded-box"
+            >
+              <p class="text-lg">
+                <span class="text-base-content/75">{{ j + 1 }}.</span> {{ def.definition }}
               </p>
               <section v-if="def.synonyms.length > 0" class="space-y-1 text-sm">
-                <header>
-                  <strong>Synonyms</strong>
-                </header>
+                <header class="text-base-content/50 text-sm">Synonyms</header>
                 <ul class="flex items-center gap-1 flex-wrap">
                   <li v-for="(synonym, k) in def.synonyms" :key="k + 'synonym'">
                     <span class="badge badge-outline">{{ synonym }}</span>
@@ -130,9 +132,7 @@ watch([() => props.content, showDefinitions], async (value, prev) => {
                 </ul>
               </section>
               <section v-if="def.antonyms.length > 0" class="space-y-1 text-sm">
-                <header>
-                  <strong>Antonyms</strong>
-                </header>
+                <header class="text-base-content/50 text-sm">Antonyms</header>
                 <ul class="flex items-center gap-1 flex-wrap">
                   <li v-for="(antonym, k) in def.antonyms" :key="k + 'antonym'">
                     <span class="badge badge-outline">{{ antonym }}</span>
