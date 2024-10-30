@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 
-const props = defineProps<{ content: string }>();
+const props = defineProps<{ show: boolean; content: string }>();
 
 interface TermDefinitionResponse {
   ok: boolean;
@@ -42,16 +42,12 @@ interface TermDefinition {
 }
 
 const definition = ref<TermDefinition | null>(null);
-const showDefinitions = ref(false);
 
 const isLoading = ref(false);
 const isError = ref(false);
 
-watch([() => props.content, showDefinitions], async (value, prev) => {
-  if (
-    value[0] !== prev[0] ||
-    (showDefinitions.value && !isError.value && definition.value === null)
-  ) {
+watch([() => props.content, () => props.show], async (value, prev) => {
+  if (value[0] !== prev[0] || (props.show && !isError.value && definition.value === null)) {
     definition.value = null;
     isLoading.value = true;
     isError.value = false;
@@ -103,59 +99,49 @@ watch([() => props.content, showDefinitions], async (value, prev) => {
 </script>
 
 <template>
-  <section class="collapse collapse-arrow bg-base-200">
-    <input type="checkbox" v-model="showDefinitions" />
-    <header class="collapse-title text-xl font-medium">Definitions</header>
-    <div class="collapse-content space-y-4">
-      <template v-if="definition !== null">
-        <section
-          v-for="(meaning, i) in definition.meanings"
-          :key="i + '-meaning'"
-          class="space-y-4"
+  <template v-if="definition !== null">
+    <section v-for="(meaning, i) in definition.meanings" :key="i + '-meaning'" class="space-y-4">
+      <header class="badge badge-lg badge-info">{{ meaning.partOfSpeech }}</header>
+      <ul class="space-y-2">
+        <li
+          v-for="(def, j) in meaning.definitions"
+          :key="j + '-definition'"
+          class="space-y-2 p-2 bg-base-100 rounded-box"
         >
-          <header class="badge badge-lg badge-info">{{ meaning.partOfSpeech }}</header>
-          <ul class="space-y-2">
-            <li
-              v-for="(def, j) in meaning.definitions"
-              :key="j + '-definition'"
-              class="space-y-2 p-2 bg-base-100 rounded-box"
-            >
-              <p class="text-lg">
-                <span class="text-base-content/75">{{ j + 1 }}.</span> {{ def.definition }}
-              </p>
-              <section v-if="def.synonyms.length > 0" class="space-y-1 text-sm">
-                <header class="text-base-content/50 text-sm">Synonyms</header>
-                <ul class="flex items-center gap-1 flex-wrap">
-                  <li v-for="(synonym, k) in def.synonyms" :key="k + 'synonym'">
-                    <span class="badge badge-outline">{{ synonym }}</span>
-                  </li>
-                </ul>
-              </section>
-              <section v-if="def.antonyms.length > 0" class="space-y-1 text-sm">
-                <header class="text-base-content/50 text-sm">Antonyms</header>
-                <ul class="flex items-center gap-1 flex-wrap">
-                  <li v-for="(antonym, k) in def.antonyms" :key="k + 'antonym'">
-                    <span class="badge badge-outline">{{ antonym }}</span>
-                  </li>
-                </ul>
-              </section>
-            </li>
-          </ul>
-        </section>
-      </template>
-      <span v-if="isLoading" class="loading loading-dots text-info"></span>
-      <p v-if="isError" class="text-error">Could not find definitions for this term</p>
-      <p class="text-base-content/50">
-        Powered by
-        <a
-          href="https://rae-api.com/"
-          target="_blank"
-          rel="noreferrer nofollow"
-          class="link link-hover"
-        >
-          RAE API
-        </a>
-      </p>
-    </div>
-  </section>
+          <p class="text-lg">
+            <span class="text-base-content/75">{{ j + 1 }}.</span> {{ def.definition }}
+          </p>
+          <section v-if="def.synonyms.length > 0" class="space-y-1 text-sm">
+            <header class="text-base-content/50 text-sm">Synonyms</header>
+            <ul class="flex items-center gap-1 flex-wrap">
+              <li v-for="(synonym, k) in def.synonyms" :key="k + 'synonym'">
+                <span class="badge badge-outline">{{ synonym }}</span>
+              </li>
+            </ul>
+          </section>
+          <section v-if="def.antonyms.length > 0" class="space-y-1 text-sm">
+            <header class="text-base-content/50 text-sm">Antonyms</header>
+            <ul class="flex items-center gap-1 flex-wrap">
+              <li v-for="(antonym, k) in def.antonyms" :key="k + 'antonym'">
+                <span class="badge badge-outline">{{ antonym }}</span>
+              </li>
+            </ul>
+          </section>
+        </li>
+      </ul>
+    </section>
+  </template>
+  <span v-if="isLoading" class="loading loading-dots text-info"></span>
+  <p v-if="isError" class="text-error">Could not find definitions for this term</p>
+  <p class="text-base-content/50">
+    Powered by
+    <a
+      href="https://rae-api.com/"
+      target="_blank"
+      rel="noreferrer nofollow"
+      class="link link-hover"
+    >
+      RAE API
+    </a>
+  </p>
 </template>

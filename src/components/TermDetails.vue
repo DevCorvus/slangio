@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Term } from '@/types';
-import EnglishTermDefinitions from './EnglishTermDefinitions.vue';
 import TermLanguageReferenceList from './TermLanguageReferenceList.vue';
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
@@ -9,8 +8,8 @@ import { vaultService } from '@/services/vault.service';
 import { useRoute, useRouter } from 'vue-router';
 import { useTimeAgo } from '@vueuse/core';
 import { currentVault } from '@/data';
-import SpanishTermDefinitions from './SpanishTermDefinitions.vue';
 import TermContext from './TermContext.vue';
+import TermDefinitions from './TermDefinitions.vue';
 
 const props = defineProps<{ term: Term; showCollectionLink?: boolean; hideMutations?: boolean }>();
 
@@ -65,8 +64,7 @@ const isLearned = props.term.learnedAt !== null;
     <EditTerm v-else :collection-id :term @close="editMode = false" />
     <TermContext :term />
     <template v-if="isSupportedLanguage">
-      <EnglishTermDefinitions v-if="currentVault.target === 'en'" :content="term.content" />
-      <SpanishTermDefinitions v-else-if="currentVault.target === 'es'" :content="term.content" />
+      <TermDefinitions :content="term.content" />
       <TermLanguageReferenceList :content="term.content" />
     </template>
     <div class="flex justify-between items-center">
