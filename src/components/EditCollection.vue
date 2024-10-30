@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { vaultService, type CreateUpdateCollection } from '@/services/vault.service';
 import { Icon } from '@iconify/vue';
-import { reactive, ref } from 'vue';
+import { nextTick, reactive, ref, useTemplateRef, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import ModalComponent from './ModalComponent.vue';
 import { useToasterStore } from '@/stores/toaster';
@@ -12,6 +12,15 @@ const route = useRoute();
 const props = defineProps<CreateUpdateCollection>();
 
 const showModal = ref(false);
+
+const nameRef = useTemplateRef('nameRef');
+
+watch(showModal, async () => {
+  if (showModal.value) {
+    await nextTick();
+    nameRef.value?.focus();
+  }
+});
 
 const formData = reactive<CreateUpdateCollection>({
   name: props.name,
@@ -54,6 +63,7 @@ const handleUpdateCollection = () => {
       </header>
       <div class="space-y-4">
         <input
+          ref="nameRef"
           v-model.trim="formData.name"
           type="text"
           class="input input-bordered w-full"
