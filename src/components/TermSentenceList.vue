@@ -15,8 +15,8 @@ const showForm = ref(false);
       <span class="font-medium text-base-content/50">Sentences</span>
     </header>
     <ul v-if="sentences.length > 0" class="space-y-2">
-      <li v-for="(sentence, i) in sentences" :key="i + '-' + sentence">
-        <TermSentenceItem :content="sentence" :index="i" />
+      <li v-for="(sentence, index) in sentences" :key="index + '-sentence'">
+        <TermSentenceItem :content="sentence" :index />
       </li>
     </ul>
     <button v-if="!showForm" @click="showForm = true" class="btn btn-sm btn-circle">

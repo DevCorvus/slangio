@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { vaultService, type CreateUpdateTermMeaning } from '@/services/vault.service';
-import { onMounted, reactive, useTemplateRef } from 'vue';
+import { vaultService } from '@/services/vault.service';
+import { inject, onMounted, reactive, useTemplateRef } from 'vue';
 import { EXTENDED_PARTS_OF_SPEECH } from '@/constants';
 import type { TermMeaning } from '@/types';
 
-const props = defineProps<{ termId: string; meaning: TermMeaning }>();
+const props = defineProps<{ meaning: TermMeaning; index: number }>();
 
 const emit = defineEmits<{
   (e: 'close'): void;
 }>();
+
+const termId = inject<string>('termId')!;
 
 const contentRef = useTemplateRef('contentRef');
 
@@ -16,7 +18,7 @@ onMounted(() => {
   contentRef.value?.focus();
 });
 
-const formData = reactive<CreateUpdateTermMeaning>({
+const formData = reactive<TermMeaning>({
   partOfSpeech: props.meaning.partOfSpeech,
   content: props.meaning.content,
   example: props.meaning.example
@@ -34,7 +36,7 @@ const handleMeaningUpdate = () => {
 
   if (!formData.content) return;
 
-  vaultService.updateTermMeaning(props.termId, props.meaning.id, {
+  vaultService.updateTermMeaning(termId, props.index, {
     partOfSpeech: formData.partOfSpeech,
     content: formData.content,
     example: formData.example

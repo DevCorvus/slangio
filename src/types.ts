@@ -36,14 +36,12 @@ export interface Term {
 export type PartOfSpeech = (typeof EXTENDED_PARTS_OF_SPEECH)[number];
 
 export interface TermMeaning {
-  id: string;
   partOfSpeech: PartOfSpeech;
   content: string;
   example: string;
 }
 
 export interface TermReference {
-  id: string;
   url: string;
   name: string;
 }

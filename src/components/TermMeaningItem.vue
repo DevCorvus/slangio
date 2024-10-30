@@ -5,7 +5,7 @@ import { Icon } from '@iconify/vue';
 import { inject, ref } from 'vue';
 import EditTermMeaning from './EditTermMeaning.vue';
 
-defineProps<{ meaning: TermMeaning }>();
+defineProps<{ meaning: TermMeaning; index: number }>();
 
 const termId = inject<string>('termId')!;
 
@@ -32,7 +32,7 @@ const editMode = ref(false);
         <Icon icon="heroicons:pencil-16-solid" class="mx-auto" />
       </button>
       <button
-        @click="vaultService.removeTermMeaning(termId, meaning.id)"
+        @click="vaultService.removeTermMeaning(termId, index)"
         class="btn btn-circle btn-xs tooltip tooltip-bottom"
         data-tip="Delete"
       >
@@ -40,5 +40,5 @@ const editMode = ref(false);
       </button>
     </div>
   </div>
-  <EditTermMeaning v-else :term-id :meaning @close="editMode = false" />
+  <EditTermMeaning v-else :meaning :index @close="editMode = false" />
 </template>

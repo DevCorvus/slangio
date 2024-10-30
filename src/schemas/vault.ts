@@ -12,13 +12,11 @@ export const termMetadataSchema = z.object({
 });
 
 export const termReferenceSchema = z.object({
-  id: z.string(),
   url: z.string(),
   name: z.string()
 });
 
 export const termMeaningSchema = z.object({
-  id: z.string(),
   partOfSpeech: z.enum(EXTENDED_PARTS_OF_SPEECH),
   content: z.string(),
   example: z.string()

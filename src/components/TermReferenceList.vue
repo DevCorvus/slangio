@@ -14,8 +14,8 @@ const showForm = ref(false);
   <section class="space-y-2">
     <header class="font-medium text-base-content/50">References</header>
     <ul class="space-y-2">
-      <li v-for="reference in references" :key="reference.id">
-        <TermReferenceItem :reference />
+      <li v-for="(reference, index) in references" :key="index + '-reference'">
+        <TermReferenceItem :reference :index />
       </li>
     </ul>
     <button v-if="!showForm" @click="showForm = true" class="btn btn-sm btn-circle">

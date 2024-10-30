@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { urlSchema } from '@/schemas';
-import { vaultService, type CreateUpdateTermReference } from '@/services/vault.service';
+import { vaultService } from '@/services/vault.service';
+import type { TermReference } from '@/types';
 import { onMounted } from 'vue';
 import { inject, reactive, useTemplateRef } from 'vue';
 
@@ -16,7 +17,7 @@ onMounted(() => {
   urlRef.value?.focus();
 });
 
-const formData = reactive<CreateUpdateTermReference>({
+const formData = reactive<TermReference>({
   url: '',
   name: ''
 });

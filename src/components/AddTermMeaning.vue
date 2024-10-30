@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { vaultService, type CreateUpdateTermMeaning } from '@/services/vault.service';
+import { vaultService } from '@/services/vault.service';
 import { inject, onMounted, reactive, useTemplateRef } from 'vue';
 import { EXTENDED_PARTS_OF_SPEECH } from '@/constants';
+import type { TermMeaning } from '@/types';
 
 const emit = defineEmits<{
   (e: 'close'): void;
@@ -15,7 +16,7 @@ onMounted(() => {
   contentRef.value?.focus();
 });
 
-const formData = reactive<CreateUpdateTermMeaning>({
+const formData = reactive<TermMeaning>({
   partOfSpeech: 'unknown',
   content: '',
   example: ''

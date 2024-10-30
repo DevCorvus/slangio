@@ -5,7 +5,7 @@ import { inject, ref } from 'vue';
 import EditTermReference from './EditTermReference.vue';
 import { Icon } from '@iconify/vue';
 
-defineProps<{ reference: TermReference }>();
+defineProps<{ reference: TermReference; index: number }>();
 
 const termId = inject<string>('termId')!;
 
@@ -31,7 +31,7 @@ const editMode = ref(false);
         <Icon icon="heroicons:pencil-16-solid" class="mx-auto" />
       </button>
       <button
-        @click="vaultService.removeTermReference(termId, reference.id)"
+        @click="vaultService.removeTermReference(termId, index)"
         class="btn btn-circle btn-xs tooltip tooltip-bottom"
         data-tip="Delete"
       >
@@ -39,5 +39,5 @@ const editMode = ref(false);
       </button>
     </div>
   </div>
-  <EditTermReference v-else :reference @close="editMode = false" />
+  <EditTermReference v-else :reference :index @close="editMode = false" />
 </template>

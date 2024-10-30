@@ -1,12 +1,5 @@
 import { currentVault } from '@/data';
-import type {
-  Collection,
-  PartOfSpeech,
-  Term,
-  TermMeaning,
-  TermMetadata,
-  TermReference
-} from '@/types';
+import type { Collection, Term, TermMeaning, TermMetadata, TermReference } from '@/types';
 import { nanoid } from 'nanoid';
 import { quizService } from './quiz.service';
 import { cloneObject } from '@/utils/clone';
@@ -19,24 +12,13 @@ export interface CreateUpdateCollection {
 export interface CreateTerm {
   content: string;
   sentences?: string[];
-  meanings?: CreateUpdateTermMeaning[];
-  references?: CreateUpdateTermReference[];
+  meanings?: TermMeaning[];
+  references?: TermReference[];
 }
 
 export interface UpdateTerm {
   collectionId: string;
   content: string;
-}
-
-export interface CreateUpdateTermMeaning {
-  partOfSpeech: PartOfSpeech;
-  content: string;
-  example: string;
-}
-
-export interface CreateUpdateTermReference {
-  url: string;
-  name: string;
 }
 
 class VaultService {
@@ -115,26 +97,12 @@ class VaultService {
       throw new Error('Term already exists');
     }
 
-    let meanings: TermMeaning[] = [];
-    let references: TermReference[] = [];
-
-    if (data.meanings) {
-      meanings = data.meanings.map((meaning) => ({ id: nanoid(), ...meaning }));
-    }
-
-    if (data.references) {
-      references = data.references.map((reference) => ({
-        id: nanoid(),
-        ...reference
-      }));
-    }
-
     const newTerm: Term = {
       id: nanoid(),
       content: data.content,
       sentences: data.sentences || [],
-      meanings,
-      references,
+      meanings: data.meanings || [],
+      references: data.references || [],
       metadata: {
         quiz: quizService.getDefault()
       },
@@ -278,121 +246,77 @@ class VaultService {
     }
   }
 
-  addTermMeaning(termId: string, data: CreateUpdateTermMeaning) {
-    const newTermMeaning: TermMeaning = {
-      id: nanoid(),
-      partOfSpeech: data.partOfSpeech,
-      content: data.content,
-      example: data.example
-    };
+  addTermMeaning(termId: string, data: TermMeaning) {
+    const term = this.getTermById(termId);
 
-    for (const collection of currentVault.value.collections) {
-      for (const term of collection.terms) {
-        if (term.id === termId) {
-          term.meanings.push(newTermMeaning);
-          return;
-        }
-      }
+    if (term) {
+      term.meanings.push({
+        partOfSpeech: data.partOfSpeech,
+        content: data.content,
+        example: data.example
+      });
     }
   }
 
-  updateTermMeaning(termId: string, meaningId: string, data: CreateUpdateTermMeaning) {
-    for (const collection of currentVault.value.collections) {
-      for (const term of collection.terms) {
-        if (term.id === termId) {
-          for (const meaning of term.meanings) {
-            if (meaning.id === meaningId) {
-              meaning.partOfSpeech = data.partOfSpeech;
-              meaning.content = data.content;
-              meaning.example = data.example;
-              return;
-            }
-          }
-          return;
-        }
-      }
+  updateTermMeaning(termId: string, meaningIndex: number, data: TermMeaning) {
+    const term = this.getTermById(termId);
+
+    if (term) {
+      term.meanings[meaningIndex].partOfSpeech = data.partOfSpeech;
+      term.meanings[meaningIndex].content = data.content;
+      term.meanings[meaningIndex].example = data.example;
     }
   }
 
-  removeTermMeaning(termId: string, meaningId: string) {
-    for (const collection of currentVault.value.collections) {
-      for (const term of collection.terms) {
-        if (term.id === termId) {
-          const meaningIndex = term.meanings.findIndex((meaning) => meaning.id === meaningId);
-          term.meanings.splice(meaningIndex, 1);
-          return;
-        }
-      }
+  removeTermMeaning(termId: string, meaningIndex: number) {
+    const term = this.getTermById(termId);
+
+    if (term) {
+      term.meanings.splice(meaningIndex, 1);
     }
   }
 
-  addTermReference(termId: string, data: CreateUpdateTermReference) {
-    const newReference: TermReference = {
-      id: nanoid(),
-      url: data.url,
-      name: data.name
-    };
+  addTermReference(termId: string, data: TermReference) {
+    const term = this.getTermById(termId);
 
-    for (const collection of currentVault.value.collections) {
-      for (const term of collection.terms) {
-        if (term.id === termId) {
-          term.references.push(newReference);
-          return;
-        }
-      }
+    if (term) {
+      term.references.push({
+        url: data.url,
+        name: data.name
+      });
     }
   }
 
-  updateTermReference(termId: string, referenceId: string, data: CreateUpdateTermReference) {
-    for (const collection of currentVault.value.collections) {
-      for (const term of collection.terms) {
-        if (term.id === termId) {
-          for (const reference of term.references) {
-            if (reference.id === referenceId) {
-              reference.url = data.url;
-              reference.name = data.name;
-              return;
-            }
-          }
-          return;
-        }
-      }
+  updateTermReference(termId: string, referenceIndex: number, data: TermReference) {
+    const term = this.getTermById(termId);
+
+    if (term) {
+      term.references[referenceIndex].url = data.url;
+      term.references[referenceIndex].name = data.name;
     }
   }
 
-  removeTermReference(termId: string, referenceId: string) {
-    for (const collection of currentVault.value.collections) {
-      for (const term of collection.terms) {
-        if (term.id === termId) {
-          const referenceIndex = term.references.findIndex(
-            (reference) => reference.id === referenceId
-          );
-          term.references.splice(referenceIndex, 1);
-          return;
-        }
-      }
+  removeTermReference(termId: string, referenceIndex: number) {
+    const term = this.getTermById(termId);
+
+    if (term) {
+      term.references.splice(referenceIndex, 1);
     }
   }
 
   setTermMetadata(termId: string, data: TermMetadata) {
-    for (const collection of currentVault.value.collections) {
-      for (const term of collection.terms) {
-        if (term.id === termId) {
-          term.metadata = data;
-          return;
-        }
-      }
+    const term = this.getTermById(termId);
+
+    if (term) {
+      term.metadata = data;
     }
   }
 
   setTermLearnedState(termId: string, newState: boolean) {
-    for (const collection of currentVault.value.collections) {
-      for (const term of collection.terms) {
-        if (term.id === termId) {
-          term.learnedAt = newState ? new Date() : null;
-          return;
-        }
-      }
+    const term = this.getTermById(termId);
+
+    if (term) {
+      term.learnedAt = newState ? new Date() : null;
     }
   }
 }
