@@ -2,10 +2,10 @@
 import type { Term } from '@/types';
 import TermLanguageReferenceList from './TermLanguageReferenceList.vue';
 import { Icon } from '@iconify/vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import EditTerm from './EditTerm.vue';
 import { vaultService } from '@/services/vault.service';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { onKeyStroke, useTimeAgo } from '@vueuse/core';
 import { currentVault } from '@/data';
 import TermContext from './TermContext.vue';
@@ -41,15 +41,12 @@ const timeAgo = useTimeAgo(props.term.createdAt);
 const editMode = ref(false);
 
 const router = useRouter();
-const route = useRoute();
 
-const collectionId =
-  (route.params.id as string) || vaultService.getCollectionIdFromTerm(props.term.id) || '';
+const collectionId = computed(() => vaultService.getCollectionIdFromTerm(props.term.id) || '');
 
 const goToCollection = () => {
-  if (collectionId) {
-    router.push('/collections/' + collectionId);
-  }
+  emit('close');
+  router.push('/collections/' + collectionId.value);
 };
 
 const canDelete = ref(false);
