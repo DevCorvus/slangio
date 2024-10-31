@@ -55,19 +55,19 @@ class VaultService {
   }
 
   updateCollection(collectionId: string, data: CreateUpdateCollection) {
-    if (this.collectionExistsByName(data.name)) {
-      throw new Error('Collection already exists');
-    }
+    const collection = this.getCollectionById(collectionId);
 
-    currentVault.value.collections = cloneObject(
-      currentVault.value.collections.map((collection) => {
-        if (collection.id === collectionId) {
-          collection.name = data.name;
-          collection.description = data.description;
-        }
-        return collection;
-      })
-    );
+    if (collection) {
+      if (
+        collection.name.toLowerCase() !== data.name.toLowerCase() &&
+        this.collectionExistsByName(data.name)
+      ) {
+        throw new Error('Collection already exists');
+      }
+
+      collection.name = data.name;
+      collection.description = data.description;
+    }
   }
 
   removeCollection(collectionId: string) {
@@ -148,29 +148,32 @@ class VaultService {
   }
 
   updateTerm(termId: string, data: UpdateTerm) {
-    if (this.termExistsByContent(data.content)) {
-      throw new Error('Term already exists');
-    }
+    const term = this.getTermById(termId);
 
-    for (const collection of currentVault.value.collections) {
-      collection.terms.forEach((term, i) => {
-        if (term.id === termId) {
-          term.content = data.content;
+    if (term) {
+      if (
+        term.content.toLowerCase() !== data.content.toLowerCase() &&
+        this.termExistsByContent(data.content)
+      ) {
+        throw new Error('Term already exists');
+      }
 
-          if (collection.id !== data.collectionId) {
-            // Move to another collection
-            const termToMove = collection.terms.splice(i, 1)[0];
+      term.content = data.content;
 
-            for (const destinationCollection of currentVault.value.collections) {
-              if (destinationCollection.id === data.collectionId) {
-                destinationCollection.terms.push(termToMove);
-                return;
-              }
-            }
-          }
-          return;
+      const collectionId = this.getCollectionIdFromTerm(term.id);
+
+      if (collectionId && data.collectionId !== collectionId) {
+        const collection = this.getCollectionById(collectionId);
+        const destCollection = this.getCollectionById(data.collectionId);
+
+        if (collection && destCollection) {
+          // Move to another collection
+          const termIndex = collection.terms.findIndex((term) => term.id === termId);
+          const termToMove = collection.terms.splice(termIndex, 1)[0];
+
+          destCollection.terms.push(termToMove);
         }
-      });
+      }
     }
   }
 
@@ -186,9 +189,7 @@ class VaultService {
   }
 
   removeManyTerms(collectionId: string, termIds: string[]) {
-    const collection = currentVault.value.collections.find(
-      (collection) => collection.id === collectionId
-    );
+    const collection = this.getCollectionById(collectionId);
 
     if (collection) {
       for (const termId of termIds) {
@@ -202,13 +203,8 @@ class VaultService {
   }
 
   moveManyTerms(sourceCollectionId: string, targetCollectionId: string, termIds: string[]) {
-    const sourceCollection = currentVault.value.collections.find(
-      (collection) => collection.id === sourceCollectionId
-    );
-
-    const targetCollection = currentVault.value.collections.find(
-      (collection) => collection.id === targetCollectionId
-    );
+    const sourceCollection = this.getCollectionById(sourceCollectionId);
+    const targetCollection = this.getCollectionById(targetCollectionId);
 
     if (sourceCollection && targetCollection) {
       for (const termId of termIds) {
