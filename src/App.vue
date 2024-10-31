@@ -28,7 +28,7 @@ watch(
     <template v-if="!firstTime">
       <NavBar />
       <div class="container mx-auto px-4 py-8 overflow-hidden min-h-screen">
-        <RouterView />
+        <RouterView :key="$route.fullPath" />
       </div>
       <FooterSection />
       <TextSelectionEater />
