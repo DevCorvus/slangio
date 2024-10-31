@@ -28,6 +28,11 @@ const store = useTermStore();
           </RouterLink>
         </li>
         <li>
+          <RouterLink to="/settings" class="tooltip tooltip-bottom" data-tip="Settings">
+            <Icon icon="heroicons:cog-6-tooth-solid" />
+          </RouterLink>
+        </li>
+        <li>
           <button
             @click="theme = theme === 'light' ? 'dark' : 'light'"
             class="tooltip tooltip-bottom"

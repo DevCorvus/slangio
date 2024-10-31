@@ -8,6 +8,7 @@ import TextSelectionEater from './components/TextSelectionEater.vue';
 import SaveVaultReminder from './components/SaveVaultReminder.vue';
 import FooterSection from './components/FooterSection.vue';
 import CosmicMicrowaveBackground from './components/CosmicMicrowaveBackground.vue';
+import NewTermDetails from './components/NewTermDetails.vue';
 
 const html = document.querySelector('html');
 
@@ -31,6 +32,7 @@ watch(
       </div>
       <FooterSection />
       <TextSelectionEater />
+      <NewTermDetails />
       <SaveVaultReminder />
     </template>
     <template v-else>

@@ -14,6 +14,12 @@ export const firstTime = useLocalStorage<boolean>('firstTime', true);
 type Sorting = 'alphabetically' | 'ascending' | 'descending';
 export const sorting = useLocalStorage<Sorting>('sorting', 'alphabetically');
 
+interface Settings {
+  openNewTermDetails: boolean;
+}
+
+export const settings = useLocalStorage<Settings>('settings', { openNewTermDetails: false });
+
 export const quizConfig = useLocalStorage('quizConfig', {
   maxTerms: 100,
   maxDuration: 0,

@@ -5,16 +5,19 @@ import { ref } from 'vue';
 import TermDataManager from './TermDataManager.vue';
 import { isErrorWithMessage } from '@/utils/error';
 import { popSound } from '@/sound';
+import { useNewTermStore } from '@/stores/term';
 
 const input = ref('');
 
 const toaster = useToasterStore();
+const newTermStore = useNewTermStore();
 
 const handleNewTerm = (collectionId: string) => {
   if (!input.value) return;
 
   try {
-    vaultService.addTerm(collectionId, { content: input.value });
+    const newTerm = vaultService.addTerm(collectionId, { content: input.value });
+    newTermStore.setNewTerm(newTerm);
     popSound.play();
     input.value = '';
   } catch (err) {

@@ -6,6 +6,7 @@ import { vaultService } from '@/services/vault.service';
 import { useToasterStore } from '@/stores/toaster';
 import { isErrorWithMessage } from '@/utils/error';
 import { popSound } from '@/sound';
+import { useNewTermStore } from '@/stores/term';
 
 const { text, selection } = useTextSelection();
 
@@ -24,6 +25,7 @@ watchDebounced(
 );
 
 const toaster = useToasterStore();
+const newTermStore = useNewTermStore();
 
 const handleNewTerm = (text: string) => {
   const content = text.trim();
@@ -31,7 +33,8 @@ const handleNewTerm = (text: string) => {
 
   if (content) {
     try {
-      vaultService.addTerm(currentVault.value.defaultCollection, { content });
+      const newTerm = vaultService.addTerm(currentVault.value.defaultCollection, { content });
+      newTermStore.setNewTerm(newTerm);
       popSound.play();
     } catch (err) {
       if (isErrorWithMessage(err)) {

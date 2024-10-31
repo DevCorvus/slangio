@@ -1,4 +1,5 @@
-import { currentVault } from '@/data';
+import { settings, currentVault } from '@/data';
+import type { Term } from '@/types';
 import { isValidQuizTerm } from '@/utils/term';
 import { getMinutesInMs } from '@/utils/time';
 import { useInterval } from '@vueuse/core';
@@ -39,4 +40,20 @@ export const useTermStore = defineStore('term', () => {
   });
 
   return { toLearn, hasToLearn };
+});
+
+export const useNewTermStore = defineStore('new-term', () => {
+  const newTerm = ref<Term | null>(null);
+
+  const setNewTerm = (data: Term) => {
+    if (settings.value.openNewTermDetails) {
+      newTerm.value = data;
+    }
+  };
+
+  const reset = () => {
+    newTerm.value = null;
+  };
+
+  return { newTerm, setNewTerm, reset };
 });
