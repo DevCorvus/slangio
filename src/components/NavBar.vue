@@ -13,23 +13,24 @@ const store = useTermStore();
       <RouterLink to="/" class="btn btn-ghost text-xl text-base-content">
         Slangio <span class="badge badge-outline">BETA</span>
       </RouterLink>
-      <ul class="menu menu-horizontal text-xl">
+      <ul class="menu menu-xs sm:menu-md menu-horizontal">
         <li>
           <RouterLink to="/collections" class="tooltip tooltip-bottom" data-tip="Collections">
-            <Icon icon="heroicons:book-open-solid" />
+            <Icon icon="heroicons:book-open-solid" class="text-lg sm:text-xl" />
           </RouterLink>
         </li>
         <li>
           <RouterLink to="/quiz" class="relative tooltip tooltip-bottom" data-tip="Learn">
             <Icon
               icon="heroicons:academic-cap-solid"
+              class="text-lg sm:text-xl"
               :class="store.hasToLearn ? 'chameleon' : ''"
             />
           </RouterLink>
         </li>
         <li>
           <RouterLink to="/settings" class="tooltip tooltip-bottom" data-tip="Settings">
-            <Icon icon="heroicons:cog-6-tooth-solid" />
+            <Icon icon="heroicons:cog-6-tooth-solid" class="text-lg sm:text-xl" />
           </RouterLink>
         </li>
         <li>
@@ -38,8 +39,8 @@ const store = useTermStore();
             class="tooltip tooltip-bottom"
             :data-tip="theme === 'light' ? 'Light Mode' : 'Dark Mode'"
           >
-            <Icon v-if="theme === 'light'" icon="heroicons:sun" />
-            <Icon v-else icon="heroicons:moon" />
+            <Icon v-if="theme === 'light'" icon="heroicons:sun" class="text-lg sm:text-xl" />
+            <Icon v-else icon="heroicons:moon" class="text-lg sm:text-xl" />
           </button>
         </li>
       </ul>
