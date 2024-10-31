@@ -52,16 +52,25 @@ const goToCollection = () => {
   }
 };
 
+const canDelete = ref(false);
+
 const handleDelete = async () => {
-  const termId = props.term.id;
-  if (props.controls?.next) {
-    emit('next');
-  } else if (props.controls?.prev) {
-    emit('prev');
+  if (canDelete.value) {
+    const termId = props.term.id;
+    if (props.controls?.next) {
+      emit('next');
+    } else if (props.controls?.prev) {
+      emit('prev');
+    } else {
+      emit('close');
+    }
+    vaultService.removeTerm(termId);
   } else {
-    emit('close');
+    canDelete.value = true;
+    setTimeout(() => {
+      canDelete.value = false;
+    }, 1000);
   }
-  vaultService.removeTerm(termId);
 };
 
 const isSupportedLanguage = currentVault.value.source !== currentVault.value.target;
@@ -75,7 +84,7 @@ const isLearned = props.term.learnedAt !== null;
         <div v-if="isLearned" class="tooltip" data-tip="Learned">
           <Icon icon="heroicons:check-circle" class="text-4xl text-success" />
         </div>
-        <h3 class="text-xl font-bold">{{ term.content }}</h3>
+        <h3 class="text-2xl font-bold">{{ term.content }}</h3>
         <button
           v-if="!isLearned && !hideMutations"
           @click="editMode = true"
@@ -109,7 +118,7 @@ const isLearned = props.term.learnedAt !== null;
         @click="handleDelete()"
         class="btn btn-sm btn-outline btn-error"
       >
-        <span>Delete</span>
+        <span>{{ canDelete ? 'Again' : 'Delete' }}</span>
         <Icon icon="heroicons:trash" />
       </button>
     </div>
