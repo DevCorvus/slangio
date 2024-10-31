@@ -6,12 +6,35 @@ import { ref } from 'vue';
 import EditTerm from './EditTerm.vue';
 import { vaultService } from '@/services/vault.service';
 import { useRoute, useRouter } from 'vue-router';
-import { useTimeAgo } from '@vueuse/core';
+import { onKeyStroke, useTimeAgo } from '@vueuse/core';
 import { currentVault } from '@/data';
 import TermContext from './TermContext.vue';
 import TermDefinitions from './TermDefinitions.vue';
 
-const props = defineProps<{ term: Term; showCollectionLink?: boolean; hideMutations?: boolean }>();
+const props = defineProps<{
+  term: Term;
+  showCollectionLink?: boolean;
+  hideMutations?: boolean;
+  controls?: { prev: boolean; next: boolean };
+}>();
+
+const emit = defineEmits<{
+  (e: 'prev'): void;
+  (e: 'next'): void;
+  (e: 'close'): void;
+}>();
+
+onKeyStroke('ArrowLeft', () => {
+  if (props.controls?.prev) {
+    emit('prev');
+  }
+});
+
+onKeyStroke('ArrowRight', () => {
+  if (props.controls?.next) {
+    emit('next');
+  }
+});
 
 const timeAgo = useTimeAgo(props.term.createdAt);
 
@@ -27,6 +50,18 @@ const goToCollection = () => {
   if (collectionId) {
     router.push('/collections/' + collectionId);
   }
+};
+
+const handleDelete = async () => {
+  const termId = props.term.id;
+  if (props.controls?.next) {
+    emit('next');
+  } else if (props.controls?.prev) {
+    emit('prev');
+  } else {
+    emit('close');
+  }
+  vaultService.removeTerm(termId);
 };
 
 const isSupportedLanguage = currentVault.value.source !== currentVault.value.target;
@@ -71,11 +106,39 @@ const isLearned = props.term.learnedAt !== null;
       <p class="text-base-content/50 text-sm">Added {{ timeAgo }}</p>
       <button
         v-if="!hideMutations"
-        @click="vaultService.removeTerm(term.id)"
+        @click="handleDelete()"
         class="btn btn-sm btn-outline btn-error"
       >
         <span>Delete</span>
         <Icon icon="heroicons:trash" />
+      </button>
+    </div>
+    <div v-if="controls" class="flex justify-between">
+      <button
+        @click="$emit('prev')"
+        :disabled="!controls.prev"
+        class="btn"
+        :class="!controls.prev ? 'btn-disabled' : ''"
+      >
+        <Icon
+          icon="heroicons:arrow-left-20-solid"
+          class="text-xl"
+          :class="controls.prev ? 'text-info' : ''"
+        />
+        Prev
+      </button>
+      <button
+        @click="$emit('next')"
+        :disabled="!controls.next"
+        class="btn"
+        :class="!controls.next ? 'btn-disabled' : ''"
+      >
+        Next
+        <Icon
+          icon="heroicons:arrow-right-20-solid"
+          class="text-xl"
+          :class="controls.next ? 'text-info' : ''"
+        />
       </button>
     </div>
   </section>

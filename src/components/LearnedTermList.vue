@@ -3,12 +3,20 @@ import type { Term } from '@/types';
 import SearchTerms from './SearchTerms.vue';
 import { ref } from 'vue';
 import SortTerms from './SortTerms.vue';
-import LearnedTermItem from './LearnedTermItem.vue';
+import TermSlider from './TermSlider.vue';
 
 const props = defineProps<{ terms: Term[]; learnedMode?: boolean }>();
 
 const sortedTerms = ref<Term[]>(props.terms);
 const filteredTerms = ref<Term[]>(sortedTerms.value);
+
+const showSlider = ref(false);
+const selectedIndex = ref(0);
+
+const handleOpenDetails = (index: number) => {
+  showSlider.value = true;
+  selectedIndex.value = index;
+};
 </script>
 
 <template>
@@ -20,8 +28,13 @@ const filteredTerms = ref<Term[]>(sortedTerms.value);
           <SortTerms :terms @sort="(data) => (sortedTerms = data)" />
         </div>
         <ul v-if="filteredTerms.length > 0">
-          <li v-for="term in filteredTerms" :key="term.id">
-            <LearnedTermItem :term />
+          <li v-for="(term, index) in filteredTerms" :key="term.id">
+            <button
+              @click="handleOpenDetails(index)"
+              class="btn btn-sm btn-ghost text-lg w-full justify-start font-normal text-success"
+            >
+              {{ term.content }}
+            </button>
           </li>
         </ul>
         <p v-else>No results</p>
@@ -31,4 +44,11 @@ const filteredTerms = ref<Term[]>(sortedTerms.value);
       </template>
     </div>
   </section>
+  <TermSlider
+    :show="showSlider"
+    :start-index="selectedIndex"
+    :terms="filteredTerms"
+    show-collection-link
+    @close="showSlider = false"
+  />
 </template>

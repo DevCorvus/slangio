@@ -7,6 +7,7 @@ import TermItem from './TermItem.vue';
 import MoveTerms from './MoveTerms.vue';
 import DeleteTerms from './DeleteTerms.vue';
 import ExportTerms from './ExportTerms.vue';
+import TermSlider from './TermSlider.vue';
 
 const props = defineProps<{ terms: Term[] }>();
 
@@ -27,6 +28,16 @@ const data = computed(() => {
 
   return { terms, learnedTerms };
 });
+
+const jointData = computed(() => [...data.value.terms, ...data.value.learnedTerms]);
+
+const showSlider = ref(false);
+const selectedIndex = ref(0);
+
+const handleOpenDetails = (index: number) => {
+  showSlider.value = true;
+  selectedIndex.value = index;
+};
 
 const handleSelectionChange = (id: string, state: boolean) => {
   if (state) {
@@ -79,10 +90,11 @@ const handleSelectAll = () => {
           </div>
           <div v-if="filteredTerms.length > 0" class="space-y-2">
             <ul v-if="data.terms.length > 0">
-              <li v-for="term in data.terms" :key="term.id">
+              <li v-for="(term, index) in data.terms" :key="term.id">
                 <TermItem
                   :term
                   :selected="selectedTermIds.includes(term.id)"
+                  @open-details="handleOpenDetails(index)"
                   @selection-change="(state) => handleSelectionChange(term.id, state)"
                 />
               </li>
@@ -90,10 +102,11 @@ const handleSelectAll = () => {
             <template v-if="data.learnedTerms.length > 0">
               <div class="divider">Learned</div>
               <ul>
-                <li v-for="term in data.learnedTerms" :key="term.id">
+                <li v-for="(term, index) in data.learnedTerms" :key="term.id">
                   <TermItem
                     :term
                     :selected="selectedTermIds.includes(term.id)"
+                    @open-details="handleOpenDetails(index + data.terms.length)"
                     @selection-change="(state) => handleSelectionChange(term.id, state)"
                   />
                 </li>
@@ -108,4 +121,10 @@ const handleSelectAll = () => {
       </template>
     </div>
   </section>
+  <TermSlider
+    :show="showSlider"
+    :start-index="selectedIndex"
+    :terms="jointData"
+    @close="showSlider = false"
+  />
 </template>

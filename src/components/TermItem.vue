@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import type { Term } from '@/types';
-import { ref } from 'vue';
-import TermDetails from './TermDetails.vue';
-import ModalComponent from './ModalComponent.vue';
 
 defineProps<{ term: Term; selected: boolean }>();
 defineEmits<{
+  (e: 'open-details'): void;
   (e: 'selection-change', state: boolean): void;
 }>();
-
-const showModal = ref(false);
 </script>
 
 <template>
@@ -21,14 +17,11 @@ const showModal = ref(false);
       :checked="selected"
     />
     <button
-      @click="showModal = true"
+      @click="$emit('open-details')"
       class="btn btn-sm btn-ghost text-lg flex-1 justify-start font-normal"
       :class="term.learnedAt !== null ? 'text-success' : ''"
     >
       {{ term.content }}
     </button>
-    <ModalComponent :show="showModal" @close="showModal = false">
-      <TermDetails :term />
-    </ModalComponent>
   </div>
 </template>
