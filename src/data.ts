@@ -21,7 +21,7 @@ interface Settings {
 export const settings = useLocalStorage<Settings>('settings', { openNewTermDetails: false });
 
 export const quizConfig = useLocalStorage('quizConfig', {
-  maxTerms: 100,
+  maxTerms: 50,
   maxDuration: 0,
   timer: 0
 });
