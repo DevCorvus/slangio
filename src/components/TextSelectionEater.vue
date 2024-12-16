@@ -40,6 +40,12 @@ const handleNewTerm = (text: string) => {
       if (isErrorWithMessage(err)) {
         toaster.error(err.message);
       }
+
+      const term = vaultService.getTermByContent(content);
+
+      if (term) {
+        newTermStore.setNewTerm(term);
+      }
     }
   }
 };

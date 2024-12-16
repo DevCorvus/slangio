@@ -127,6 +127,20 @@ class VaultService {
     return null;
   }
 
+  getTermByContent(content: string): Term | null {
+    const lowerContent = content.toLowerCase();
+
+    for (const collection of currentVault.value.collections) {
+      for (const term of collection.terms) {
+        if (term.content.toLowerCase() === lowerContent) {
+          return term;
+        }
+      }
+    }
+
+    return null;
+  }
+
   termExistsByContent(content: string) {
     const lowerContent = content.toLowerCase();
 

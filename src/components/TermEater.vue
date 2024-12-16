@@ -30,6 +30,12 @@ const handleNewTerm = (collectionId: string) => {
     if (isErrorWithMessage(err)) {
       toaster.error(err.message);
     }
+
+    const term = vaultService.getTermByContent(input.value);
+
+    if (term) {
+      newTermStore.setNewTerm(term);
+    }
   }
 };
 
