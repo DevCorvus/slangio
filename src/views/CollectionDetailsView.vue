@@ -71,7 +71,7 @@ const store = useTermStore();
         </header>
         <p v-if="collection.description">{{ collection.description }}</p>
         <AddTerm />
-        <TermList :terms="collection.terms" />
+        <TermList :terms="collection.terms" :term-id="route.query.termId as string" />
       </main>
     </div>
   </template>

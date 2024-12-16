@@ -23,7 +23,7 @@ const handleFind = (termId: string) => {
   const collectionId = vaultService.getCollectionIdFromTerm(termId);
 
   if (collectionId) {
-    router.push('/collections/' + collectionId);
+    router.push({ path: '/collections/' + collectionId, query: { termId } });
   }
 };
 </script>

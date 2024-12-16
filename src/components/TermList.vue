@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Term } from '@/types';
 import SearchTerms from './SearchTerms.vue';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import SortTerms from './SortTerms.vue';
 import TermItem from './TermItem.vue';
 import MoveTerms from './MoveTerms.vue';
@@ -9,7 +9,13 @@ import DeleteTerms from './DeleteTerms.vue';
 import ExportTerms from './ExportTerms.vue';
 import TermSlider from './TermSlider.vue';
 
-const props = defineProps<{ terms: Term[] }>();
+const props = defineProps<{ terms: Term[]; termId?: string }>();
+
+const canStartOpeningTerm = ref(true);
+
+onMounted(() => {
+  canStartOpeningTerm.value = false;
+});
 
 const sortedTerms = ref<Term[]>(props.terms);
 const filteredTerms = ref<Term[]>(sortedTerms.value);
@@ -94,6 +100,7 @@ const handleSelectAll = () => {
                 <TermItem
                   :term
                   :selected="selectedTermIds.includes(term.id)"
+                  :start-opened="canStartOpeningTerm && term.id === termId"
                   @open-details="handleOpenDetails(index)"
                   @selection-change="(state) => handleSelectionChange(term.id, state)"
                 />
@@ -106,6 +113,7 @@ const handleSelectAll = () => {
                   <TermItem
                     :term
                     :selected="selectedTermIds.includes(term.id)"
+                    :start-opened="canStartOpeningTerm && term.id === termId"
                     @open-details="handleOpenDetails(index + data.terms.length)"
                     @selection-change="(state) => handleSelectionChange(term.id, state)"
                   />

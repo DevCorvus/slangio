@@ -1,11 +1,19 @@
 <script setup lang="ts">
 import type { Term } from '@/types';
+import { onMounted } from 'vue';
 
-defineProps<{ term: Term; selected: boolean }>();
-defineEmits<{
+const props = defineProps<{ term: Term; selected: boolean; startOpened?: boolean }>();
+
+const emit = defineEmits<{
   (e: 'open-details'): void;
   (e: 'selection-change', state: boolean): void;
 }>();
+
+onMounted(() => {
+  if (props.startOpened) {
+    emit('open-details');
+  }
+});
 </script>
 
 <template>
