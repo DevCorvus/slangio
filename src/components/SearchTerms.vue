@@ -2,7 +2,7 @@
 import type { Term } from '@/types';
 import { Icon } from '@iconify/vue';
 import { watchDebounced } from '@vueuse/core';
-import { ref, watch } from 'vue';
+import { onMounted, ref, useTemplateRef, watch } from 'vue';
 
 const props = defineProps<{ terms: Term[]; toBypass?: string[]; noInputNoResults?: boolean }>();
 
@@ -11,6 +11,11 @@ const emit = defineEmits<{
 }>();
 
 const input = ref('');
+const inputRef = useTemplateRef('inputRef');
+
+onMounted(() => {
+  inputRef.value?.focus();
+});
 
 const searchTerms = () => {
   if (props.noInputNoResults && !input.value) {
@@ -37,7 +42,7 @@ watchDebounced(input, searchTerms, { debounce: 500 });
 
 <template>
   <label class="input input-bordered flex items-center gap-2 w-full">
-    <input type="text" v-model="input" class="w-full" placeholder="Search term" />
+    <input type="text" ref="inputRef" v-model="input" class="w-full" placeholder="Search term" />
     <Icon icon="heroicons:magnifying-glass-20-solid" />
   </label>
 </template>
