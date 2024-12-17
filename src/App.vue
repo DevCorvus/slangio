@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import NavBar from './components/NavBar.vue';
-import { firstTime, theme } from './data';
 import { watch } from 'vue';
-import ToasterComponent from './components/ToasterComponent.vue';
-import TextSelectionEater from './components/TextSelectionEater.vue';
-import SaveVaultReminder from './components/SaveVaultReminder.vue';
-import FooterSection from './components/FooterSection.vue';
-import CosmicMicrowaveBackground from './components/CosmicMicrowaveBackground.vue';
-import NewTermDetails from './components/NewTermDetails.vue';
+import TextSelectionEater from './shared/components/term/TextSelectionEater.vue';
+import CosmicMicrowaveBackground from './shared/components/CosmicMicrowaveBackground.vue';
+import { theme } from './shared/data/theme';
+import { firstTime } from './shared/data/firstTime';
+import TheNavbar from './shared/components/TheNavbar.vue';
+import TheFooter from './shared/components/TheFooter.vue';
+import NewTermDetails from './shared/components/term/NewTermDetails.vue';
+import SaveVaultReminder from './shared/components/vault/SaveVaultReminder.vue';
+import ToastDisplayer from './shared/components/toast/ToastDisplayer.vue';
 
 const html = document.querySelector('html');
 
@@ -26,11 +27,11 @@ watch(
 <template>
   <CosmicMicrowaveBackground>
     <template v-if="!firstTime">
-      <NavBar />
-      <div class="container mx-auto px-4 py-8 overflow-hidden min-h-screen">
+      <TheNavbar />
+      <div class="container min-h-screen px-4 py-8 mx-auto overflow-hidden">
         <RouterView :key="$route.fullPath" />
       </div>
-      <FooterSection />
+      <TheFooter />
       <TextSelectionEater />
       <NewTermDetails />
       <SaveVaultReminder />
@@ -38,6 +39,6 @@ watch(
     <template v-else>
       <RouterView />
     </template>
-    <ToasterComponent />
+    <ToastDisplayer />
   </CosmicMicrowaveBackground>
 </template>
